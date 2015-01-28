@@ -76,6 +76,13 @@
                             <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="xaH-q7-K4t"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="linkButton" destination="BSl-aS-LRu" id="mH9-ir-6um"/>
+                        <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
+                        <outlet property="recordButton" destination="gs1-4A-Q9U" id="Ylb-bT-3WK"/>
+                        <outlet property="stopButton" destination="U1Z-dW-UvS" id="9sI-ge-LLc"/>
+                        <outlet property="uploadButton" destination="oWJ-5d-mgU" id="up1-Fk-iJX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>

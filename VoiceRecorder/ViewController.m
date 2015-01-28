@@ -49,9 +49,8 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    [self initAudioMonitor];
-    //[self initRecorder];
-    [self freeDiskspace]; //displays the free space on the device
+    //[self initAudioMonitor];
+    //[self freeDiskspace]; //displays the free space on the device
     
     //lastRecordingText.text = [standardUserDefaults stringForKey:@"lastRecordingDate"];
     
@@ -64,15 +63,25 @@
     
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
+
+    // Disable stop and play buttons in the beginning
+    [self.stopButton setEnabled:NO];
+    [self.playButton setEnabled:NO];
+
+    // Setup audio file
+    [self setOutputFileUrl];
+
+    // Setup Audio Session and Recorder
+    [self initRecorder];
     
 }
 
 //set up the filename
--(void)setFilename {
+-(void)setOutputFileUrl {
     // TODO: Check if files are deleted after storage
     
     //name the file with the recording date, later add device ID
-    fileName = @"test";//[self getDate];
+    fileName = @"myFile.m4a";//[self getDate];
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -231,9 +240,7 @@
     NSLog(@"startRecording");
     
     isRecording = YES;
-    [self setFilename]; //sets the filename
     [self setLastRecordingText]; //set the last recording time
-    [self initRecorder];
     [recorder record];
 }
 
@@ -376,35 +383,78 @@
 
 //record button tapped
 - (IBAction)recordTapped:(id)sender {
+    // If audio player is playing, stop it
+    if (player.playing)
+    {
+        [player stop];
+    }
+
+    if (!recorder.recording)
+    {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+
+        // Start recording
+        [recorder record];
+        [self.recordButton setEnabled:NO];
+    }
+
+    [self.stopButton setEnabled:YES];
+    [self.playButton setEnabled:NO];
     
-    isPlaying = NO;
     
+    // TODO: setup monitor method
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+    //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
 }
 
 //stops the recorder and deactivates the audio session
 - (IBAction)stopTapped:(id)sender {
-    [audioMonitor stop];
-    isRecording = NO;
-    isMonitoring = NO;
     [recorder stop];
-    isPlaying = YES;
+
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:NO error:nil];
+
+    //[audioMonitor stop];
+    //isRecording = NO;
+    //isMonitoring = NO;
+    //[recorder stop];
+    //isPlaying = YES;
+}
+
+- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
+    [self.recordButton setEnabled:YES];
+
+    
+    [self.stopButton setEnabled:NO];
+    [self.playButton setEnabled:YES];
 }
 
 //makes sure no recording or monitoring is happening and then plays
 - (IBAction)playTapped:(id)sender {
-    [audioMonitor stop];
-    isRecording = NO;
-    isMonitoring = NO;
-    isPlaying = YES;
-    [recorder stop];
-    player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
-    [player setDelegate:self];
-    [player play];
-    //isPlaying = NO;
+    if (!recorder.recording)
+    {
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
+        player.delegate = self;
+        [player play];
+    }
+    //[audioMonitor stop];
+    //isRecording = NO;
+    //isMonitoring = NO;
+    //isPlaying = YES;
+    //[recorder stop];
+    //player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
+    //[player setDelegate:self];
+    //[player play];
+    ////isPlaying = NO;
 
+}
+
+// Show alert after recording
+- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Done" message: @"Finish playing the recording!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 //for linking to dropbox
