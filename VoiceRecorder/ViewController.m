@@ -69,6 +69,7 @@
 
 //set up the filename
 -(void)setFilename {
+    // TODO: Check if files are deleted after storage
     
     //name the file with the recording date, later add device ID
     fileName = @"test";//[self getDate];
@@ -85,6 +86,7 @@
 
 //uploads the file
 -(IBAction)uploadFile {
+    // TODO: Write this function
     
     //create a test file for uploading
     NSString *localPath = [outputFileURL absoluteString];
@@ -97,6 +99,7 @@
 
 //initialize the audio monitor
 -(void) initAudioMonitor{
+    // TODO: Check if need to set AVAudioSession to PlayAndRecord
     
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
@@ -118,6 +121,11 @@
 
 //initialize the recorder
 -(void) initRecorder{
+    /*
+     Initializes the recorder and recorder settings
+    */
+    
+    // TODO: Add method that changes text field to suggest when audio is being recorded
     
     //set up the audio session
     //this allows for both playing and recording
@@ -148,6 +156,7 @@
 //I messaged the tutorial author about this but they have not responded
 -(void) monitorAudioController//: (ccTime) dt
 {
+    // TODO: Check to make sure this works
     //making this a while loop is probably better but doesn't load the UI
     if(!isPlaying)
     {   [audioMonitor updateMeters];
@@ -217,6 +226,7 @@
 
 //start recording
 -(void) startRecording{
+    // TODO: Check to see if recorder should be initialized each time recording is started
     
     NSLog(@"startRecording");
     
@@ -398,6 +408,7 @@
 }
 
 //for linking to dropbox
+// TODO: Check this method
 - (IBAction)didPressLink {
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
