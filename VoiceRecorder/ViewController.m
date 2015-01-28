@@ -85,6 +85,7 @@
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
+    // TODO: Understand how files are stored
     pathComponents = [NSArray arrayWithObjects:
                       [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                       fileName,
