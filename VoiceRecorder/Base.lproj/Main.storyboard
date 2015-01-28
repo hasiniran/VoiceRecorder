@@ -16,20 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1s4-Hm-Lmu">
-                                <rect key="frame" x="95" y="408" width="240" height="35"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85w-9l-sos">
-                                <rect key="frame" x="111" y="441" width="240" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1Z-dW-UvS">
-                                <rect key="frame" x="230" y="217" width="33" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1Z-dW-UvS">
+                                <rect key="frame" x="284" y="242" width="33" height="30"/>
                                 <state key="normal" title="Stop">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -37,8 +25,8 @@
                                     <action selector="stopTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cIR-At-CMF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZh-N2-8Wx">
-                                <rect key="frame" x="232" y="250" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZh-N2-8Wx">
+                                <rect key="frame" x="285" y="280" width="30" height="30"/>
                                 <state key="normal" title="Play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -46,14 +34,8 @@
                                     <action selector="playTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Icm-RS-qgJ"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xbZ-jR-Bmu">
-                                <rect key="frame" x="105" y="491" width="240" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSl-aS-LRu">
-                                <rect key="frame" x="224" y="294" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSl-aS-LRu">
+                                <rect key="frame" x="285" y="327" width="30" height="30"/>
                                 <state key="normal" title="Link">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -61,8 +43,8 @@
                                     <action selector="didPressLink:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="4hF-vH-WzV"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWJ-5d-mgU">
-                                <rect key="frame" x="224" y="326" width="50" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWJ-5d-mgU">
+                                <rect key="frame" x="275" y="365" width="50" height="30"/>
                                 <state key="normal" title="Upload">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -70,8 +52,8 @@
                                     <action selector="uploadFile:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aqH-w4-YnG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs1-4A-Q9U">
-                                <rect key="frame" x="275" y="186" width="50" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs1-4A-Q9U">
+                                <rect key="frame" x="275" y="204" width="50" height="30"/>
                                 <state key="normal" title="Record">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -82,21 +64,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="14" id="69Q-Gi-dIz"/>
-                            <constraint firstItem="1s4-Hm-Lmu" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="52" id="9gQ-al-iMV"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="U1Z-dW-UvS" secondAttribute="leading" id="Qpn-gu-Mwp"/>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="2" id="bHy-tH-vdr"/>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="leading" id="pDm-Pq-n4S"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="3" id="wQ2-MA-Nvt"/>
-                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="1" id="xVs-Rj-xhf"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="166" id="yVh-K9-928"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="184" id="1cm-ku-Ncv"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" id="BTh-cp-LES"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Ce8-8z-I9C"/>
+                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="E8b-hN-jkP"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="Pc2-BI-sFx"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="TRe-cl-dbb"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="leading" id="jLx-Po-Pr9"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="rCw-IX-NF9"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="uu2-xk-xQY"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="xaH-q7-K4t"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="currentText" destination="85w-9l-sos" id="1O9-ah-wiB"/>
-                        <outlet property="lastRecordingText" destination="xbZ-jR-Bmu" id="Od2-rI-2LL"/>
-                        <outlet property="storageText" destination="1s4-Hm-Lmu" id="oWd-Op-85b"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
