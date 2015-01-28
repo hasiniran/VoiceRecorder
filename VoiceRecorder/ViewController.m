@@ -67,25 +67,18 @@
     // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:NO];
-
-    // Setup audio file
-    [self setOutputFileUrl];
-
-    // Setup Audio Session and Recorder
-    [self initRecorder];
-    
 }
 
 //set up the filename
 -(void)setOutputFileUrl {
-    // TODO: Check if files are deleted after storage
+    // TODO: Decide whether or not to remove files
     
     //name the file with the recording date, later add device ID
-    fileName = @"myFile.m4a";//[self getDate];
+    fileName = [NSString stringWithFormat:@"Recording %@.m4a", [self getDate]];
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
-    // TODO: Understand how files are stored
+    // Currently saving files to Documents directory. Might be better to save to tmp
     pathComponents = [NSArray arrayWithObjects:
                       [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                       fileName,
@@ -96,7 +89,7 @@
 
 //uploads the file
 -(IBAction)uploadFile {
-    // TODO: Write this function
+    // TODO: Write this function, possibly delete files after upload
     
     //create a test file for uploading
     NSString *localPath = [outputFileURL absoluteString];
@@ -328,11 +321,10 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSString        *dateString;
     
-    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm"]; //format the date string
+    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
     
     dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
     
-    //currentText.text = dateString; //test to make sure date is correct
     return dateString; //return the string
 }
 
@@ -394,6 +386,14 @@
     {
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
+
+        // Recorder needs to be initialized each time due to the file url
+        // property being readonly. New file url must be set for each recording
+        // Setup audio file
+        [self setOutputFileUrl];
+
+        // Setup Audio Session and Recorder
+        [self initRecorder];
 
         // Start recording
         [recorder record];
