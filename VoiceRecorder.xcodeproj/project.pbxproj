@@ -17,6 +17,7 @@
 		E88889601A377F520092B5B4 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E888895F1A377F520092B5B4 /* DropboxSDK.framework */; };
 		E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889611A3782490092B5B4 /* QuartzCore.framework */; };
 		E88889641A37824E0092B5B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889631A37824E0092B5B4 /* Security.framework */; };
+		E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93774A51A79682E00FEA9C4 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		E888895F1A377F520092B5B4 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		E88889611A3782490092B5B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E88889631A37824E0092B5B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E93774A51A79682E00FEA9C4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */,
 				E88889641A37824E0092B5B4 /* Security.framework in Frameworks */,
 				E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */,
 				E88889601A377F520092B5B4 /* DropboxSDK.framework in Frameworks */,
@@ -72,6 +75,7 @@
 		E849279E19DB5C35005ACA9B = {
 			isa = PBXGroup;
 			children = (
+				E93774A51A79682E00FEA9C4 /* AVFoundation.framework */,
 				E88889631A37824E0092B5B4 /* Security.framework */,
 				E88889611A3782490092B5B4 /* QuartzCore.framework */,
 				E888895F1A377F520092B5B4 /* DropboxSDK.framework */,
