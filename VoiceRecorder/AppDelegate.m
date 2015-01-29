@@ -19,10 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    DBSession *dbSession = [[DBSession alloc]
-                            initWithAppKey:@"4banrnmlq1zvh5e"
-                            appSecret:@"2o43fq51cml31hk"
-                            root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
+    DBSession *dbSession = [[DBSession alloc] initWithAppKey:dropboxAppKey appSecret:dropboxAppSecret root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];
     return YES;
 }
