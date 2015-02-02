@@ -6,3 +6,4 @@ VoiceRecorder App for University of Notre Dame
 * Add Audio threshhold monitoring functionality to record only above a certain audio level
 * Delete files after upload
 * Prettify with graphics
+* Choose files for playback (possibly in tableView), or just most recent file
