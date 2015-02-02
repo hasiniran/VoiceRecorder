@@ -89,15 +89,14 @@
 
 //uploads the file
 -(IBAction)uploadFile {
-    // TODO: Write this function, possibly delete files after upload
     
-    //create a test file for uploading
-    NSString *localPath = [outputFileURL absoluteString];
+    NSString *localDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *localPath = [localDir stringByAppendingPathComponent:fileName];
     
     // Upload file to Dropbox
+    // TODO Upload all files in batch. Delete later
     NSString *destDir = @"/";
     [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
-    //NSLog(@"upload file");
 }
 
 //initialize the audio monitor
@@ -459,14 +458,28 @@
 }
 
 //for linking to dropbox
-// TODO: Check this method
-- (IBAction)didPressLink {
+// TODO: Just put this to upload button
+- (IBAction)didPressLink:(id)sender
+{
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
         NSLog(@"linking");
     }
     NSLog(@"already linked");
     [self uploadFile]; //upload the test file
+}
+
+- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
+    from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
+        // TODO Remove file after upload. Change total number of files to 0
+
+    NSLog(@"File uploaded successfully to path: %@", metadata.path);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
+    NSLog(@"File upload failed with error: %@", error);
 }
 
 @end
