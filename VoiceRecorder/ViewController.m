@@ -71,7 +71,6 @@
 
 //set up the filename
 -(void)setOutputFileUrl {
-    // TODO: Decide whether or not to remove files
     
     //name the file with the recording date, later add device ID
     fileName = [NSString stringWithFormat:@"Recording %@.m4a", [self getDate]];
@@ -94,14 +93,12 @@
     NSString *localPath = [localDir stringByAppendingPathComponent:fileName];
     
     // Upload file to Dropbox
-    // TODO Upload all files in batch. Delete later
     NSString *destDir = @"/";
     [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
 }
 
 //initialize the audio monitor
 -(void) initAudioMonitor{
-    // TODO: Check if need to set AVAudioSession to PlayAndRecord
     
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
@@ -127,7 +124,6 @@
      Initializes the recorder and recorder settings
     */
     
-    // TODO: Add method that changes text field to suggest when audio is being recorded
     
     //set up the audio session
     //this allows for both playing and recording
@@ -158,7 +154,6 @@
 //I messaged the tutorial author about this but they have not responded
 -(void) monitorAudioController//: (ccTime) dt
 {
-    // TODO: Check to make sure this works
     //making this a while loop is probably better but doesn't load the UI
     if(!isPlaying)
     {   [audioMonitor updateMeters];
@@ -228,7 +223,6 @@
 
 //start recording
 -(void) startRecording{
-    // TODO: Check to see if recorder should be initialized each time recording is started
     
     NSLog(@"startRecording");
     
@@ -471,7 +465,6 @@
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
     from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
-        // TODO Remove file after upload. Change total number of files to 0
 
     NSLog(@"File uploaded successfully to path: %@", metadata.path);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
