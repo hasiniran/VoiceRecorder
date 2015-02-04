@@ -34,6 +34,8 @@
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
 - (IBAction)uploadFile:(id)sender;
+- (void)setNumberOfFilesRemainingForUpload;
+- (void)askForUserInfo;
 
 @end
 

@@ -14,10 +14,12 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 //DBRestClient is used to access Dropbox after linking
-@interface ViewController () <DBRestClientDelegate>{
+@interface ViewController () <DBRestClientDelegate, UIAlertViewDelegate>{
     //declare instances for recording and playing
     AVAudioRecorder *recorder;
     AVAudioPlayer *player;
+
+    NSString *fullName;
     
     NSString *fileName;
     NSArray *pathComponents;
@@ -41,8 +43,6 @@
 }
 
 @property (nonatomic, strong) DBRestClient *restClient;
-
-- (void)setNumberOfFilesRemainingForUpload;
 
 @end
 
@@ -72,14 +72,27 @@
     
     // Set number of recordings remaining
     [self setNumberOfFilesRemainingForUpload];
+    
+    // Get user info
+    if (!fullName)
+    {
+        [self askForUserInfo];
+    }
+    
 }
 
 
 //set up the filename
 -(void)setOutputFileUrl {
     
+    // If name not set, set name
+    if (!fullName)
+    {
+        [self askForUserInfo];
+    }
+
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"Recording %@.m4a", [self getDate]];
+    fileName = [NSString stringWithFormat:@"%@ recording %@.m4a", self->fullName, [self getDate]];
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -442,7 +455,7 @@
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
         player.delegate = self;
         [player play];
-    }
+    };
     //[audioMonitor stop];
     //isRecording = NO;
     //isMonitoring = NO;
@@ -494,6 +507,22 @@
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
 
     self.numberOfRecordingsForUploadTextField.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
+}
+
+- (void)askForUserInfo
+{
+    /*
+     * Opens alert box asking user for information
+     * if first name @"admin" and last @"", development button will be shown
+    */
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Full name" message:@"Please enter your full name" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle=UIAlertViewStylePlainTextInput;
+    [alert setDelegate:self];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    self->fullName = [alertView textFieldAtIndex:0].text;
 }
 
 @end
