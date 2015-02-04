@@ -15,7 +15,8 @@ VoiceRecorder App for University of Notre Dame
 - [ ]  Change background color when recording
 - [ ]  Space until device full (percentage)
 - [ ]  Add login for development interface
-- [ ]  Add development interface
+- [ ]  Add development interface, logout button, and current user name textfield
 - [ ]  Find iPhone compatible mics
+
 
 
