@@ -10,13 +10,14 @@ VoiceRecorder App for University of Notre Dame
 - [ ]  Delete files after upload
 - [ ]  Prettify with graphics
 - [x]  Playback most recent file
-- [ ]  Create figure for time vs space
+- [x]  Create figure for time vs space
 - [ ]  Time indicator for amount of time recorded
 - [ ]  Change background color when recording
-- [ ]  Space until device full (percentage)
+- [x]  Space until device full (percentage)
 - [ ]  Add login for development interface
 - [ ]  Add development interface, logout button, and current user name textfield
 - [ ]  Find iPhone compatible mics
+
 
 
 

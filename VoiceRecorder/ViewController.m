@@ -52,7 +52,6 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     //[self initAudioMonitor];
-    //[self freeDiskspace]; //displays the free space on the device
     
     //lastRecordingText.text = [standardUserDefaults stringForKey:@"lastRecordingDate"];
     
@@ -78,6 +77,8 @@
     {
         [self askForUserInfo];
     }
+    // Set disk space etc
+    [self setFreeDiskspace];
     
 }
 
@@ -341,8 +342,12 @@
 }
 
 //http://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
-- (uint64_t)freeDiskspace
+- (void)setFreeDiskspace
 {
+    /*
+     * Calculates free disk space and sets textField
+    */
+
     //uint64 gives better precision
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;
@@ -360,7 +365,7 @@
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         
         //print free space to console as a check
-        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+        //NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {
         //print an error to the console if not able to get memory
         NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %d", [error domain], [error code]);
@@ -379,10 +384,13 @@
     NSString* desc = @"Free space remaining: ";
     NSString* str2 = [NSString stringWithFormat: @"%@ %@", desc, str]; //concatenate the strings
 
-    
-    storageText.text = str2; //display the amount of free space
-    return totalFreeSpace;
+    // Remaining memory percentage, amount of minutes remaining,
+    uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
+    self.percentageDiskSpaceRemainingTextField.text = [NSString stringWithFormat:@"Percentage disk space remaining: %llu%%", percentageSpaceRemaining];
+
+    self.numberOfMinutesRemainingTextField.text = [NSString stringWithFormat:@"Number of Minutes Remaining: %llu", freeSpaceMinutes];
 }
+
 
 //BUTTONS
 
@@ -431,6 +439,8 @@
 
     // Update count of recordings
     [self setNumberOfFilesRemainingForUpload];
+
+    [self setFreeDiskspace]; //displays the free space on the device
 
 
     //[audioMonitor stop];
