@@ -61,23 +61,31 @@
                                     <action selector="recordTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="70z-FE-iq2"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Number of Recordings for Upload: 0" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TfP-8M-9ct">
+                                <rect key="frame" x="173" y="403" width="255" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="184" id="1cm-ku-Ncv"/>
-                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" id="BTh-cp-LES"/>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Ce8-8z-I9C"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="E8b-hN-jkP"/>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="Pc2-BI-sFx"/>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="TRe-cl-dbb"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="leading" id="jLx-Po-Pr9"/>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="rCw-IX-NF9"/>
-                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="uu2-xk-xQY"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="xaH-q7-K4t"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="TfP-8M-9ct" secondAttribute="bottom" constant="167" id="Da1-T1-ufl"/>
+                            <constraint firstItem="TfP-8M-9ct" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="8" symbolic="YES" id="NMC-BD-ksz"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" id="Zpv-mR-quE"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="dtm-mE-JsE"/>
+                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="eNc-Xp-fGW"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="gta-3j-ZWg"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="leading" secondItem="gs1-4A-Q9U" secondAttribute="leading" id="kUI-Yx-UT5"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="kiY-Rf-MoI"/>
+                            <constraint firstItem="TfP-8M-9ct" firstAttribute="centerX" secondItem="oWJ-5d-mgU" secondAttribute="centerX" id="mLr-vc-pBe"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="gs1-4A-Q9U" secondAttribute="centerX" id="pCV-3S-kdC"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="ra8-Ny-fs5"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="zUv-Ic-Nj1"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="linkButton" destination="BSl-aS-LRu" id="mH9-ir-6um"/>
+                        <outlet property="numberOfRecordingsForUploadTextField" destination="TfP-8M-9ct" id="e2c-40-R9z"/>
                         <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
                         <outlet property="recordButton" destination="gs1-4A-Q9U" id="Ylb-bT-3WK"/>
                         <outlet property="stopButton" destination="U1Z-dW-UvS" id="9sI-ge-LLc"/>
