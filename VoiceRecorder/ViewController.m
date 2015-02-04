@@ -500,7 +500,7 @@
 
 - (void)setNumberOfFilesRemainingForUpload {
     /*
-     * Calculaes number of files remaining for uplaod
+     * Calculates and sets textfield of number of files remaining for uplaod
     */
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
