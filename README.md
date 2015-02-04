@@ -9,7 +9,7 @@ VoiceRecorder App for University of Notre Dame
 - [ ]  Check if link button required
 - [ ]  Delete files after upload
 - [ ]  Prettify with graphics
-- [ ]  Choose files for playback (possibly in tableView), or just most recent file
+- [x]  Playback most recent file
 - [ ]  Create figure for time vs space
 - [ ]  Time indicator for amount of time recorded
 - [ ]  Change background color when recording
@@ -17,6 +17,8 @@ VoiceRecorder App for University of Notre Dame
 - [ ]  Add login for development interface
 - [ ]  Add development interface, logout button, and current user name textfield
 - [ ]  Find iPhone compatible mics
+
+
 
 
 

@@ -450,6 +450,10 @@
 
 //makes sure no recording or monitoring is happening and then plays
 - (IBAction)playTapped:(id)sender {
+    /*
+     * Plays back most recent recording
+    */
+
     if (!recorder.recording)
     {
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
