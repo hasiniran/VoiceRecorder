@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *currentText;
 
 @property (weak, nonatomic) IBOutlet UITextView *lastRecordingText;
+@property (weak, nonatomic) IBOutlet UITextField *numberOfRecordingsForUploadTextField;
 
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 

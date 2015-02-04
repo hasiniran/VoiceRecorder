@@ -42,6 +42,8 @@
 
 @property (nonatomic, strong) DBRestClient *restClient;
 
+- (void)setNumberOfFilesRemainingForUpload;
+
 @end
 
 @implementation ViewController
@@ -67,7 +69,11 @@
     // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:NO];
+    
+    // Set number of recordings remaining
+    [self setNumberOfFilesRemainingForUpload];
 }
+
 
 //set up the filename
 -(void)setOutputFileUrl {
@@ -410,6 +416,10 @@
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:NO error:nil];
 
+    // Update count of recordings
+    [self setNumberOfFilesRemainingForUpload];
+
+
     //[audioMonitor stop];
     //isRecording = NO;
     //isMonitoring = NO;
@@ -473,6 +483,17 @@
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
     NSLog(@"File upload failed with error: %@", error);
+}
+
+- (void)setNumberOfFilesRemainingForUpload {
+    /*
+     * Calculaes number of files remaining for uplaod
+    */
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
+
+    self.numberOfRecordingsForUploadTextField.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
 }
 
 @end
