@@ -454,7 +454,20 @@
                                     initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
                                     minutes, seconds];
         self.timeElapsedLabel.text = time;
+        
+        // If recording has gone on for more than given time, start new recording
+        // In minutes
+        int allowedElapsedTime = 1;
+        if (minutes >= allowedElapsedTime)
+        {
+            // Stop old recording and start new one to decrease upload file sizes
+            [self stopRecorder];
+            [self startNewRecording];
+        }
+        
     }
+    
+    
 }
 
 //stops the recorder and deactivates the audio session
