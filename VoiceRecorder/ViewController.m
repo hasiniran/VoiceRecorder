@@ -24,6 +24,7 @@
     NSString *fileName;
     NSArray *pathComponents;
     NSURL *outputFileURL;
+    NSTimer *recordingTimer;
     
     NSURL *monitorTmpFile;
     NSURL *recordedTmpFile;
@@ -414,6 +415,8 @@
         // Start recording
         [recorder record];
         [self.recordButton setEnabled:NO];
+
+        recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
     }
 
     [self.stopButton setEnabled:YES];
@@ -424,6 +427,21 @@
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
     //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+}
+
+- (void)updateSlider {
+    // Update the slider about the music time
+    if([recorder isRecording])
+    {
+
+        float minutes = floor(recorder.currentTime/60);
+        float seconds = recorder.currentTime - (minutes * 60);
+
+        NSString *time = [[NSString alloc] 
+                                    initWithFormat:@"%0.0f.%0.0f",
+                                    minutes, seconds];
+        recordTimeLabel.text = time;
+    }
 }
 
 //stops the recorder and deactivates the audio session
