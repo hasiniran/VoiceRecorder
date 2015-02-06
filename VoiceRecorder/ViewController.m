@@ -404,8 +404,6 @@
         [self startNewRecording];
     }
 
-    [self.stopButton setEnabled:YES];
-    [self.playButton setEnabled:NO];
     
     
     // TODO: setup monitor method
@@ -438,6 +436,10 @@
     [self.recordButton setEnabled:NO];
 
     recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
+
+    // Set buttons
+    [self.stopButton setEnabled:YES];
+    [self.playButton setEnabled:NO];
 }
 
 - (void)updateSlider {
@@ -481,6 +483,11 @@
     // TODO stop recording timer that updates time elapsed
 
 
+    // Set buttons
+    [self.recordButton setEnabled:YES];
+    [self.stopButton setEnabled:NO];
+    [self.playButton setEnabled:YES];
+
     //[audioMonitor stop];
     //isRecording = NO;
     //isMonitoring = NO;
@@ -490,11 +497,6 @@
 
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
-    [self.recordButton setEnabled:YES];
-
-    
-    [self.stopButton setEnabled:NO];
-    [self.playButton setEnabled:YES];
 }
 
 //makes sure no recording or monitoring is happening and then plays
