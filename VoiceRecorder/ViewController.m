@@ -401,22 +401,7 @@
 
     if (!recorder.recording)
     {
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setActive:YES error:nil];
-
-        // Recorder needs to be initialized each time due to the file url
-        // property being readonly. New file url must be set for each recording
-        // Setup audio file
-        [self setOutputFileUrl];
-
-        // Setup Audio Session and Recorder
-        [self initRecorder];
-
-        // Start recording
-        [recorder record];
-        [self.recordButton setEnabled:NO];
-
-        recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
+        [self startNewRecording];
     }
 
     [self.stopButton setEnabled:YES];
@@ -427,6 +412,32 @@
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
     //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+}
+
+-(void)startNewRecording
+{
+    /*
+     * Starts new recording by getting audio session, setting it active,
+     * setting outputFileUrl, initializing the recorder, starting the recorder,
+     * and starting a recordingTimer that updates the elapsed time label
+     */
+
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+
+    // Recorder needs to be initialized each time due to the file url
+    // property being readonly. New file url must be set for each recording
+    // Setup audio file
+    [self setOutputFileUrl];
+
+    // Setup Audio Session and Recorder
+    [self initRecorder];
+
+    // Start recording
+    [recorder record];
+    [self.recordButton setEnabled:NO];
+
+    recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
 }
 
 - (void)updateSlider {
@@ -446,6 +457,16 @@
 
 //stops the recorder and deactivates the audio session
 - (IBAction)stopTapped:(id)sender {
+    [self stopRecorder];
+}
+
+-(void)stopRecorder
+{
+    /*
+     * Stops the main recorder and gives up Audio session.
+     * Also updates count of recordings and display of free space on device
+    */
+
     [recorder stop];
 
     AVAudioSession *session = [AVAudioSession sharedInstance];
@@ -454,7 +475,10 @@
     // Update count of recordings
     [self setNumberOfFilesRemainingForUpload];
 
-    [self setFreeDiskspace]; //displays the free space on the device
+    // Update display of the free space on the device
+    [self setFreeDiskspace]; 
+
+    // TODO stop recording timer that updates time elapsed
 
 
     //[audioMonitor stop];
@@ -463,6 +487,7 @@
     //[recorder stop];
     //isPlaying = YES;
 }
+
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
     [self.recordButton setEnabled:YES];
