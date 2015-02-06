@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfRecordingsForUploadLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentageDiskSpaceRemainingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfMinutesRemainingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeElapsedLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 

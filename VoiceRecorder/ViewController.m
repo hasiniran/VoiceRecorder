@@ -438,9 +438,9 @@
         float seconds = recorder.currentTime - (minutes * 60);
 
         NSString *time = [[NSString alloc] 
-                                    initWithFormat:@"%0.0f.%0.0f",
+                                    initWithFormat:@"Time Elapsed %0.0f:%0.0f",
                                     minutes, seconds];
-        recordTimeLabel.text = time;
+        self.timeElapsedLabel.text = time;
     }
 }
 
