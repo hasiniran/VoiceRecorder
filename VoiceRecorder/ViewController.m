@@ -368,7 +368,7 @@
         //NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {
         //print an error to the console if not able to get memory
-        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %d", [error domain], [error code]);
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
     }
     
     
@@ -379,10 +379,6 @@
     uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
     NSString* space = [@(actualFreeSpace) stringValue]; //put free space into a string
     NSString* spaceUnit = @" MB"; //string for the unit of free space
-    NSString* str = [NSString stringWithFormat: @"%@ %@", space, spaceUnit]; //concatenate the strings
-    
-    NSString* desc = @"Free space remaining: ";
-    NSString* str2 = [NSString stringWithFormat: @"%@ %@", desc, str]; //concatenate the strings
 
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
