@@ -61,59 +61,62 @@
                                     <action selector="recordTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="70z-FE-iq2"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Number of Recordings for Upload: 0" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TfP-8M-9ct">
-                                <rect key="frame" x="173" y="403" width="255" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Minutes Remaining: 55" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEg-fq-Plu">
+                                <rect key="frame" x="169" y="403" width="262" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="255" id="bV5-FW-UXR"/>
+                                    <constraint firstAttribute="width" constant="262" id="EsF-0n-1xp"/>
+                                    <constraint firstAttribute="height" constant="21" id="q9X-7g-cAZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Percentage disk space remaining: 50%" borderStyle="roundedRect" textAlignment="center" minimumFontSize="19" translatesAutoresizingMaskIntoConstraints="NO" id="zkl-6H-wWy">
-                                <rect key="frame" x="173" y="441" width="255" height="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Percentage disk space remaining: 50%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bac-X0-lde">
+                                <rect key="frame" x="150" y="432" width="301" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="301" id="Ey2-oJ-LAd"/>
+                                    <constraint firstAttribute="height" constant="21" id="qPr-UZ-Vd4"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Number of Minutes Remaining: 55" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jcf-4S-BrD">
-                                <rect key="frame" x="173" y="479" width="255" height="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Recordings for Upload: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YC-qn-Uzb">
+                                <rect key="frame" x="161" y="461" width="279" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="oMk-Fg-y3f"/>
+                                    <constraint firstAttribute="width" constant="279" id="pMq-lh-LhL"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Recording Time Elapsed: 0:00" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n8F-Tt-q6J">
-                                <rect key="frame" x="173" y="517" width="255" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="zkl-6H-wWy" firstAttribute="trailing" secondItem="TfP-8M-9ct" secondAttribute="trailing" id="0Q5-Mm-bR6"/>
-                            <constraint firstItem="Jcf-4S-BrD" firstAttribute="trailing" secondItem="zkl-6H-wWy" secondAttribute="trailing" id="23d-Mn-m77"/>
-                            <constraint firstItem="n8F-Tt-q6J" firstAttribute="leading" secondItem="Jcf-4S-BrD" secondAttribute="leading" id="3Hl-gf-sAT"/>
-                            <constraint firstItem="Jcf-4S-BrD" firstAttribute="leading" secondItem="zkl-6H-wWy" secondAttribute="leading" id="7nb-vA-Tn3"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="86j-uz-ZGs"/>
-                            <constraint firstItem="TfP-8M-9ct" firstAttribute="centerX" secondItem="oWJ-5d-mgU" secondAttribute="centerX" id="HtR-k9-4JW"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Jcf-4S-BrD" secondAttribute="bottom" constant="91" id="JTN-CE-uZC"/>
-                            <constraint firstItem="TfP-8M-9ct" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="8" symbolic="YES" id="PBc-Jd-jGi"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="dwu-Je-BWK"/>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="hu9-gq-c5j"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="iUy-MC-Eaw"/>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="ixz-R5-M2q"/>
-                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="p1v-Bh-RRc"/>
-                            <constraint firstItem="n8F-Tt-q6J" firstAttribute="trailing" secondItem="Jcf-4S-BrD" secondAttribute="trailing" id="pdx-LW-53Y"/>
-                            <constraint firstItem="n8F-Tt-q6J" firstAttribute="top" secondItem="Jcf-4S-BrD" secondAttribute="bottom" constant="8" symbolic="YES" id="ppX-R1-rZy"/>
-                            <constraint firstItem="TfP-8M-9ct" firstAttribute="leading" secondItem="zkl-6H-wWy" secondAttribute="leading" id="sNu-DB-S21"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="leading" id="vyV-53-DiF"/>
-                            <constraint firstItem="zkl-6H-wWy" firstAttribute="top" secondItem="TfP-8M-9ct" secondAttribute="bottom" constant="8" symbolic="YES" id="wRf-SI-AQz"/>
-                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="xLc-4f-uiL"/>
-                            <constraint firstItem="Jcf-4S-BrD" firstAttribute="top" secondItem="zkl-6H-wWy" secondAttribute="bottom" constant="8" symbolic="YES" id="ztR-Lh-6vB"/>
+                            <constraint firstItem="5YC-qn-Uzb" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="0jQ-GK-H0e"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="centerX" secondItem="iEg-fq-Plu" secondAttribute="centerX" id="7S7-my-Hjt"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="leading" secondItem="gs1-4A-Q9U" secondAttribute="leading" id="8Ku-EK-21L"/>
+                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="Cih-gO-52T"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="5YC-qn-Uzb" secondAttribute="bottom" constant="118" id="DTt-I2-4f0"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="LJE-1m-Ipv"/>
+                            <constraint firstItem="iEg-fq-Plu" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="8" symbolic="YES" id="Mbf-i4-GIa"/>
+                            <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="MqI-KM-Ewb"/>
+                            <constraint firstItem="Bac-X0-lde" firstAttribute="centerX" secondItem="5YC-qn-Uzb" secondAttribute="centerX" id="Nh9-Jj-fhV"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" id="Xpe-ab-1g2"/>
+                            <constraint firstItem="iEg-fq-Plu" firstAttribute="centerX" secondItem="Bac-X0-lde" secondAttribute="centerX" id="fc5-TO-pnA"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="hSQ-Eo-3cX"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="mGA-Tc-bhg"/>
+                            <constraint firstItem="5YC-qn-Uzb" firstAttribute="top" secondItem="Bac-X0-lde" secondAttribute="bottom" constant="8" symbolic="YES" id="qfs-rr-4Iv"/>
+                            <constraint firstItem="Bac-X0-lde" firstAttribute="top" secondItem="iEg-fq-Plu" secondAttribute="bottom" constant="8" symbolic="YES" id="sMx-qe-ltf"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="vmP-Qb-Hkb"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="linkButton" destination="BSl-aS-LRu" id="mH9-ir-6um"/>
-                        <outlet property="numberOfMinutesRemainingTextField" destination="Jcf-4S-BrD" id="9di-TQ-KV4"/>
-                        <outlet property="numberOfRecordingsForUploadTextField" destination="TfP-8M-9ct" id="e2c-40-R9z"/>
-                        <outlet property="percentageDiskSpaceRemainingTextField" destination="zkl-6H-wWy" id="NSe-E4-Uxp"/>
+                        <outlet property="numberOfMinutesRemainingLabel" destination="iEg-fq-Plu" id="9Rf-AX-dzF"/>
+                        <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="hJf-25-NAB"/>
+                        <outlet property="percentageDiskSpaceRemainingLabel" destination="Bac-X0-lde" id="OgS-Rp-ple"/>
                         <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
                         <outlet property="recordButton" destination="gs1-4A-Q9U" id="Ylb-bT-3WK"/>
                         <outlet property="stopButton" destination="U1Z-dW-UvS" id="9sI-ge-LLc"/>

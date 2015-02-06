@@ -346,7 +346,7 @@
 - (void)setFreeDiskspace
 {
     /*
-     * Calculates free disk space and sets textField
+     * Calculates free disk space and sets Label
     */
 
     //uint64 gives better precision
@@ -383,9 +383,9 @@
 
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
-    self.percentageDiskSpaceRemainingTextField.text = [NSString stringWithFormat:@"Percentage disk space remaining: %llu%%", percentageSpaceRemaining];
+    self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"Percentage disk space remaining: %llu%%", percentageSpaceRemaining];
 
-    self.numberOfMinutesRemainingTextField.text = [NSString stringWithFormat:@"Number of Minutes Remaining: %llu", freeSpaceMinutes];
+    self.numberOfMinutesRemainingLabel.text = [NSString stringWithFormat:@"Number of Minutes Remaining: %llu", freeSpaceMinutes];
 }
 
 
@@ -528,13 +528,13 @@
 
 - (void)setNumberOfFilesRemainingForUpload {
     /*
-     * Calculates and sets textfield of number of files remaining for uplaod
+     * Calculates and sets Label of number of files remaining for uplaod
     */
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
 
-    self.numberOfRecordingsForUploadTextField.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
+    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
 }
 
 - (void)askForUserInfo
