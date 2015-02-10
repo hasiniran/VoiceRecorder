@@ -484,6 +484,7 @@
 
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
+    [recordingTimer invalidate];
     
     // Update count of recordings
     [self setNumberOfFilesRemainingForUpload];
