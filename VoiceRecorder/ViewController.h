@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *currentText;
 
+@property (weak, nonatomic) IBOutlet UILabel *audioLevelLabel;
 @property (weak, nonatomic) IBOutlet UITextView *lastRecordingText;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfRecordingsForUploadLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentageDiskSpaceRemainingLabel;

@@ -55,11 +55,11 @@
     [super viewDidLoad];
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .1;
+    AUDIOMONITOR_THRESHOLD = 1;
     MAX_SILENCETIME = 100.0;
     MAX_MONITORTIME = 200.0;
     MIN_RECORDTIME = 1.0;
-    dt = .001;
+    dt = 1;
     silenceTime = 0;
 
     // Set Bools
@@ -142,6 +142,12 @@
     
     [audioMonitor record];
     isMonitoring = YES;
+
+    // Timer for update of audio level
+    audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:dt target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+
+    // Timer for update of time elapsed label
+    recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
 }
 
 //initialize the recorder
@@ -197,7 +203,7 @@
         audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
         
         NSLog(@"audioMonitorResults: %f", audioMonitorResults);
-        self.levelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
+        self.audioLevelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
         
         //####################### RECORDER AUDIO CHECKING #####################
         //check if sound input is above the threshold
@@ -207,7 +213,7 @@
             {
                 //stop monitoring and start recording
                 [audioMonitor stop];
-                [self startRecorder];
+                [self startNewRecording];
             }
         }
         //not above threshold, so don't record
@@ -419,7 +425,6 @@
     // TODO: setup monitor method
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
-    audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:.001 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
 }
 
 -(void)startNewRecording
@@ -443,41 +448,35 @@
 
     // Start recording
     [recorder record];
-    [self.recordButton setEnabled:NO];
+    isRecording = YES;
 
-    recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
 
     // Set buttons
+    [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
 }
 
 - (void)updateSlider {
     // Update the slider about the music time
-    if([recorder isRecording])
+    float minutes = floor(audioMonitor.currentTime/60);
+    float seconds = audioMonitor.currentTime - (minutes * 60);
+    NSLog(@"Current Time: %f", audioMonitor.currentTime);
+
+    NSString *time = [[NSString alloc] 
+        initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
+        minutes, seconds];
+    self.timeElapsedLabel.text = time;
+
+    // If recording has gone on for more than given time, start new recording
+    // In minutes
+    int allowedElapsedTime = 1;
+    if (minutes >= allowedElapsedTime && isRecording)
     {
-
-        float minutes = floor(recorder.currentTime/60);
-        float seconds = recorder.currentTime - (minutes * 60);
-
-        NSString *time = [[NSString alloc] 
-                                    initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
-                                    minutes, seconds];
-        self.timeElapsedLabel.text = time;
-        
-        // If recording has gone on for more than given time, start new recording
-        // In minutes
-        int allowedElapsedTime = 1;
-        if (minutes >= allowedElapsedTime)
-        {
-            // Stop old recording and start new one to decrease upload file sizes
-            [self stopRecorder];
-            [self startNewRecording];
-        }
-        
+        // Stop old recording and start new one to decrease upload file sizes
+        [self stopRecorder];
+        [self startNewRecording];
     }
-    
-    
 }
 
 //stops the recorder and deactivates the audio session
@@ -485,6 +484,12 @@
 
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
+    
+    // Update count of recordings
+    [self setNumberOfFilesRemainingForUpload];
+
+    // Update display of the free space on the device
+    [self setFreeDiskspace];
 
     // Reenable buttons
     [self.playButton setEnabled:YES];
@@ -513,11 +518,6 @@
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
     [self.recordButton setEnabled:YES];
-    // Update count of recordings
-    [self setNumberOfFilesRemainingForUpload];
-
-    // Update display of the free space on the device
-    [self setFreeDiskspace]; 
 
     // TODO stop recording timer that updates time elapsed
 
