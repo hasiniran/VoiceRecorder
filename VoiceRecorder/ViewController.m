@@ -14,15 +14,17 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 //DBRestClient is used to access Dropbox after linking
-@interface ViewController () <DBRestClientDelegate>{
+@interface ViewController () <DBRestClientDelegate, UIAlertViewDelegate>{
     //declare instances for recording and playing
     AVAudioRecorder *recorder;
     AVAudioPlayer *player;
     NSTimer *audioMonitorTimer;
-    
+
+    NSString *fullName;
     NSString *fileName;
     NSArray *pathComponents;
     NSURL *outputFileURL;
+    NSTimer *recordingTimer;
     
     NSURL *monitorTmpFile;
     NSURL *recordedTmpFile;
@@ -51,9 +53,6 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    //[self freeDiskspace]; //displays the free space on the device
-    
-    //lastRecordingText.text = [standardUserDefaults stringForKey:@"lastRecordingDate"];
     
     //set monitoring and recording variables
     AUDIOMONITOR_THRESHOLD = .1;
@@ -74,25 +73,36 @@
     // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:NO];
-
-    // Setup audio file
-    [self setOutputFileUrl];
-
-    // Setup Audio Session and Recorder
-    [self initRecorder];
+    
+    // Set number of recordings remaining
+    [self setNumberOfFilesRemainingForUpload];
+    
+    // Get user info
+    if (!fullName)
+    {
+        [self askForUserInfo];
+    }
+    // Set disk space etc
+    [self setFreeDiskspace];
     
 }
 
+
 //set up the filename
 -(void)setOutputFileUrl {
-    // TODO: Check if files are deleted after storage
     
+    // If name not set, set name
+    if (!fullName)
+    {
+        [self askForUserInfo];
+    }
+
     //name the file with the recording date, later add device ID
-    fileName = @"myFile.m4a";//[self getDate];
+    fileName = [NSString stringWithFormat:@"%@ recording %@.m4a", self->fullName, [self getDate]];
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
-    // TODO: Understand how files are stored
+    // Currently saving files to Documents directory. Might be better to save to tmp
     pathComponents = [NSArray arrayWithObjects:
                       [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                       fileName,
@@ -103,20 +113,17 @@
 
 //uploads the file
 -(IBAction)uploadFile {
-    // TODO: Write this function
     
-    //create a test file for uploading
-    NSString *localPath = [outputFileURL absoluteString];
+    NSString *localDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *localPath = [localDir stringByAppendingPathComponent:fileName];
     
     // Upload file to Dropbox
     NSString *destDir = @"/";
     [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
-    //NSLog(@"upload file");
 }
 
 //initialize the audio monitor
 -(void) initAudioMonitorAndRecord{
-    // TODO: Check if need to set AVAudioSession to PlayAndRecord
     
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
@@ -143,7 +150,6 @@
      Initializes the recorder and recorder settings
     */
     
-    // TODO: Add method that changes text field to suggest when audio is being recorded
     
     //set up the audio session
     //this allows for both playing and recording
@@ -235,14 +241,11 @@
     
 }
 
-//start recording
 -(void) startRecorder{
     /*
      * Sets recorder to start recording and sets isRecording to YES
     */
 
-    // TODO: Check to see if recorder should be initialized each time recording is started
-    
     NSLog(@"startRecorder");
     
     isRecording = YES;
@@ -327,17 +330,20 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSString        *dateString;
     
-    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm"]; //format the date string
+    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
     
     dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
     
-    //currentText.text = dateString; //test to make sure date is correct
     return dateString; //return the string
 }
 
 //http://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
-- (uint64_t)freeDiskspace
+- (void)setFreeDiskspace
 {
+    /*
+     * Calculates free disk space and sets Label
+    */
+
     //uint64 gives better precision
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;
@@ -355,10 +361,10 @@
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
         
         //print free space to console as a check
-        NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
+        //NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {
         //print an error to the console if not able to get memory
-        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %d", [error domain], [error code]);
+        NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
     }
     
     
@@ -369,15 +375,14 @@
     uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
     NSString* space = [@(actualFreeSpace) stringValue]; //put free space into a string
     NSString* spaceUnit = @" MB"; //string for the unit of free space
-    NSString* str = [NSString stringWithFormat: @"%@ %@", space, spaceUnit]; //concatenate the strings
-    
-    NSString* desc = @"Free space remaining: ";
-    NSString* str2 = [NSString stringWithFormat: @"%@ %@", desc, str]; //concatenate the strings
 
-    
-    storageText.text = str2; //display the amount of free space
-    return totalFreeSpace;
+    // Remaining memory percentage, amount of minutes remaining,
+    uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
+    self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"Percentage disk space remaining: %llu%%", percentageSpaceRemaining];
+
+    self.numberOfMinutesRemainingLabel.text = [NSString stringWithFormat:@"Number of Minutes Remaining: %llu", freeSpaceMinutes];
 }
+
 
 //BUTTONS
 
@@ -408,12 +413,72 @@
     // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
+    }
+
     
     
     // TODO: setup monitor method
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
     audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:.001 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+}
+
+-(void)startNewRecording
+{
+    /*
+     * Starts new recording by getting audio session, setting it active,
+     * setting outputFileUrl, initializing the recorder, starting the recorder,
+     * and starting a recordingTimer that updates the elapsed time label
+     */
+
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+
+    // Recorder needs to be initialized each time due to the file url
+    // property being readonly. New file url must be set for each recording
+    // Setup audio file
+    [self setOutputFileUrl];
+
+    // Setup Audio Session and Recorder
+    [self initRecorder];
+
+    // Start recording
+    [recorder record];
+    [self.recordButton setEnabled:NO];
+
+    recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
+
+    // Set buttons
+    [self.stopButton setEnabled:YES];
+    [self.playButton setEnabled:NO];
+}
+
+- (void)updateSlider {
+    // Update the slider about the music time
+    if([recorder isRecording])
+    {
+
+        float minutes = floor(recorder.currentTime/60);
+        float seconds = recorder.currentTime - (minutes * 60);
+
+        NSString *time = [[NSString alloc] 
+                                    initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
+                                    minutes, seconds];
+        self.timeElapsedLabel.text = time;
+        
+        // If recording has gone on for more than given time, start new recording
+        // In minutes
+        int allowedElapsedTime = 1;
+        if (minutes >= allowedElapsedTime)
+        {
+            // Stop old recording and start new one to decrease upload file sizes
+            [self stopRecorder];
+            [self startNewRecording];
+        }
+        
+    }
+    
+    
 }
 
 //stops the recorder and deactivates the audio session
@@ -426,9 +491,16 @@
     [self.playButton setEnabled:YES];
     [self.stopButton setEnabled:NO];
     [self.recordButton setEnabled:YES];
+}
 
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setActive:NO error:nil];
+-(void)stopRecorder
+{
+    /*
+     * Stops the main recorder and gives up Audio session.
+     * Also updates count of recordings and display of free space on device
+    */
+
+    [recorder stop];
 }
 
 - (void)stopAudioMonitorAndAudioMonitorTimer
@@ -441,6 +513,10 @@
     [audioMonitorTimer invalidate];
     isMonitoring = NO;
     NSLog(@"Audio Monitor stopped");
+    
+    // Give up audio session
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setActive:NO error:nil];
 }
 
     
@@ -448,30 +524,43 @@
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
     [self.recordButton setEnabled:YES];
+    // Update count of recordings
+    [self setNumberOfFilesRemainingForUpload];
 
-    
+    // Update display of the free space on the device
+    [self setFreeDiskspace]; 
+
+    // TODO stop recording timer that updates time elapsed
+
+
+    // Set buttons
+    [self.recordButton setEnabled:YES];
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:YES];
+
+    //[audioMonitor stop];
+    //isRecording = NO;
+    //isMonitoring = NO;
+    //[recorder stop];
+    //isPlaying = YES;
+}
+
+
+- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
 }
 
 //makes sure no recording or monitoring is happening and then plays
 - (IBAction)playTapped:(id)sender {
+    /*
+     * Plays back most recent recording
+    */
+
     if (!recorder.recording)
     {
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
         player.delegate = self;
         [player play];
-    }
-    //[audioMonitor stop];
-    //isRecording = NO;
-    //isMonitoring = NO;
-    //isPlaying = YES;
-    //[recorder stop];
-    //player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
-    //[player setDelegate:self];
-    //[player play];
-    ////isPlaying = NO;
-
+    };
 }
 
 // Show alert after recording
@@ -481,14 +570,54 @@
 }
 
 //for linking to dropbox
-// TODO: Check this method
-- (IBAction)didPressLink {
+// TODO: Just put this to upload button
+- (IBAction)didPressLink:(id)sender
+{
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
         NSLog(@"linking");
     }
     NSLog(@"already linked");
     [self uploadFile]; //upload the test file
+}
+
+- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
+    from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
+
+    NSLog(@"File uploaded successfully to path: %@", metadata.path);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
+    NSLog(@"File upload failed with error: %@", error);
+}
+
+- (void)setNumberOfFilesRemainingForUpload {
+    /*
+     * Calculates and sets Label of number of files remaining for uplaod
+    */
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
+
+    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
+}
+
+- (void)askForUserInfo
+{
+    /*
+     * Opens alert box asking user for information
+     * if first name @"admin" and last @"", development button will be shown
+    */
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Full name" message:@"Please enter your full name" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alert.alertViewStyle=UIAlertViewStylePlainTextInput;
+    [alert setDelegate:self];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    self->fullName = [alertView textFieldAtIndex:0].text;
 }
 
 @end
