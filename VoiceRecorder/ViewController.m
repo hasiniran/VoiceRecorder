@@ -18,6 +18,7 @@
     //declare instances for recording and playing
     AVAudioRecorder *recorder;
     AVAudioPlayer *player;
+    NSTimer *audioMonitorTimer;
     
     NSString *fileName;
     NSArray *pathComponents;
@@ -38,6 +39,7 @@
     double MAX_MONITORTIME; //max time to try to record for
     double MIN_RECORDTIME; //minimum time to have in a recording
     double silenceTime; //current amount of silence time
+    double dt; // Timer (audioMonitor level) update frequencey
 }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -49,17 +51,22 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    //[self initAudioMonitor];
     //[self freeDiskspace]; //displays the free space on the device
     
     //lastRecordingText.text = [standardUserDefaults stringForKey:@"lastRecordingDate"];
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = 0.1;
-    MAX_SILENCETIME = 2.0;
-    MAX_MONITORTIME = 5.0;
+    AUDIOMONITOR_THRESHOLD = .1;
+    MAX_SILENCETIME = 100.0;
+    MAX_MONITORTIME = 200.0;
     MIN_RECORDTIME = 1.0;
+    dt = .001;
     silenceTime = 0;
+
+    // Set Bools
+    isPlaying = NO;
+    isMonitoring = NO;
+    isRecording = NO;
     
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
@@ -108,7 +115,7 @@
 }
 
 //initialize the audio monitor
--(void) initAudioMonitor{
+-(void) initAudioMonitorAndRecord{
     // TODO: Check if need to set AVAudioSession to PlayAndRecord
     
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
@@ -127,6 +134,7 @@
     [audioMonitor setDelegate:self];
     
     [audioMonitor record];
+    isMonitoring = YES;
 }
 
 //initialize the recorder
@@ -160,30 +168,32 @@
 }
 
 
-//monitors audio input and determines if it should start recording
-//(ccTime) dt comes from an external library but doesn't seem to do anything other than increment the silence time
-//I increment the time by 1 second every time the method is called
-//I messaged the tutorial author about this but they have not responded
--(void) monitorAudioController//: (ccTime) dt
+-(void) monitorAudioController
 {
-    // TODO: Check to make sure this works
-    //making this a while loop is probably better but doesn't load the UI
+    /*
+     * Meant to be called on a timer, this gets the audio level from the
+     * audioMonitor and converts it to a zero to 1 scale. If the audio level is
+     * greater than the AUDIOMONITOR_THRESHOLD value, if the recorder is not
+     * recording, it begins recording and isRecording is set to YES. If the
+     * audio level is not above the AUDIOMONITOR_THRESHOLD value, the recorder
+     * stops recording
+    */
+
+    static double audioMonitorResults = 0;
+    // TODO Check if isPlaying is neccessary 
     if(!isPlaying)
-    {   [audioMonitor updateMeters];
+    {   
+        [audioMonitor updateMeters];
         
-        int x = 0;
         // a convenience, it’s converted to a 0-1 scale, where zero is complete quiet and one is full volume
         const double ALPHA = 0.05;
         double peakPowerForChannel = pow(10, (0.05 * [audioMonitor peakPowerForChannel:0]));
-        double audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
+        audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
         
         NSLog(@"audioMonitorResults: %f", audioMonitorResults);
+        self.levelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
         
-        //double dt;
-        double dt = 1;
-        
-        //double silenceTime = 0;
-        
+        //####################### RECORDER AUDIO CHECKING #####################
         //check if sound input is above the threshold
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
         {   NSLog(@"Sound detected");
@@ -191,64 +201,59 @@
             {
                 //stop monitoring and start recording
                 [audioMonitor stop];
-                [self startRecording];
+                [self startRecorder];
             }
         }
         //not above threshold, so don't record
         else{
             NSLog(@"Silence detected");
             if(isRecording){
-                //if we're recording and above max silence time
+                // if we're recording and above max silence time
                 if(silenceTime > MAX_SILENCETIME){
-                    //stop recording, playback the recording
-                    NSLog(@"Next silence detected");
-                    [audioMonitor stop];
-                    //isRecording = NO;
-                    isMonitoring = NO;
-                    //[recorder stop];
-                    [self stopRecording];
+                    // stop recording
+                    NSLog(@"Silence exceeded max silence time. Stopping recorder");
+                    [self stopRecorder];
                     silenceTime = 0;
-                    x = 1;
-                    NSLog(@"MADE IT THROUGH");
                 }
                 else{
-                //silent but hasn't been silent for too long so increment time
-                silenceTime += dt;
+                    //silent but hasn't been silent for too long so increment time
+                    silenceTime += dt;
                 }
             }
         }
-        
+        //##################################################################### 
+
+
+        //####################### MONITOR CHECKING ###########################
+        // If monitor time greater than max allowed monitor time, stop monitor
         if([audioMonitor currentTime] > MAX_MONITORTIME){
-            [audioMonitor stop];
-            [audioMonitor record];
+            [self stopAudioMonitorAndAudioMonitorTimer];
         }
-        else if(isMonitoring == NO){
-            [audioMonitor record];
-            NSLog(@"keep monitoring");
-        }
+        //####################################################################
         
-        if (x==1){
-            NSLog(@"let's do it again");
-        }
     }
     
 }
 
 //start recording
--(void) startRecording{
+-(void) startRecorder{
+    /*
+     * Sets recorder to start recording and sets isRecording to YES
+    */
+
     // TODO: Check to see if recorder should be initialized each time recording is started
     
-    NSLog(@"startRecording");
+    NSLog(@"startRecorder");
     
     isRecording = YES;
-    [self setLastRecordingText]; //set the last recording time
+    //[self setLastRecordingText]; //set the last recording time
     [recorder record];
 }
 
 //stop the recording and play it
--(void) stopRecordingAndPlay{
+-(void) stopRecorderAndPlay{
     
-    NSLog(@"stopRecording Record time: %f", [recorder currentTime]);
+    NSLog(@"stopRecorder Record time: %f", [recorder currentTime]);
     
     if([recorder currentTime] > MIN_RECORDTIME)
     {   isRecording = NO;
@@ -270,25 +275,19 @@
     //NSLog(@"calling again");
 }
 
-//stops the recording
--(void) stopRecording{
-    NSLog(@"stopRecording Record time: %f", [recorder currentTime]);
+-(void) stopRecorder{
+    /*
+     * Stops the recorder and sets isRecording to NO. Displays about of time
+     * recorded
+    */
+
+    // Log elapsed record time
+    NSLog(@"stopRecorder Record time: %f", [recorder currentTime]);
     
-    if([recorder currentTime] > MIN_RECORDTIME)
-    {   isRecording = NO;
-        [recorder stop];
-        
-        isPlaying = YES;
-        // insert code for playing the audio here
-        //player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
-        //[player setDelegate:self];
-        //[player play];
-        //isPlaying = NO;
-        //[self monitorAudioController];
-    }
-    else{
-        [audioMonitor record];
-    }
+    // TODO Check if MIN_RECORDTIME is necessary considering there is a
+    // MAX_SILENCETIME
+    isRecording = NO;
+    [recorder stop];
 }
 
 //stop playing
@@ -384,22 +383,29 @@
 
 //record button tapped
 - (IBAction)recordTapped:(id)sender {
+    /*
+     * When record button is tapped, Audio monitor should be started
+    */ 
+
     // If audio player is playing, stop it
     if (player.playing)
     {
         [player stop];
     }
 
-    if (!recorder.recording)
+    if (!isMonitoring)
     {
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
 
-        // Start recording
-        [recorder record];
+        [self initAudioMonitorAndRecord];
+
+        // Start monitoring
+        // Disable record button
         [self.recordButton setEnabled:NO];
     }
 
+    // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
     
@@ -407,22 +413,38 @@
     // TODO: setup monitor method
     //tutorial said the monitor method needed to be called in an update function
     //this calls it every second
-    //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
+    audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:.001 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
 }
 
 //stops the recorder and deactivates the audio session
 - (IBAction)stopTapped:(id)sender {
-    [recorder stop];
+
+    [self stopRecorder];
+    [self stopAudioMonitorAndAudioMonitorTimer];
+
+    // Reenable buttons
+    [self.playButton setEnabled:YES];
+    [self.stopButton setEnabled:NO];
+    [self.recordButton setEnabled:YES];
 
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:NO error:nil];
-
-    //[audioMonitor stop];
-    //isRecording = NO;
-    //isMonitoring = NO;
-    //[recorder stop];
-    //isPlaying = YES;
 }
+
+- (void)stopAudioMonitorAndAudioMonitorTimer
+{
+    /*
+     * Stops audioMonitor and audioMonitorController selector (on a timer)
+    */
+
+    [audioMonitor stop];
+    [audioMonitorTimer invalidate];
+    isMonitoring = NO;
+    NSLog(@"Audio Monitor stopped");
+}
+
+    
+
 
 - (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
     [self.recordButton setEnabled:YES];

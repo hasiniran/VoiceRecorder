@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *lastRecordingText;
 
+@property (weak, nonatomic) IBOutlet UILabel *levelLabel;
 @property (weak, nonatomic) IBOutlet UIButton *recordButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;

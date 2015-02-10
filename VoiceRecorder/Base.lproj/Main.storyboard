@@ -61,22 +61,34 @@
                                     <action selector="recordTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="70z-FE-iq2"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level: 20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g7H-CM-ZuU">
+                                <rect key="frame" x="266" y="484" width="69" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="ds9-fC-Olf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="184" id="1cm-ku-Ncv"/>
+                            <constraint firstItem="g7H-CM-ZuU" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="89" id="7JO-16-cVV"/>
                             <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" id="BTh-cp-LES"/>
                             <constraint firstItem="oWJ-5d-mgU" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="Ce8-8z-I9C"/>
                             <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="E8b-hN-jkP"/>
                             <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="Pc2-BI-sFx"/>
                             <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="TRe-cl-dbb"/>
                             <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="leading" id="jLx-Po-Pr9"/>
+                            <constraint firstItem="g7H-CM-ZuU" firstAttribute="centerX" secondItem="oWJ-5d-mgU" secondAttribute="centerX" id="lEF-g8-yb7"/>
                             <constraint firstItem="BSl-aS-LRu" firstAttribute="leading" secondItem="FZh-N2-8Wx" secondAttribute="leading" id="rCw-IX-NF9"/>
                             <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="uu2-xk-xQY"/>
                             <constraint firstItem="gs1-4A-Q9U" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="xaH-q7-K4t"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="levelLabel" destination="g7H-CM-ZuU" id="3iJ-go-djV"/>
                         <outlet property="linkButton" destination="BSl-aS-LRu" id="mH9-ir-6um"/>
                         <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
                         <outlet property="recordButton" destination="gs1-4A-Q9U" id="Ylb-bT-3WK"/>
