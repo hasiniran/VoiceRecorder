@@ -413,7 +413,6 @@
     // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
-    }
 
     
     
@@ -493,16 +492,6 @@
     [self.recordButton setEnabled:YES];
 }
 
--(void)stopRecorder
-{
-    /*
-     * Stops the main recorder and gives up Audio session.
-     * Also updates count of recordings and display of free space on device
-    */
-
-    [recorder stop];
-}
-
 - (void)stopAudioMonitorAndAudioMonitorTimer
 {
     /*
@@ -543,10 +532,6 @@
     //isMonitoring = NO;
     //[recorder stop];
     //isPlaying = YES;
-}
-
-
-- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
 }
 
 //makes sure no recording or monitoring is happening and then plays

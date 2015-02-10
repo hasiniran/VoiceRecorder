@@ -125,7 +125,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="levelLabel" destination="g7H-CM-ZuU" id="3iJ-go-djV"/>
                         <outlet property="linkButton" destination="BSl-aS-LRu" id="mH9-ir-6um"/>
                         <outlet property="numberOfMinutesRemainingLabel" destination="iEg-fq-Plu" id="9Rf-AX-dzF"/>
                         <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="hJf-25-NAB"/>
