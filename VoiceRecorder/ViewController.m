@@ -465,7 +465,6 @@
     // Update the slider about the music time
     float minutes = floor(audioMonitor.currentTime/60);
     float seconds = audioMonitor.currentTime - (minutes * 60);
-    NSLog(@"Current Time: %f", audioMonitor.currentTime);
 
     NSString *time = [[NSString alloc] 
         initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
