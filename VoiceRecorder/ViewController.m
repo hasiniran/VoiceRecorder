@@ -39,6 +39,7 @@
     double AUDIOMONITOR_THRESHOLD; //don't record if below this number
     double MAX_SILENCETIME; //max time allowed between words
     double MAX_MONITORTIME; //max time to try to record for
+    double MAX_RECORDTIME; //max time to try to record for
     double MIN_RECORDTIME; //minimum time to have in a recording
     double silenceTime; //current amount of silence time
     double dt; // Timer (audioMonitor level) update frequencey
@@ -59,6 +60,7 @@
     MAX_SILENCETIME = 100.0;
     MAX_MONITORTIME = 200.0;
     MIN_RECORDTIME = 1.0;
+    MAX_RECORDTIME = 1; 
     dt = 1;
     silenceTime = 0;
 
@@ -481,7 +483,7 @@
 
     // If recording has gone on for more than given time, start new recording
     // In minutes
-    int allowedElapsedTime = 1;
+    double allowedElapsedTime = MAX_RECORDTIME;
     if (minutes >= allowedElapsedTime && isRecording)
     {
         // Stop old recording and start new one to decrease upload file sizes
