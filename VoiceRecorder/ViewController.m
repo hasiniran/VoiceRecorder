@@ -473,22 +473,26 @@
 
 - (void)updateSlider {
     // Update the slider about the music time
-    float minutes = floor(audioMonitor.currentTime/60);
-    float seconds = audioMonitor.currentTime - (minutes * 60);
+    float minutesMonitoring = floor(audioMonitor.currentTime/60);
+    float secondsMonitoring = audioMonitor.currentTime - (minutesMonitoring * 60);
+    
+    float minutesRecording = floor(recorder.currentTime/60);
+    float secondsRecording = recorder.currentTime - (minutesRecording * 60);
 
     NSString *time = [[NSString alloc] 
         initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
-        minutes, seconds];
+        minutesMonitoring, secondsMonitoring];
     self.timeElapsedLabel.text = time;
 
     // If recording has gone on for more than given time, start new recording
     // In minutes
     double allowedElapsedTime = MAX_RECORDTIME;
-    if (minutes >= allowedElapsedTime && isRecording)
+    if (minutesRecording >= allowedElapsedTime && isRecording)
     {
         // Stop old recording and start new one to decrease upload file sizes
         [self stopRecorder];
         [self startNewRecording];
+        [self setNumberOfFilesRemainingForUpload];
     }
 }
 
