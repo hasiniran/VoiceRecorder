@@ -209,10 +209,19 @@
         self.audioLevelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
         
         //####################### RECORDER AUDIO CHECKING #####################
+        // set status label
+        if (isRecording)
+        {
+            self.statusLabel.text = @"Recording.";
+        }
+        else
+        {
+            self.statusLabel.text = @"Not recording.";
+        }
         //check if sound input is above the threshold
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
         {   
-            self.statusLabel.text = @"Sound detected. Recording";
+            self.statusLabel.text = [self.statusLabel.text stringByAppendingString:@" Sound detected."];
             if(!isRecording)
             {
                 // start recording
@@ -221,12 +230,11 @@
         }
         //not above threshold, so don't record
         else{
-            self.statusLabel.text = @"Silence detected";
+            self.statusLabel.text = [self.statusLabel.text stringByAppendingString:@" Silence detected"];
             if(isRecording){
                 // if we're recording and above max silence time
                 if(silenceTime > MAX_SILENCETIME){
                     // stop recording
-                    self.statusLabel.text = @"Silence exceeded max silence time. Stopping recorder";
                     [self stopRecorder];
                     silenceTime = 0;
                 }
