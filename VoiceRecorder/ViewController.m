@@ -525,27 +525,6 @@
     [session setActive:NO error:nil];
 }
 
-    
-
-
-- (void) audioRecorderDidFinishRecording:(AVAudioRecorder *)avrecorder successfully:(BOOL)flag{
-    [self.recordButton setEnabled:YES];
-
-    // TODO stop recording timer that updates time elapsed
-
-
-    // Set buttons
-    [self.recordButton setEnabled:YES];
-    [self.stopButton setEnabled:NO];
-    [self.playButton setEnabled:YES];
-
-    //[audioMonitor stop];
-    //isRecording = NO;
-    //isMonitoring = NO;
-    //[recorder stop];
-    //isPlaying = YES;
-}
-
 //makes sure no recording or monitoring is happening and then plays
 - (IBAction)playTapped:(id)sender {
     /*
