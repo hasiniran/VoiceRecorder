@@ -215,8 +215,7 @@
             self.statusLabel.text = @"Sound detected. Recording";
             if(!isRecording)
             {
-                //stop monitoring and start recording
-                [audioMonitor stop];
+                // start recording
                 [self startNewRecording];
             }
         }
