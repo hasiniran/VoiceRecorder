@@ -125,6 +125,10 @@
 //initialize the audio monitor
 -(void) initAudioMonitorAndRecord{
     
+    // Set session to play and record
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
