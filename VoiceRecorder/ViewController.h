@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *storageText;
 
 @property (weak, nonatomic) IBOutlet UITextView *currentText;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *audioLevelLabel;
 @property (weak, nonatomic) IBOutlet UITextView *lastRecordingText;

@@ -206,13 +206,13 @@
         double peakPowerForChannel = pow(10, (0.05 * [audioMonitor peakPowerForChannel:0]));
         audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
         
-        NSLog(@"audioMonitorResults: %f", audioMonitorResults);
         self.audioLevelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
         
         //####################### RECORDER AUDIO CHECKING #####################
         //check if sound input is above the threshold
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
-        {   NSLog(@"Sound detected");
+        {   
+            self.statusLabel.text = @"Sound detected. Recording";
             if(!isRecording)
             {
                 //stop monitoring and start recording
@@ -222,12 +222,12 @@
         }
         //not above threshold, so don't record
         else{
-            NSLog(@"Silence detected");
+            self.statusLabel.text = @"Silence detected";
             if(isRecording){
                 // if we're recording and above max silence time
                 if(silenceTime > MAX_SILENCETIME){
                     // stop recording
-                    NSLog(@"Silence exceeded max silence time. Stopping recorder");
+                    self.statusLabel.text = @"Silence exceeded max silence time. Stopping recorder";
                     [self stopRecorder];
                     silenceTime = 0;
                 }

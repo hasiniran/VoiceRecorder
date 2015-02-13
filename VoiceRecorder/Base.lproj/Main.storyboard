@@ -109,6 +109,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5g-3e-P9E">
+                                <rect key="frame" x="265" y="548" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -117,9 +123,11 @@
                             <constraint firstItem="5YC-qn-Uzb" firstAttribute="top" secondItem="Bac-X0-lde" secondAttribute="bottom" constant="8" symbolic="YES" id="F47-IL-yel"/>
                             <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="BSl-aS-LRu" secondAttribute="bottom" constant="8" symbolic="YES" id="Gpe-bg-fpJ"/>
                             <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="JXP-vp-72O"/>
+                            <constraint firstItem="F5g-3e-P9E" firstAttribute="top" secondItem="cz0-a5-CWC" secondAttribute="bottom" constant="8" symbolic="YES" id="Mlf-qL-V1M"/>
                             <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="8" symbolic="YES" id="Pa5-ng-z4n"/>
                             <constraint firstItem="cz0-a5-CWC" firstAttribute="centerX" secondItem="kb6-ka-zad" secondAttribute="centerX" id="Prh-u4-wGc"/>
                             <constraint firstItem="kb6-ka-zad" firstAttribute="top" secondItem="5YC-qn-Uzb" secondAttribute="bottom" constant="8" symbolic="YES" id="PvB-0C-Tuf"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="F5g-3e-P9E" secondAttribute="bottom" constant="31" id="Wcv-32-6JQ"/>
                             <constraint firstItem="U1Z-dW-UvS" firstAttribute="centerX" secondItem="gs1-4A-Q9U" secondAttribute="centerX" id="YMi-Uq-Sxk"/>
                             <constraint firstItem="Bac-X0-lde" firstAttribute="top" secondItem="iEg-fq-Plu" secondAttribute="bottom" constant="8" symbolic="YES" id="cQM-oF-lN0"/>
                             <constraint firstItem="Bac-X0-lde" firstAttribute="centerX" secondItem="iEg-fq-Plu" secondAttribute="centerX" id="elb-2g-hCc"/>
@@ -129,6 +137,7 @@
                             <constraint firstItem="oWJ-5d-mgU" firstAttribute="leading" secondItem="gs1-4A-Q9U" secondAttribute="leading" id="klc-7k-I7j"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cz0-a5-CWC" secondAttribute="bottom" constant="60" id="lvb-ZB-rWg"/>
                             <constraint firstItem="kb6-ka-zad" firstAttribute="leading" secondItem="iEg-fq-Plu" secondAttribute="leading" id="mA5-m2-oCW"/>
+                            <constraint firstItem="F5g-3e-P9E" firstAttribute="centerX" secondItem="cz0-a5-CWC" secondAttribute="centerX" id="mPx-7D-ND6"/>
                             <constraint firstItem="5YC-qn-Uzb" firstAttribute="centerX" secondItem="Bac-X0-lde" secondAttribute="centerX" id="moZ-AJ-kAm"/>
                             <constraint firstItem="BSl-aS-LRu" firstAttribute="top" secondItem="FZh-N2-8Wx" secondAttribute="bottom" constant="17" id="p49-XO-kgt"/>
                             <constraint firstItem="FZh-N2-8Wx" firstAttribute="centerX" secondItem="U1Z-dW-UvS" secondAttribute="centerX" id="tMq-ml-hcK"/>
@@ -144,6 +153,7 @@
                         <outlet property="percentageDiskSpaceRemainingLabel" destination="Bac-X0-lde" id="OgS-Rp-ple"/>
                         <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
                         <outlet property="recordButton" destination="gs1-4A-Q9U" id="Ylb-bT-3WK"/>
+                        <outlet property="statusLabel" destination="F5g-3e-P9E" id="OHS-KC-Ngp"/>
                         <outlet property="stopButton" destination="U1Z-dW-UvS" id="9sI-ge-LLc"/>
                         <outlet property="timeElapsedLabel" destination="kb6-ka-zad" id="WMp-GH-DRc"/>
                         <outlet property="uploadButton" destination="oWJ-5d-mgU" id="up1-Fk-iJX"/>
