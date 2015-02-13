@@ -56,12 +56,12 @@
     [super viewDidLoad];
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = 1;
-    MAX_SILENCETIME = 100.0;
-    MAX_MONITORTIME = 200.0;
-    MIN_RECORDTIME = 1.0;
-    MAX_RECORDTIME = 1; 
-    dt = 1;
+    AUDIOMONITOR_THRESHOLD = .1;
+    MAX_SILENCETIME = 20.0; // seconds
+    MAX_MONITORTIME = 200.0; // seconds
+    MIN_RECORDTIME = 1.0; // seconds
+    MAX_RECORDTIME = 20;  // minutes
+    dt = .001;
     silenceTime = 0;
 
     // Set Bools
