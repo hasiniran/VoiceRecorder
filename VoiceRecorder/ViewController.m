@@ -240,7 +240,8 @@
                 }
                 else{
                     //silent but hasn't been silent for too long so increment time
-                    silenceTime += dt;
+                    // For some reason, increment is off by 10
+                    silenceTime += dt * 10;
                 }
             }
         }
