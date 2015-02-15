@@ -577,7 +577,7 @@
 
 //for linking to dropbox
 // TODO: Just put this to upload button
-- (IBAction)didPressLink:(id)sender
+- (IBAction)uploadFile:(id)sender
 {
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];

@@ -31,11 +31,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *linkButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *uploadButton;
 
-- (IBAction)didPressLink:(id)sender;
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
