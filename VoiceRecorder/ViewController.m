@@ -25,6 +25,7 @@
     NSArray *pathComponents;
     NSURL *outputFileURL;
     NSTimer *recordingTimer;
+    int numberOfRecordingsForUpload;
     
     NSURL *monitorTmpFile;
     NSURL *recordedTmpFile;
@@ -100,7 +101,7 @@
     }
 
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"%@ recording %@.m4a", self->fullName, [self getDate]];
+    fileName = [NSString stringWithFormat:@"Recording of %@ %@.m4a", self->fullName, [self getDate]];
     
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -114,14 +115,37 @@
 }
 
 //uploads the file
--(IBAction)uploadFile {
-    
-    NSString *localDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    NSString *localPath = [localDir stringByAppendingPathComponent:fileName];
-    
-    // Upload file to Dropbox
+-(IBAction)uploadFiles {
+    /*
+     * Iterates through documents directory, searches for files beginning with
+     * "Recording", and uploads files.
+    */
+
+    // Dropbox destination path
     NSString *destDir = @"/";
-    [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
+
+    // Get file manager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    // Get directory path
+    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
+    
+    // Iterate through contents, if starts with "Recording", upload
+    NSString *filePath;
+    for (filePath in dirContents)
+    {
+        if ([filePath containsString:@"Recording"])
+        {
+            NSLog(@"filePath: %@", filePath);
+            
+            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
+            // Upload file to Dropbox
+            [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
+        }
+        
+    }
+    
 }
 
 //initialize the audio monitor
@@ -560,15 +584,32 @@
         NSLog(@"linking");
     }
     NSLog(@"already linked");
-    [self uploadFile]; //upload the test file
+    [self uploadFiles]; //upload the test file
 }
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
     from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
-
-    NSLog(@"File uploaded successfully to path: %@", metadata.path);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSLog(@"File uploaded successfully to path: %@ from path: %@", metadata.path, srcPath);
+    
+    // Delete file after upload
+    NSError *error;
+    BOOL success = [fileManager removeItemAtPath:srcPath error:&error];
+    // Display success message if all recordings successfully uploaded
+    if (success && numberOfRecordingsForUpload == 1) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    else
+    {
+        NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
+    }
+    
+    // Update count of recordings
+    [self setNumberOfFilesRemainingForUpload];
 }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
@@ -582,8 +623,18 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
+    NSString *filePath;
+    int numOfRecordings = 0;
+    for (filePath in filePathsArray)
+    {
+        if ([filePath containsString:@"Recording"])
+        {
+            numOfRecordings++;
+        }
+    }
 
-    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %lu", (unsigned long)filePathsArray.count];
+    self->numberOfRecordingsForUpload = numOfRecordings;
+    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %i", numOfRecordings];
 }
 
 - (void)askForUserInfo
