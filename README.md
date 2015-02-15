@@ -6,8 +6,8 @@ VoiceRecorder App for University of Notre Dame
 - [x]  Add Audio threshhold monitoring functionality to record only above a certain audio level
 - [x]  Add alert box asking for name if not already set, add name to recording name
 - [x]  Cut recording off after a certain time so file uploads are easier, 
-- [ ]  Check if link button required
-- [ ]  Delete files after upload
+- [x]  Check if link button required
+- [x]  Delete files after upload
 - [ ]  Prettify with graphics
 - [x]  Playback most recent file
 - [x]  Create figure for time vs space
