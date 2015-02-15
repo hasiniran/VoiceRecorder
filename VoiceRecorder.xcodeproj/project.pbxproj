@@ -18,6 +18,7 @@
 		E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889611A3782490092B5B4 /* QuartzCore.framework */; };
 		E88889641A37824E0092B5B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889631A37824E0092B5B4 /* Security.framework */; };
 		E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93774A51A79682E00FEA9C4 /* AVFoundation.framework */; };
+		E937C50F1A9157DF006CE41E /* DevelopmentInterfaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E937C50E1A9157DF006CE41E /* DevelopmentInterfaceViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		E88889611A3782490092B5B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E88889631A37824E0092B5B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E93774A51A79682E00FEA9C4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		E937C50D1A9157DF006CE41E /* DevelopmentInterfaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevelopmentInterfaceViewController.h; sourceTree = "<group>"; };
+		E937C50E1A9157DF006CE41E /* DevelopmentInterfaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DevelopmentInterfaceViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +105,8 @@
 				E84927B119DB5C35005ACA9B /* ViewController.h */,
 				E84927B219DB5C35005ACA9B /* ViewController.m */,
 				E84927B419DB5C35005ACA9B /* Main.storyboard */,
+				E937C50D1A9157DF006CE41E /* DevelopmentInterfaceViewController.h */,
+				E937C50E1A9157DF006CE41E /* DevelopmentInterfaceViewController.m */,
 				E84927B719DB5C35005ACA9B /* Images.xcassets */,
 				E84927B919DB5C35005ACA9B /* LaunchScreen.xib */,
 				E84927AA19DB5C35005ACA9B /* Supporting Files */,
@@ -238,6 +243,7 @@
 			files = (
 				E84927B319DB5C35005ACA9B /* ViewController.m in Sources */,
 				E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */,
+				E937C50F1A9157DF006CE41E /* DevelopmentInterfaceViewController.m in Sources */,
 				E84927AD19DB5C35005ACA9B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -653,4 +653,20 @@
     self->fullName = [alertView textFieldAtIndex:0].text;
 }
 
+-(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(NSDictionary *)developmentSettings
+{
+    NSLog(@"%@ was passed", developmentSettings[@"test"]);
+}
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
+    dvc.delegate = self;
+    
+}
+
 @end
