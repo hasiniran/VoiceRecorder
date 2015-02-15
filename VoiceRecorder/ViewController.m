@@ -51,7 +51,7 @@
 @end
 
 @implementation ViewController
-@synthesize storageText, currentText, lastRecordingText, recordButton, playButton, linkButton, uploadButton;
+@synthesize storageText, currentText, lastRecordingText, recordButton, playButton, uploadButton;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
