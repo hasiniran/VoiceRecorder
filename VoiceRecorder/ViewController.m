@@ -141,7 +141,7 @@
             
             NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
             // Upload file to Dropbox
-            [self.restClient uploadFile:fileName toPath:destDir withParentRev:nil fromPath:localPath];
+            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
         }
         
     }
