@@ -16,6 +16,7 @@ VoiceRecorder App for University of Notre Dame
 - [x]  Space until device full (percentage)
 - [ ]  Add login for development interface
 - [ ]  Add development interface, logout button, and current user name textfield
+- [ ]  Implement max monitor time
 - [ ]  Find iPhone compatible mics
 
 
