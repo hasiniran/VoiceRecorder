@@ -653,4 +653,41 @@
     self->fullName = [alertView textFieldAtIndex:0].text;
 }
 
+-(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
+{
+    [self setDevelopmentSettingsFromInput:developmentSettings];
+}
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    DevelopmentSettings *settings = [DevelopmentSettings new];
+    settings.AUDIOMONITOR_THRESHOLD = AUDIOMONITOR_THRESHOLD;
+    settings.MAX_SILENCETIME = MAX_SILENCETIME;
+    settings.MAX_MONITORTIME = MAX_MONITORTIME;
+    settings.MAX_RECORDTIME = MAX_RECORDTIME;
+    settings.MIN_RECORDTIME = MIN_RECORDTIME;
+    settings.silenceTime = silenceTime;
+    settings.dt = dt;
+
+    DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
+    dvc.settings = settings;
+    dvc.delegate = self;
+    
+}
+
+- (void)setDevelopmentSettingsFromInput: (DevelopmentSettings *)settings
+{
+    AUDIOMONITOR_THRESHOLD  = settings.AUDIOMONITOR_THRESHOLD;
+    MAX_SILENCETIME  = settings.MAX_SILENCETIME;
+    MAX_MONITORTIME  = settings.MAX_MONITORTIME;
+    MAX_RECORDTIME  = settings.MAX_RECORDTIME;
+    MIN_RECORDTIME  = settings.MIN_RECORDTIME;
+    silenceTime  = settings.silenceTime;
+    dt  = settings.dt;
+}
+
 @end

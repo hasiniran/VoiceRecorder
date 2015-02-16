@@ -9,8 +9,10 @@
 //import appropriate frameworks
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "DevelopmentInterfaceViewController.h"
+#import "DevelopmentSettings.h"
 
-@interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *storageText;
 
