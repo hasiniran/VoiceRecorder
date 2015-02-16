@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "DevelopmentInterfaceViewController.h"
+#import "DevelopmentSettings.h"
 
 @interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 
