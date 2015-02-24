@@ -44,6 +44,9 @@
     double MIN_RECORDTIME; //minimum time to have in a recording
     double silenceTime; //current amount of silence time
     double dt; // Timer (audioMonitor level) update frequencey
+    
+    NSArray *tableLables; // array to contain application information
+    NSArray *tableData;
 }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -79,14 +82,20 @@
 
     // Set number of recordings remaining
     [self setNumberOfFilesRemainingForUpload];
+    
 
     // Get user info
+    [self getUsername];
     if (!fullName)
     {
         [self askForUserInfo];
     }
+
     // Set disk space etc
     [self setFreeDiskspace];
+    
+    //set user specific settings
+    [self setUserSpecificSettings];
 
 }
 
@@ -422,9 +431,9 @@
 
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
-    self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"Percentage disk space remaining: %llu%%", percentageSpaceRemaining];
+    self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"%llu%%", percentageSpaceRemaining];
 
-    self.numberOfMinutesRemainingLabel.text = [NSString stringWithFormat:@"Number of Minutes Remaining: %llu", freeSpaceMinutes];
+    self.numberOfMinutesRemainingLabel.text = [NSString stringWithFormat:@"%llu", freeSpaceMinutes];
 }
 
 
@@ -457,6 +466,11 @@
     // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
+    
+    
+    //show time
+    self.timeElapsedLabel.text = @"0:0";
+    [self.timeElapsedLabel setHidden:NO];
 
 
 
@@ -493,6 +507,7 @@
     [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
+
 }
 
 - (void)updateSlider {
@@ -504,7 +519,7 @@
     float secondsRecording = recorder.currentTime - (minutesRecording * 60);
 
     NSString *time = [[NSString alloc] 
-        initWithFormat:@"Time Elapsed: %0.0f:%0.0f",
+        initWithFormat:@"%0.0f:%0.0f",
         minutesMonitoring, secondsMonitoring];
     self.timeElapsedLabel.text = time;
 
@@ -537,6 +552,9 @@
     [self.playButton setEnabled:YES];
     [self.stopButton setEnabled:NO];
     [self.recordButton setEnabled:YES];
+    
+    //hide time
+    [self.timeElapsedLabel setHidden:YES];
 }
 
 - (void)stopAudioMonitorAndAudioMonitorTimer
@@ -634,7 +652,7 @@
     }
 
     self->numberOfRecordingsForUpload = numOfRecordings;
-    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"Number of Recordings for Upload: %i", numOfRecordings];
+    self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"%i", numOfRecordings];
 }
 
 - (void)askForUserInfo
@@ -651,6 +669,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     self->fullName = [alertView textFieldAtIndex:0].text;
+    [self saveUsername:fullName];
 }
 
 -(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
@@ -689,5 +708,40 @@
     silenceTime  = settings.silenceTime;
     dt  = settings.dt;
 }
+
+// save user name
+- (IBAction)saveUsername:(NSString*)username {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:username forKey:@"username"];
+    [defaults synchronize];
+}
+
+- (IBAction)getUsername{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    fullName = [defaults objectForKey:@"username"];
+}
+
+//set user specific settings
+
+-(void)setUserSpecificSettings{
+    
+    //disable advanced settings if the username is not admin
+    if([fullName  isEqual: @"admin"]){
+        [self.statusLabel setHidden:NO];
+        [self.audioLevelLabel setHidden:NO];
+        [self.playButton setHidden:NO];
+        //TODO hide advanced settings
+    }else{
+        [self.statusLabel setHidden:YES];
+        [self.audioLevelLabel setHidden:YES];
+        [self.playButton setHidden:YES];
+    }
+    
+
+}
+
+
+
+
 
 @end
