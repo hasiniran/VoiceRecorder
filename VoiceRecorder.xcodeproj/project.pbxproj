@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B51AC06DCA00167320 /* Play_Black.tif */; };
+		25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B61AC06DCA00167320 /* Play_Red.tif */; };
+		25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B71AC06DCA00167320 /* Record_Black.tif */; };
+		25F770C21AC06DCA00167320 /* Record_Red-2.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B81AC06DCA00167320 /* Record_Red-2.tif */; };
+		25F770C31AC06DCA00167320 /* Record_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B91AC06DCA00167320 /* Record_Red.tif */; };
+		25F770C41AC06DCA00167320 /* Square_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BA1AC06DCA00167320 /* Square_Black.tif */; };
+		25F770C51AC06DCA00167320 /* Stop_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BB1AC06DCA00167320 /* Stop_Red.tif */; };
+		25F770C61AC06DCA00167320 /* Upload_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BC1AC06DCA00167320 /* Upload_Black.tif */; };
+		25F770C71AC06DCA00167320 /* Upload_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BD1AC06DCA00167320 /* Upload_Red.tif */; };
+		25F770CB1AC8DE7A00167320 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F770CA1AC8DE7A00167320 /* icon.png */; };
 		E84927AD19DB5C35005ACA9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927AC19DB5C35005ACA9B /* main.m */; };
 		E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927AF19DB5C35005ACA9B /* AppDelegate.m */; };
 		E84927B319DB5C35005ACA9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927B219DB5C35005ACA9B /* ViewController.m */; };
@@ -33,6 +43,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25F770B51AC06DCA00167320 /* Play_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Black.tif; sourceTree = "<group>"; };
+		25F770B61AC06DCA00167320 /* Play_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Red.tif; sourceTree = "<group>"; };
+		25F770B71AC06DCA00167320 /* Record_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Black.tif; sourceTree = "<group>"; };
+		25F770B81AC06DCA00167320 /* Record_Red-2.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Record_Red-2.tif"; sourceTree = "<group>"; };
+		25F770B91AC06DCA00167320 /* Record_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Red.tif; sourceTree = "<group>"; };
+		25F770BA1AC06DCA00167320 /* Square_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Square_Black.tif; sourceTree = "<group>"; };
+		25F770BB1AC06DCA00167320 /* Stop_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Stop_Red.tif; sourceTree = "<group>"; };
+		25F770BC1AC06DCA00167320 /* Upload_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Upload_Black.tif; sourceTree = "<group>"; };
+		25F770BD1AC06DCA00167320 /* Upload_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Upload_Red.tif; sourceTree = "<group>"; };
+		25F770CA1AC8DE7A00167320 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		E84927A719DB5C35005ACA9B /* VoiceRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84927AB19DB5C35005ACA9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84927AC19DB5C35005ACA9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -122,6 +142,16 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25F770CA1AC8DE7A00167320 /* icon.png */,
+				25F770B51AC06DCA00167320 /* Play_Black.tif */,
+				25F770B61AC06DCA00167320 /* Play_Red.tif */,
+				25F770B71AC06DCA00167320 /* Record_Black.tif */,
+				25F770B81AC06DCA00167320 /* Record_Red-2.tif */,
+				25F770B91AC06DCA00167320 /* Record_Red.tif */,
+				25F770BA1AC06DCA00167320 /* Square_Black.tif */,
+				25F770BB1AC06DCA00167320 /* Stop_Red.tif */,
+				25F770BC1AC06DCA00167320 /* Upload_Black.tif */,
+				25F770BD1AC06DCA00167320 /* Upload_Red.tif */,
 				E84927AB19DB5C35005ACA9B /* Info.plist */,
 				E84927AC19DB5C35005ACA9B /* main.m */,
 			);
@@ -226,8 +256,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25F770C71AC06DCA00167320 /* Upload_Red.tif in Resources */,
+				25F770C21AC06DCA00167320 /* Record_Red-2.tif in Resources */,
+				25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */,
+				25F770C31AC06DCA00167320 /* Record_Red.tif in Resources */,
+				25F770C51AC06DCA00167320 /* Stop_Red.tif in Resources */,
 				E84927B619DB5C35005ACA9B /* Main.storyboard in Resources */,
+				25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */,
+				25F770CB1AC8DE7A00167320 /* icon.png in Resources */,
 				E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */,
+				25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */,
+				25F770C41AC06DCA00167320 /* Square_Black.tif in Resources */,
+				25F770C61AC06DCA00167320 /* Upload_Black.tif in Resources */,
 				E84927B819DB5C35005ACA9B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,9 +419,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7047ebb4-f3b3-40a0-b121-763db642d347";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -396,9 +438,11 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "7047ebb4-f3b3-40a0-b121-763db642d347";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

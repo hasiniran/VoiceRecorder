@@ -44,6 +44,7 @@
     double MIN_RECORDTIME; //minimum time to have in a recording
     double silenceTime; //current amount of silence time
     double dt; // Timer (audioMonitor level) update frequencey
+    double totalRecordTime; //total records in terms of time
     
     NSArray *tableLables; // array to contain application information
     NSArray *tableData;
@@ -61,10 +62,10 @@
 
     //set monitoring and recording variables
     AUDIOMONITOR_THRESHOLD = .1;
-    MAX_SILENCETIME = 20.0; // seconds
-    MAX_MONITORTIME = 200.0; // seconds
-    MIN_RECORDTIME = 1.0; // seconds
-    MAX_RECORDTIME = 20;  // minutes
+    MAX_SILENCETIME = 300.0; // seconds
+    MAX_MONITORTIME = 36000.0; // seconds
+    MIN_RECORDTIME = 60.0; // seconds
+    MAX_RECORDTIME = 3600;  // minutes
     dt = .001;
     silenceTime = 0;
 
@@ -75,11 +76,11 @@
 
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
-
-    // Disable stop and play buttons in the beginning
+    
+     // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:NO];
-
+    
     // Set number of recordings remaining
     [self setNumberOfFilesRemainingForUpload];
     
@@ -118,6 +119,7 @@
     pathComponents = [NSArray arrayWithObjects:
         [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
         fileName,
+                      
         nil];
 
     outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
@@ -276,7 +278,7 @@
                 else{
                     //silent but hasn't been silent for too long so increment time
                     // For some reason, increment is off by 10
-                    silenceTime += dt * 10;
+                    silenceTime += dt;
                 }
             }
         }
@@ -322,6 +324,7 @@
         [player play];
         isPlaying = NO;
         //[self monitorAudioController];
+        NSLog(@"playing");
     }
     else{
         [audioMonitor record];
@@ -339,6 +342,13 @@
 
     // Log elapsed record time
     NSLog(@"stopRecorder Record time: %f", [recorder currentTime]);
+    totalRecordTime += recorder.currentTime;
+    
+    float minutesRecorded = floor(totalRecordTime/60);
+    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
+
+    
+    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
 
     // TODO Check if MIN_RECORDTIME is necessary considering there is a
     // MAX_SILENCETIME
@@ -432,8 +442,10 @@
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
     self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"%llu%%", percentageSpaceRemaining];
-
-    self.numberOfMinutesRemainingLabel.text = [NSString stringWithFormat:@"%llu", freeSpaceMinutes];
+    
+    float minutesRecorded = floor(totalRecordTime/60);
+    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
+    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
 }
 
 
@@ -469,7 +481,7 @@
     
     
     //show time
-    self.timeElapsedLabel.text = @"0:0";
+    self.timeElapsedLabel.text = @"Time 0:0";
     [self.timeElapsedLabel setHidden:NO];
 
 
@@ -518,9 +530,8 @@
     float minutesRecording = floor(recorder.currentTime/60);
     float secondsRecording = recorder.currentTime - (minutesRecording * 60);
 
-    NSString *time = [[NSString alloc] 
-        initWithFormat:@"%0.0f:%0.0f",
-        minutesMonitoring, secondsMonitoring];
+    NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesMonitoring, secondsMonitoring];
+    
     self.timeElapsedLabel.text = time;
 
     // If recording has gone on for more than given time, start new recording
@@ -555,6 +566,7 @@
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
+
 }
 
 - (void)stopAudioMonitorAndAudioMonitorTimer

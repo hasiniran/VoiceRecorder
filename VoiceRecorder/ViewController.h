@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *lastRecordingText;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfRecordingsForUploadLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentageDiskSpaceRemainingLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numberOfMinutesRemainingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfMinutesRecorded;
 @property (weak, nonatomic) IBOutlet UILabel *timeElapsedLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *levelLabel;

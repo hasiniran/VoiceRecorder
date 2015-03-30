@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -19,44 +20,47 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1Z-dW-UvS">
-                                <rect key="frame" x="282" y="86" width="33" height="30"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="stopTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cIR-At-CMF"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZh-N2-8Wx">
-                                <rect key="frame" x="285" y="155" width="30" height="30"/>
-                                <state key="normal" title="Play">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Icm-RS-qgJ"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWJ-5d-mgU">
-                                <rect key="frame" x="275" y="117" width="50" height="30"/>
-                                <state key="normal" title="Upload">
+                                <rect key="frame" x="239" y="74" width="61" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="HHZ-a5-4BR"/>
+                                    <constraint firstAttribute="width" constant="61" id="e6y-KP-9V6"/>
+                                </constraints>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-80"/>
+                                <state key="normal" title="Upload" backgroundImage="Upload_Black.tif">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="Upload_Red.tif">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="uploadFile:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aqH-w4-YnG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs1-4A-Q9U">
-                                <rect key="frame" x="275" y="48" width="50" height="30"/>
-                                <state key="normal" title="Record">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs1-4A-Q9U">
+                                <rect key="frame" x="28" y="73" width="69" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="6gx-4E-Pzm"/>
+                                    <constraint firstAttribute="height" constant="62" id="Pao-IX-7K4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-80"/>
+                                <state key="normal" title="Record" backgroundImage="Record_Red.tif">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="disabled" backgroundImage="Record_Black.tif">
+                                    <color key="titleColor" red="0.91595280540000001" green="0.9198700501" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="selected" backgroundImage="Record_Red.tif"/>
+                                <state key="highlighted" backgroundImage="Record_Red.tif"/>
                                 <connections>
                                     <action selector="recordTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="70z-FE-iq2"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="55" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEg-fq-Plu">
-                                <rect key="frame" x="362" y="367" width="183" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="55" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iEg-fq-Plu">
+                                <rect key="frame" x="362" y="373" width="183" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -86,7 +90,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-i1-Kyu">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-i1-Kyu">
                                 <rect key="frame" x="236" y="550" width="130" height="30"/>
                                 <state key="normal" title="Advanced Settings">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -95,20 +99,20 @@
                                     <segue destination="m2s-l1-0p1" kind="presentation" id="Af6-Z5-VoV"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Minutes Remaining: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tp7-QT-3Ea">
-                                <rect key="frame" x="174" y="367" width="162" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minutes Recorded: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tp7-QT-3Ea">
+                                <rect key="frame" x="188" y="373" width="148" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Free Disk Space:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eo3-UV-bE9">
-                                <rect key="frame" x="174" y="402" width="131" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free Disk Space:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eo3-UV-bE9">
+                                <rect key="frame" x="188" y="405" width="117" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Files Remaining to Upload:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyL-Br-UD8">
-                                <rect key="frame" x="174" y="438" width="207" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Files Remaining to Upload:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyL-Br-UD8">
+                                <rect key="frame" x="188" y="438" width="185" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -133,13 +137,46 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZh-N2-8Wx">
+                                <rect key="frame" x="275" y="166" width="41" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="Wk6-hC-hLS"/>
+                                    <constraint firstAttribute="width" constant="41" id="nMb-De-qKA"/>
+                                </constraints>
+                                <state key="normal" title="Play" backgroundImage="Play_Black.tif">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Icm-RS-qgJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1Z-dW-UvS">
+                                <rect key="frame" x="143" y="74" width="56" height="61"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="56" id="IPs-q5-jdw"/>
+                                </constraints>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-80"/>
+                                <state key="normal" title="Stop" backgroundImage="Stop_Red.tif">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled" title="Stop" backgroundImage="Square_Black.tif">
+                                    <color key="titleColor" red="0.91595280540000001" green="0.9198700501" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cIR-At-CMF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="bottom" constant="1" id="0ue-tj-sfF"/>
+                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="32" id="0nm-kJ-0Zg"/>
                             <constraint firstItem="kb6-ka-zad" firstAttribute="centerX" secondItem="cz0-a5-CWC" secondAttribute="centerX" constant="-37" id="1bW-1i-dWy"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="bottom" secondItem="gs1-4A-Q9U" secondAttribute="bottom" id="2pI-ff-Qzy"/>
                             <constraint firstItem="yyL-Br-UD8" firstAttribute="leading" secondItem="eo3-UV-bE9" secondAttribute="leading" id="4yK-oF-fRB"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="trailing" secondItem="U1Z-dW-UvS" secondAttribute="trailing" id="5Ry-r1-9Ea"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="leading" secondItem="U1Z-dW-UvS" secondAttribute="trailing" constant="40" id="5Wr-x2-ODM"/>
                             <constraint firstItem="Tp7-QT-3Ea" firstAttribute="baseline" secondItem="iEg-fq-Plu" secondAttribute="baseline" id="5ps-1t-UXH"/>
                             <constraint firstItem="8rl-i1-Kyu" firstAttribute="centerX" secondItem="F5g-3e-P9E" secondAttribute="centerX" constant="-44.5" id="6JA-Iu-gSn"/>
                             <constraint firstItem="5YC-qn-Uzb" firstAttribute="top" secondItem="Bac-X0-lde" secondAttribute="bottom" constant="8" id="6hI-KD-hvl"/>
@@ -149,31 +186,31 @@
                             <constraint firstItem="kb6-ka-zad" firstAttribute="top" secondItem="5YC-qn-Uzb" secondAttribute="bottom" constant="-153" id="MQG-ci-0z0"/>
                             <constraint firstItem="yyL-Br-UD8" firstAttribute="top" secondItem="eo3-UV-bE9" secondAttribute="bottom" constant="15" id="PKV-GT-N4J"/>
                             <constraint firstItem="F5g-3e-P9E" firstAttribute="top" secondItem="cz0-a5-CWC" secondAttribute="bottom" constant="17" id="RBM-me-2JO"/>
-                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="top" secondItem="gs1-4A-Q9U" secondAttribute="bottom" constant="8" symbolic="YES" id="SJU-wt-xks"/>
+                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="275" id="Rnv-C0-QnU"/>
                             <constraint firstItem="iEg-fq-Plu" firstAttribute="leading" secondItem="Bac-X0-lde" secondAttribute="leading" id="Tcr-HW-EEY"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="53" id="WCT-fk-LIv"/>
                             <constraint firstItem="eo3-UV-bE9" firstAttribute="baseline" secondItem="Bac-X0-lde" secondAttribute="firstBaseline" constant="3" id="Wsg-0k-ARg"/>
                             <constraint firstItem="kb6-ka-zad" firstAttribute="top" secondItem="eo3-UV-bE9" secondAttribute="bottom" constant="-117" id="YGQ-jf-y0S"/>
                             <constraint firstAttribute="bottom" secondItem="8rl-i1-Kyu" secondAttribute="bottom" constant="20" symbolic="YES" id="aZ8-ur-a5I"/>
                             <constraint firstItem="cz0-a5-CWC" firstAttribute="top" secondItem="kb6-ka-zad" secondAttribute="bottom" constant="123" id="bJE-1N-4nI"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="centerX" secondItem="oWJ-5d-mgU" secondAttribute="centerX" id="cD2-J4-AZj"/>
                             <constraint firstItem="8rl-i1-Kyu" firstAttribute="top" secondItem="F5g-3e-P9E" secondAttribute="bottom" constant="18" id="cvI-zM-h3W"/>
-                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="leading" secondItem="gs1-4A-Q9U" secondAttribute="leading" id="ePs-Pc-YgN"/>
                             <constraint firstItem="eo3-UV-bE9" firstAttribute="top" secondItem="Tp7-QT-3Ea" secondAttribute="bottom" constant="14" id="eVb-Ub-zTg"/>
+                            <constraint firstItem="U1Z-dW-UvS" firstAttribute="leading" secondItem="gs1-4A-Q9U" secondAttribute="trailing" constant="46" id="hRa-75-DVr"/>
                             <constraint firstItem="Bac-X0-lde" firstAttribute="trailing" secondItem="5YC-qn-Uzb" secondAttribute="trailing" id="hdn-LM-XjP"/>
-                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="28" id="jmb-jj-CDn"/>
-                            <constraint firstItem="kb6-ka-zad" firstAttribute="centerX" secondItem="FZh-N2-8Wx" secondAttribute="centerX" constant="5" id="kk3-qX-ldQ"/>
+                            <constraint firstItem="oWJ-5d-mgU" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="top" id="hrP-9i-xdl"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="top" secondItem="U1Z-dW-UvS" secondAttribute="top" constant="-1" id="kVh-uQ-n51"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iEg-fq-Plu" secondAttribute="trailing" constant="39" id="o2K-xi-V77"/>
                             <constraint firstItem="5YC-qn-Uzb" firstAttribute="leading" secondItem="Bac-X0-lde" secondAttribute="leading" id="q5p-p1-S94"/>
                             <constraint firstItem="iEg-fq-Plu" firstAttribute="trailing" secondItem="Bac-X0-lde" secondAttribute="trailing" id="qWH-y8-qoy"/>
+                            <constraint firstItem="gs1-4A-Q9U" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="28" id="qdH-12-ZSC"/>
                             <constraint firstItem="cz0-a5-CWC" firstAttribute="centerX" secondItem="F5g-3e-P9E" secondAttribute="centerX" constant="-3.5" id="uRD-OZ-jg9"/>
                             <constraint firstItem="Bac-X0-lde" firstAttribute="leading" secondItem="eo3-UV-bE9" secondAttribute="trailing" constant="57" id="vzB-7y-AqN"/>
-                            <constraint firstItem="FZh-N2-8Wx" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="bottom" constant="8" symbolic="YES" id="x94-MT-loo"/>
                             <constraint firstItem="8rl-i1-Kyu" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="1" id="zcz-5w-dkq"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="audioLevelLabel" destination="cz0-a5-CWC" id="M8C-ie-tF1"/>
-                        <outlet property="numberOfMinutesRemainingLabel" destination="iEg-fq-Plu" id="9Rf-AX-dzF"/>
+                        <outlet property="numberOfMinutesRecorded" destination="iEg-fq-Plu" id="QHr-GB-wwE"/>
                         <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="hJf-25-NAB"/>
                         <outlet property="percentageDiskSpaceRemainingLabel" destination="Bac-X0-lde" id="OgS-Rp-ple"/>
                         <outlet property="playButton" destination="FZh-N2-8Wx" id="pfD-8W-Kcq"/>
@@ -331,4 +368,13 @@
             <point key="canvasLocation" x="830" y="164"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Play_Black.tif" width="300" height="300"/>
+        <image name="Record_Black.tif" width="300" height="300"/>
+        <image name="Record_Red.tif" width="300" height="300"/>
+        <image name="Square_Black.tif" width="300" height="300"/>
+        <image name="Stop_Red.tif" width="300" height="300"/>
+        <image name="Upload_Black.tif" width="300" height="300"/>
+        <image name="Upload_Red.tif" width="300" height="300"/>
+    </resources>
 </document>
