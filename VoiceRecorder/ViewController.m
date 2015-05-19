@@ -48,6 +48,8 @@
     
     NSArray *tableLables; // array to contain application information
     NSArray *tableData;
+    
+    NSString *mode; // recording mode
 }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -97,6 +99,14 @@
     
     //set user specific settings
     [self setUserSpecificSettings];
+    
+    //set recording mode buttons
+    if(mode == NULL || [mode length] ==0){
+        mode = @"CRIB";
+    }
+    [self initRecordingModeButtons];
+
+    
 
 }
 
@@ -111,7 +121,7 @@
     }
 
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"Recording of %@ %@.m4a", self->fullName, [self getDate]];
+    fileName = [NSString stringWithFormat:@"Recording of %@ %@ %@.m4a", self->fullName, self->mode, [self getDate]];
 
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -144,6 +154,7 @@
 
     // Iterate through contents, if starts with "Recording", upload
     NSString *filePath;
+
     for (filePath in dirContents)
     {
         if ([filePath containsString:@"Recording"])
@@ -635,6 +646,11 @@
                   }
                   else
                   {
+                      NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
+                      
+                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                      [alert show];
+
                       NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
                   }
 
@@ -643,7 +659,18 @@
               }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-    NSLog(@"File upload failed with error: %@", error);
+    
+    
+    
+    
+    NSString *errorText = [error localizedDescription];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    
+    [self.restClient cancelAllRequests];
+    
+    NSLog(@"File upload failed with error: %@", error.localizedDescription);
 }
 
 - (void)setNumberOfFilesRemainingForUpload {
@@ -752,6 +779,69 @@
 
 }
 
+
+-(void) initRecordingModeButtons{
+    
+    [self.buttonCrib setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
+    [self.buttonCrib  setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
+    [self.buttonCrib setTag:0];
+    [self.buttonCrib  addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.buttonSupervised setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
+    [self.buttonSupervised setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
+    [self.buttonSupervised setTag:1];
+    [self.buttonSupervised addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    [self.buttonUnsupervised setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
+    [self.buttonUnsupervised setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
+    [self.buttonUnsupervised setTag:2];
+    [self.buttonUnsupervised addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //set the default mode
+    
+    if ([mode  isEqual: @"CRIB"]) {
+        [self.buttonCrib setSelected:YES];
+        [self.buttonSupervised setSelected:NO];
+        [self.buttonUnsupervised setSelected:NO];
+    }else if ([mode isEqual:@"SUPERVISED"]){
+        [self.buttonCrib setSelected:NO];
+        [self.buttonSupervised setSelected:YES];
+        [self.buttonUnsupervised setSelected:NO];
+    }else if([mode isEqual:@"UNSUPERVISED" ]){
+        [self.buttonCrib setSelected:NO];
+        [self.buttonSupervised setSelected:NO];
+        [self.buttonUnsupervised setSelected:YES];
+    }
+    
+}
+
+
+-(void)radiobuttonSelected:(id)sender{
+    switch ([sender tag]) {
+        case 0:
+            mode = @"CRIB";
+            [self.buttonCrib setSelected:YES];
+            [self.buttonSupervised setSelected:NO];
+            [self.buttonUnsupervised setSelected:NO];
+            break;
+        case 1:
+            mode = @"SUPERVISED";
+            [self.buttonCrib setSelected:NO];
+            [self.buttonSupervised setSelected:YES];
+            [self.buttonUnsupervised setSelected:NO];
+            break;
+        case 2:
+            mode = @"UNSUPERVISED";
+            [self.buttonCrib setSelected:NO];
+            [self.buttonSupervised setSelected:NO];
+            [self.buttonUnsupervised setSelected:YES];
+            break;
+        default:
+            break;
+    }
+    
+}
 
 
 

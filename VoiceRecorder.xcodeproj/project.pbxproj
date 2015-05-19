@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */; };
+		25CC4A021AC9D51000F0BDF6 /* Record_unsupervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */; };
+		25CC4A071ACB2ACE00F0BDF6 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A031ACB2ACE00F0BDF6 /* checked.png */; };
+		25CC4A081ACB2ACE00F0BDF6 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */; };
+		25CC4A091ACB2ACE00F0BDF6 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */; };
+		25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */; };
 		25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B51AC06DCA00167320 /* Play_Black.tif */; };
 		25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B61AC06DCA00167320 /* Play_Red.tif */; };
 		25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B71AC06DCA00167320 /* Record_Black.tif */; };
@@ -43,6 +49,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_supervised.tif; sourceTree = "<group>"; };
+		25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_unsupervised.tif; sourceTree = "<group>"; };
+		25CC4A031ACB2ACE00F0BDF6 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
+		25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
+		25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
 		25F770B51AC06DCA00167320 /* Play_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Black.tif; sourceTree = "<group>"; };
 		25F770B61AC06DCA00167320 /* Play_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Red.tif; sourceTree = "<group>"; };
 		25F770B71AC06DCA00167320 /* Record_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Black.tif; sourceTree = "<group>"; };
@@ -142,6 +154,12 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25CC4A031ACB2ACE00F0BDF6 /* checked.png */,
+				25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */,
+				25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */,
+				25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */,
+				25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */,
+				25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */,
 				25F770CA1AC8DE7A00167320 /* icon.png */,
 				25F770B51AC06DCA00167320 /* Play_Black.tif */,
 				25F770B61AC06DCA00167320 /* Play_Red.tif */,
@@ -261,13 +279,19 @@
 				25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */,
 				25F770C31AC06DCA00167320 /* Record_Red.tif in Resources */,
 				25F770C51AC06DCA00167320 /* Stop_Red.tif in Resources */,
+				25CC4A071ACB2ACE00F0BDF6 /* checked.png in Resources */,
 				E84927B619DB5C35005ACA9B /* Main.storyboard in Resources */,
+				25CC4A021AC9D51000F0BDF6 /* Record_unsupervised.tif in Resources */,
+				25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */,
+				25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */,
 				25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */,
 				25F770CB1AC8DE7A00167320 /* icon.png in Resources */,
 				E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */,
 				25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */,
 				25F770C41AC06DCA00167320 /* Square_Black.tif in Resources */,
+				25CC4A081ACB2ACE00F0BDF6 /* checked@2x.png in Resources */,
 				25F770C61AC06DCA00167320 /* Upload_Black.tif in Resources */,
+				25CC4A091ACB2ACE00F0BDF6 /* unchecked.png in Resources */,
 				E84927B819DB5C35005ACA9B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,7 +443,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7047ebb4-f3b3-40a0-b121-763db642d347";
@@ -438,7 +462,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7047ebb4-f3b3-40a0-b121-763db642d347";

@@ -32,8 +32,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *uploadButton;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSupervised;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCrib;
+@property (weak, nonatomic) IBOutlet UIButton *buttonUnsupervised;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
