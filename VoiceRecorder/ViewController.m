@@ -22,6 +22,8 @@
 
     NSString *fullName;
     NSString *fileName;
+    NSString *mode; // recording mode
+    NSString *measuresFilePath; // path to battery status file
     NSArray *pathComponents;
     NSURL *outputFileURL;
     NSTimer *recordingTimer;
@@ -35,7 +37,6 @@
     BOOL isMonitoring;
     BOOL isPlaying;
 
-
     //variables for monitoring the audio input and recording
     double AUDIOMONITOR_THRESHOLD; //don't record if below this number
     double MAX_SILENCETIME; //max time allowed between words
@@ -48,9 +49,13 @@
     
     NSArray *tableLables; // array to contain application information
     NSArray *tableData;
+    NSArray *_labelPickerData;
     
-    NSString *mode; // recording mode
-}
+    int weekNumber; // current week number to track number of minutes recorded
+    double cribTime; // minutes recorded in crib mode within current week
+    double supTime; // minutes recorded in supervised mode within current week
+    double unsupTime; // minutes recorded in unsupervised mode within current week
+    }
 
 @property (nonatomic, strong) DBRestClient *restClient;
 
@@ -102,12 +107,13 @@
     
     //set recording mode buttons
     if(mode == NULL || [mode length] ==0){
-        mode = @"CRIB";
+      //  mode = @"CRIB";
     }
     [self initRecordingModeButtons];
 
-    
+    _labelPickerData = @[@"default", @"car", @"watching tv"];
 
+    [self recordBatteryStatus];
 }
 
 
@@ -373,6 +379,24 @@
     [audioMonitor record];
 }
 
+-(void) stopAndRecord{
+    [self stopRecorder];
+    [self stopAudioMonitorAndAudioMonitorTimer];
+    [recordingTimer invalidate];
+    
+    // Update count of recordings
+    [self setNumberOfFilesRemainingForUpload];
+    
+    // Update display of the free space on the device
+    [self setFreeDiskspace];
+    [self resetMode];
+    
+    //hide time
+    [self.timeElapsedLabel setHidden:YES];
+
+    [self startRecording];
+}
+
 //displays the last time a recording was made
 -(void) setLastRecordingText{
 
@@ -464,28 +488,34 @@
 
 //record button tapped
 - (IBAction)recordTapped:(id)sender {
-    /*
+     /*
      * When record button is tapped, Audio monitor should be started
-     */ 
+     */
+    [self startRecording];
+   
+}
 
+-(void)startRecording{
+    
     // If audio player is playing, stop it
+    
     if (player.playing)
     {
         [player stop];
     }
-
+    
     if (!isMonitoring)
     {
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:YES error:nil];
-
+        
         [self initAudioMonitorAndRecord];
-
+        
         // Start monitoring
         // Disable record button
         [self.recordButton setEnabled:NO];
     }
-
+    
     // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
@@ -493,13 +523,8 @@
     
     //show time
     self.timeElapsedLabel.text = @"Time 0:0";
-    [self.timeElapsedLabel setHidden:NO];
-
-
-
-    // TODO: setup monitor method
-    //tutorial said the monitor method needed to be called in an update function
-    //this calls it every second
+    [self.timeElapsedLabel setHidden:YES];
+    
 }
 
 -(void)startNewRecording
@@ -570,10 +595,8 @@
     // Update display of the free space on the device
     [self setFreeDiskspace];
 
-    // Reenable buttons
-    [self.playButton setEnabled:YES];
-    [self.stopButton setEnabled:NO];
-    [self.recordButton setEnabled:YES];
+    //reset buttons
+    [self resetMode];
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
@@ -782,67 +805,212 @@
 
 -(void) initRecordingModeButtons{
     
-    [self.buttonCrib setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
-    [self.buttonCrib  setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
-    [self.buttonCrib setTag:0];
-    [self.buttonCrib  addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonCribOn setTag:0];
+//    self.buttonCribOn.layer.cornerRadius =3;
+//    self.buttonCribOn.layer.borderWidth = 3;
+//    self.buttonCribOn.layer.borderColor = [[UIColor greenColor] CGColor];
+    [self.buttonSupOn setTag:1];
+//    self.buttonSupOn.layer.cornerRadius =3;
+//    self.buttonSupOn.layer.borderWidth = 3;
+//    self.buttonSupOn.layer.borderColor = [[UIColor greenColor] CGColor];
+    [self.buttonUnsupOn setTag:2];
+//    self.buttonUnsupOn.layer.cornerRadius =3;
+//    self.buttonUnsupOn.layer.borderWidth = 3;
+//    self.buttonUnsupOn.layer.borderColor = [[UIColor greenColor] CGColor]
+//
     
-    [self.buttonSupervised setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
-    [self.buttonSupervised setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
-    [self.buttonSupervised setTag:1];
-    [self.buttonSupervised addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.buttonCribOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
+//    [self.buttonSupOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
+//    [self.buttonUnsupOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
+  //  [self.buttonCribOff setImage:[UIImage imageNamed:@"stop-enabled.png"] forState:UIControlStateNormal];
     
+    [self.buttonCribOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonSupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonUnsupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.buttonUnsupervised setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
-    [self.buttonUnsupervised setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
-    [self.buttonUnsupervised setTag:2];
-    [self.buttonUnsupervised addTarget:self action:@selector(radiobuttonSelected:) forControlEvents:UIControlEventTouchUpInside];
-    
-    //set the default mode
-    
-    if ([mode  isEqual: @"CRIB"]) {
-        [self.buttonCrib setSelected:YES];
-        [self.buttonSupervised setSelected:NO];
-        [self.buttonUnsupervised setSelected:NO];
-    }else if ([mode isEqual:@"SUPERVISED"]){
-        [self.buttonCrib setSelected:NO];
-        [self.buttonSupervised setSelected:YES];
-        [self.buttonUnsupervised setSelected:NO];
-    }else if([mode isEqual:@"UNSUPERVISED" ]){
-        [self.buttonCrib setSelected:NO];
-        [self.buttonSupervised setSelected:NO];
-        [self.buttonUnsupervised setSelected:YES];
-    }
-    
+    [self.buttonCribOff addTarget:self action:@selector(stopTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
--(void)radiobuttonSelected:(id)sender{
+-(void)resetMode{
+    mode = @"   ";
+    [self.buttonCribOn setEnabled:YES];
+    [self.buttonCribOff setEnabled:NO];
+    [self.buttonSupOn setEnabled:YES];
+    [self.buttonUnsupOn setEnabled:YES];
+    [self.buttonCribOn setSelected:NO];
+    [self.buttonSupOn setSelected:NO];
+    [self.buttonUnsupOn setSelected:NO];
+    
+}
+
+-(void)modeChanged:(id)sender{
     switch ([sender tag]) {
         case 0:
             mode = @"CRIB";
-            [self.buttonCrib setSelected:YES];
-            [self.buttonSupervised setSelected:NO];
-            [self.buttonUnsupervised setSelected:NO];
+            [self.buttonCribOn setSelected:YES];
+            [self.buttonCribOff setEnabled:YES];
+            [self.buttonSupOn setSelected:NO];
+            [self.buttonUnsupOn setSelected:NO];
             break;
         case 1:
             mode = @"SUPERVISED";
-            [self.buttonCrib setSelected:NO];
-            [self.buttonSupervised setSelected:YES];
-            [self.buttonUnsupervised setSelected:NO];
+            [self.buttonCribOn setSelected:NO];
+            [self.buttonCribOff setEnabled:YES];
+            [self.buttonSupOn setSelected:YES];
+            [self.buttonUnsupOn setSelected:NO];
             break;
         case 2:
             mode = @"UNSUPERVISED";
-            [self.buttonCrib setSelected:NO];
-            [self.buttonSupervised setSelected:NO];
-            [self.buttonUnsupervised setSelected:YES];
+            [self.buttonCribOn setSelected:NO];
+            [self.buttonCribOff setEnabled:YES];
+            [self.buttonSupOn setSelected:NO];
+            [self.buttonUnsupOn setSelected:YES];
             break;
         default:
             break;
     }
     
+    
+    /*
+     * When record button is tapped, Audio monitor should be started
+     */
+    
+    if (!isMonitoring)
+    {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        
+        [self initAudioMonitorAndRecord];
+        
+        // Start monitoring
+    }
+    else{
+        [self stopAndRecord];
+    }
+    
+    // Enable stop button and disable play button
+    [self.buttonCribOff setEnabled:YES];
+    
+    //show time
+    self.timeElapsedLabel.text = @"Time 0:0";
+    [self.timeElapsedLabel setHidden:NO];
+     NSLog(outputFileURL);
+    
 }
 
+
+-(void)recordBatteryStatus{
+    
+    [[UIDevice currentDevice] setBatteryMonitoringEnabled:YES];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(batteryLevelChanged:)
+                                                 name:UIDeviceBatteryLevelDidChangeNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(batteryStateChanged:)
+                                                 name:UIDeviceBatteryStateDidChangeNotification object:nil];
+    
+    
+    if(measuresFilePath == nil) {
+        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+
+        NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
+        NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
+        measuresFilePath = filePath;
+        NSError *error = nil;
+        BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if(success == NO) {
+            NSLog(@"-- cannot create measures files %@", error);
+            return;
+        }
+        
+    }
+    
+    
+   
+
+}
+
+
+- (void)updateBatteryState
+{
+       UIDeviceBatteryState currentState = [UIDevice currentDevice].batteryState;
+    float batteryLevel = [UIDevice currentDevice].batteryLevel;
+    
+    NSString *deviceInfo=[NSString stringWithFormat:@"time:, %d, monitor-time:, %f, record:, %f ,deviceBatteryState:, %d, deviceBatteryLevel:, %f",  (int)[[NSDate date] timeIntervalSince1970], [audioMonitor currentTime], [recorder currentTime], currentState, batteryLevel];
+    
+    NSString *csvLine = [deviceInfo stringByAppendingString:@"\n"];
+    NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
+    
+//    
+//    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+//    
+//    NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
+//    NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
+//    
+//    NSError *error = nil;
+//    BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+//    if(success == NO) {
+//        NSLog(@"-- cannot create measures files %@", error);
+//        return;
+//    }
+    
+    
+    NSFileHandle *fh = [NSFileHandle fileHandleForUpdatingAtPath:measuresFilePath];
+    [fh seekToEndOfFile];
+    [fh writeData:csvData];
+    [fh closeFile];
+    
+}
+
+- (void)batteryLevelChanged:(NSNotification *)notification
+{
+    [self updateBatteryState];
+}
+
+- (void)batteryStateChanged:(NSNotification *)notification
+{
+    [self updateBatteryState];
+}
+
+
+
+
+
+
+
+//- (void)batteryStatusDidChange:(NSNotification *)notification {
+//    NSLog(@"-- %@ %@", notification.name, notification.userInfo);
+//    UIDeviceBatteryState deviceBatteryState = [[UIDevice currentDevice] batteryState];
+//    float deviceBatteryLevel = [[UIDevice currentDevice] batteryLevel];
+//    
+//    NSString *deviceInfo = [NSString stringWithFormat:@"deviceBatteryState: %d, deviceBatteryLevel: %f", deviceBatteryState, deviceBatteryLevel];
+//    NSString *csvLine = [deviceInfo stringByAppendingString:@"\n"];
+//    NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
+//    
+//    if(measuresFilePath == nil) {
+//        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+//        
+//        NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
+//        NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
+//        measuresFilePath = filePath;
+//        NSError *error = nil;
+//        BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+//        if(success == NO) {
+//            NSLog(@"-- cannot create measures files %@", error);
+//            return;
+//        }
+//        
+//    }
+//    
+//    NSFileHandle *fh = [NSFileHandle fileHandleForUpdatingAtPath:measuresFilePath];
+//    [fh seekToEndOfFile];
+//    [fh writeData:csvData];
+//    [fh closeFile];
+//}
 
 
 
