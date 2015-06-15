@@ -31,6 +31,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UIPickerView *labelPicker;
+@property (weak, nonatomic) IBOutlet UITextField *textfieldComment;
+@property (weak, nonatomic) IBOutlet UILabel *labelUsername;
 
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *uploadButton;
@@ -45,6 +47,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonUnsupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOn;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOff;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTrackProgress;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;

@@ -21,9 +21,12 @@
     NSTimer *audioMonitorTimer;
 
     NSString *fullName;
-    NSString *fileName;
-    NSString *mode; // recording mode
+    NSString *fileName;  // recording file name
+    NSString *currentMode; // current recording mode
+    NSString *previousMode; // previous recording mode
     NSString *measuresFilePath; // path to battery status file
+    NSString *recordingInfoFile; // path to file storing information about recordings
+    NSString *comment; // hold the comment text field value untill saved to file
     NSArray *pathComponents;
     NSURL *outputFileURL;
     NSTimer *recordingTimer;
@@ -51,7 +54,7 @@
     NSArray *tableData;
     NSArray *_labelPickerData;
     
-    int weekNumber; // current week number to track number of minutes recorded
+    NSInteger weekNumber; // current week number to track number of minutes recorded
     double cribTime; // minutes recorded in crib mode within current week
     double supTime; // minutes recorded in supervised mode within current week
     double unsupTime; // minutes recorded in unsupervised mode within current week
@@ -98,6 +101,8 @@
     {
         [self askForUserInfo];
     }
+    
+    self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
 
     // Set disk space etc
     [self setFreeDiskspace];
@@ -105,15 +110,23 @@
     //set user specific settings
     [self setUserSpecificSettings];
     
-    //set recording mode buttons
-    if(mode == NULL || [mode length] ==0){
-      //  mode = @"CRIB";
-    }
+    //setup mode buttons
     [self initRecordingModeButtons];
 
-    _labelPickerData = @[@"default", @"car", @"watching tv"];
-
-    [self recordBatteryStatus];
+    // uncomment if you want to record battery status
+    //[self recordBatteryStatus];
+    
+    //set week number for the first time
+    if([self getWeekOfYear] == 0){
+        NSCalendar *cal = [NSCalendar currentCalendar];
+        NSDateComponents *components = [cal components:NSCalendarUnitWeekOfYear fromDate:[NSDate date]];
+        weekNumber = [components weekOfYear];
+        [self saveWeekOfYear:weekNumber];
+    }
+    
+    [self initInfoFile]; // load file to record recording metadata
+    
+    [self.textfieldComment setDelegate:self];
 }
 
 
@@ -127,7 +140,7 @@
     }
 
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"Recording of %@ %@ %@.m4a", self->fullName, self->mode, [self getDate]];
+    fileName = [NSString stringWithFormat:@"Recording of %@ %@ %@.m4a", self->fullName, self->currentMode, [self getDate]];
 
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -203,7 +216,7 @@
 
     // Timer for update of audio level
     audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:dt target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
-
+    
     // Timer for update of time elapsed label
     recordingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateSlider) userInfo:nil repeats:YES];  //this is nstimer to initiate update method
 }
@@ -279,7 +292,7 @@
             if(!isRecording)
             {
                 // start recording
-                [self startNewRecording];
+                [self startRecording];
             }
         }
         //not above threshold, so don't record
@@ -358,19 +371,24 @@
      */
 
     // Log elapsed record time
-    NSLog(@"stopRecorder Record time: %f", [recorder currentTime]);
-    totalRecordTime += recorder.currentTime;
-    
+    double timeRecorded = [recorder currentTime];
+    NSLog(@"stopRecorder Record time: %f", timeRecorded);
+    totalRecordTime += timeRecorded;
     float minutesRecorded = floor(totalRecordTime/60);
     float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
 
     
     self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+    
+    [self updateRecordingTime:previousMode :timeRecorded];
 
     // TODO Check if MIN_RECORDTIME is necessary considering there is a
     // MAX_SILENCETIME
     isRecording = NO;
     [recorder stop];
+    
+    //update metadata file
+    [self updateMetadataFile];
 }
 
 //stop playing
@@ -389,7 +407,7 @@
     
     // Update display of the free space on the device
     [self setFreeDiskspace];
-    [self resetMode];
+
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
@@ -485,6 +503,9 @@
 
 
 //BUTTONS
+- (IBAction)trackProgressTapped:(id)sender {
+    [self showProgress];
+}
 
 //record button tapped
 - (IBAction)recordTapped:(id)sender {
@@ -495,15 +516,16 @@
    
 }
 
+//comment added
+- (IBAction)commentEndEditing:(id)sender {
+    
+    NSLog(self.textfieldComment.text);
+    comment = self.textfieldComment.text;
+
+}
+
 -(void)startRecording{
-    
-    // If audio player is playing, stop it
-    
-    if (player.playing)
-    {
-        [player stop];
-    }
-    
+
     if (!isMonitoring)
     {
         AVAudioSession *session = [AVAudioSession sharedInstance];
@@ -516,6 +538,19 @@
         [self.recordButton setEnabled:NO];
     }
     
+    // Recorder needs to be initialized each time due to the file url
+    // property being readonly. New file url must be set for each recording
+    // Setup audio file
+    [self setOutputFileUrl];
+    
+    // Setup Audio Session and Recorder
+    [self initRecorder];
+    
+         NSLog(@"%@",outputFileURL);
+    // Start recording
+    [recorder record];
+    isRecording = YES;
+    
     // Enable stop button and disable play button
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
@@ -523,7 +558,7 @@
     
     //show time
     self.timeElapsedLabel.text = @"Time 0:0";
-    [self.timeElapsedLabel setHidden:YES];
+    [self.timeElapsedLabel setHidden:NO];
     
 }
 
@@ -566,7 +601,11 @@
     float minutesRecording = floor(recorder.currentTime/60);
     float secondsRecording = recorder.currentTime - (minutesRecording * 60);
 
-    NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesMonitoring, secondsMonitoring];
+    //uncomment for the original-commented just for texting
+   NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesMonitoring, secondsMonitoring];
+    
+    //comment after testing
+  //  NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesRecording, secondsRecording];
     
     self.timeElapsedLabel.text = time;
 
@@ -585,6 +624,7 @@
 //stops the recorder and deactivates the audio session
 - (IBAction)stopTapped:(id)sender {
 
+    previousMode = currentMode;
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
     [recordingTimer invalidate];
@@ -596,7 +636,8 @@
     [self setFreeDiskspace];
 
     //reset buttons
-    [self resetMode];
+    [self resetModeButtons];
+     currentMode = @"";
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
@@ -648,6 +689,17 @@
         NSLog(@"linking");
     }
     NSLog(@"already linked");
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+    [alert show];
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+
+    indicator.center = CGPointMake(alert.bounds.size.width / 2, alert.bounds.size.height - 50);
+    [indicator startAnimating];
+    [alert addSubview:indicator];
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
     [self uploadFiles]; //upload the test file
 }
 
@@ -682,9 +734,6 @@
               }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-    
-    
-    
     
     NSString *errorText = [error localizedDescription];
     
@@ -783,6 +832,19 @@
     fullName = [defaults objectForKey:@"username"];
 }
 
+
+- (NSInteger)getWeekOfYear{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    weekNumber = (NSInteger)[defaults objectForKey:@"weekOfYear"];
+    return weekNumber;
+}
+
+-(void) saveWeekOfYear:(NSInteger)weekOfYear{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:weekOfYear forKey:@"week"];
+    [defaults synchronize];
+}
+
 //set user specific settings
 
 -(void)setUserSpecificSettings{
@@ -806,24 +868,8 @@
 -(void) initRecordingModeButtons{
     
     [self.buttonCribOn setTag:0];
-//    self.buttonCribOn.layer.cornerRadius =3;
-//    self.buttonCribOn.layer.borderWidth = 3;
-//    self.buttonCribOn.layer.borderColor = [[UIColor greenColor] CGColor];
     [self.buttonSupOn setTag:1];
-//    self.buttonSupOn.layer.cornerRadius =3;
-//    self.buttonSupOn.layer.borderWidth = 3;
-//    self.buttonSupOn.layer.borderColor = [[UIColor greenColor] CGColor];
     [self.buttonUnsupOn setTag:2];
-//    self.buttonUnsupOn.layer.cornerRadius =3;
-//    self.buttonUnsupOn.layer.borderWidth = 3;
-//    self.buttonUnsupOn.layer.borderColor = [[UIColor greenColor] CGColor]
-//
-    
-//    [self.buttonCribOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
-//    [self.buttonSupOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
-//    [self.buttonUnsupOn setImage:[UIImage imageNamed:@"button-disabled.png"] forState:UIControlStateSelected];
-  //  [self.buttonCribOff setImage:[UIImage imageNamed:@"stop-enabled.png"] forState:UIControlStateNormal];
-    
     [self.buttonCribOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     [self.buttonSupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     [self.buttonUnsupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
@@ -832,8 +878,8 @@
 }
 
 
--(void)resetMode{
-    mode = @"   ";
+-(void)resetModeButtons{
+    
     [self.buttonCribOn setEnabled:YES];
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
@@ -842,26 +888,30 @@
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
     
+    //clear comment field
+    self.textfieldComment.text =@"";
 }
 
 -(void)modeChanged:(id)sender{
+    previousMode = currentMode;
+    [self resetModeButtons];
     switch ([sender tag]) {
         case 0:
-            mode = @"CRIB";
+            currentMode = @"CRIB";
             [self.buttonCribOn setSelected:YES];
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:NO];
             [self.buttonUnsupOn setSelected:NO];
             break;
         case 1:
-            mode = @"SUPERVISED";
+            currentMode = @"SUPERVISED";
             [self.buttonCribOn setSelected:NO];
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:YES];
             [self.buttonUnsupOn setSelected:NO];
             break;
         case 2:
-            mode = @"UNSUPERVISED";
+            currentMode = @"UNSUPERVISED";
             [self.buttonCribOn setSelected:NO];
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:NO];
@@ -869,6 +919,12 @@
             break;
         default:
             break;
+    }
+    
+    //initially previous mode is null
+    
+    if(previousMode == nil || [previousMode isEqualToString:@""]){
+        previousMode = currentMode;
     }
     
     
@@ -884,6 +940,8 @@
         [self initAudioMonitorAndRecord];
         
         // Start monitoring
+        //start recording
+        [self startRecording];
     }
     else{
         [self stopAndRecord];
@@ -895,15 +953,16 @@
     //show time
     self.timeElapsedLabel.text = @"Time 0:0";
     [self.timeElapsedLabel setHidden:NO];
-     NSLog(outputFileURL);
+     NSLog(@"%@",outputFileURL);
     
 }
 
 
+//methods to check battery status. These are used to compare microphones.
+
 -(void)recordBatteryStatus{
     
     [[UIDevice currentDevice] setBatteryMonitoringEnabled:YES];
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(batteryLevelChanged:)
@@ -912,7 +971,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(batteryStateChanged:)
                                                  name:UIDeviceBatteryStateDidChangeNotification object:nil];
-    
     
     if(measuresFilePath == nil) {
         NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
@@ -928,9 +986,6 @@
         }
         
     }
-    
-    
-   
 
 }
 
@@ -944,21 +999,6 @@
     
     NSString *csvLine = [deviceInfo stringByAppendingString:@"\n"];
     NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
-    
-//    
-//    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-//    
-//    NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
-//    NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
-//    
-//    NSError *error = nil;
-//    BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-//    if(success == NO) {
-//        NSLog(@"-- cannot create measures files %@", error);
-//        return;
-//    }
-    
-    
     NSFileHandle *fh = [NSFileHandle fileHandleForUpdatingAtPath:measuresFilePath];
     [fh seekToEndOfFile];
     [fh writeData:csvData];
@@ -977,41 +1017,134 @@
 }
 
 
+//track amount of recordings done for the week
+-(void) updateRecordingTime:(NSString*)recordingMode : (double)duration
+{
+    //Get current week number
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *components = [cal components:NSCalendarUnitWeekOfYear fromDate:[NSDate date]];
+    NSInteger currentWeek = [components weekOfYear];
+    NSLog(@"Week nummer: %d", (int)currentWeek);
+    
+    if (weekNumber == (int)currentWeek + 1 ){
+        //start of next week. reset times
+        cribTime = 0;
+        supTime  = 0;
+        unsupTime = 0;
+        weekNumber = currentWeek;
+        [self saveWeekOfYear:weekNumber];
+    }
+    
+    
+    if (weekNumber == currentWeek ){
+        
+        if ( [recordingMode  isEqual: @"CRIB"]){
+            cribTime += duration;
+        }
+        else if ( [recordingMode  isEqual: @"SUPERVISED"]){
+            supTime += duration;
+        }else if ( [recordingMode  isEqual: @"UNSUPERVISED"]){
+            unsupTime += duration;
+        }
+    }
+    
+    NSLog(@"crib: %f, sup: %f, unsup: %f ", cribTime, supTime, unsupTime);
+}
 
 
+//show the amount of recordings done within the current week
+-(void)showProgress{
+    
+    NSMutableString *message = [NSMutableString string];
+    
+    int hours, mins;
+    float seconds;
+    
+    //calculate total crib mode recording time
+    
+    hours = floor(cribTime/3600);
+    mins  = floor((cribTime - hours*3600)/60);
+    seconds = cribTime - hours*3600 - mins*60;
+    
+    [message appendString: [[NSString alloc] initWithFormat:@"CRIB Mode\t\t\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
+    
+    
+    //calculate supervised mode time
+    
+    hours = floor(supTime/3600);
+    mins  = floor((supTime - hours*3600)/60);
+    seconds = supTime - hours*3600 - mins*60;
+    
+    [message appendString: [[NSString alloc] initWithFormat:@"SUPERVISED Mode\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
+    
+    //calculate un-supervised mode time
+    
+    hours = floor(unsupTime/3600);
+    mins  = floor((unsupTime - hours*3600)/60);
+    seconds = unsupTime - hours*3600 - mins*60;
+    
+    [message appendString: [[NSString alloc] initWithFormat:@"UN-SUPERVISED Mode\t %d:%d:%0.0f     \n", hours, mins, seconds ]];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Hours Recorded During the Week" message:message delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    
+    
+    [alert show];
+    
+}
 
 
+-(void)initInfoFile{
+    
+    if(recordingInfoFile == nil) {
+        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        
+        NSString *infoFileName = [NSString stringWithFormat:@"info.csv"];
+        NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
+        recordingInfoFile = filePath;
+        NSError *error = nil;
+        BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if(success == NO) {
+            NSLog(@"cannot create info file:  %@", error);
+            return;
+        }
+    }
+}
 
-//- (void)batteryStatusDidChange:(NSNotification *)notification {
-//    NSLog(@"-- %@ %@", notification.name, notification.userInfo);
-//    UIDeviceBatteryState deviceBatteryState = [[UIDevice currentDevice] batteryState];
-//    float deviceBatteryLevel = [[UIDevice currentDevice] batteryLevel];
-//    
-//    NSString *deviceInfo = [NSString stringWithFormat:@"deviceBatteryState: %d, deviceBatteryLevel: %f", deviceBatteryState, deviceBatteryLevel];
-//    NSString *csvLine = [deviceInfo stringByAppendingString:@"\n"];
-//    NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
-//    
-//    if(measuresFilePath == nil) {
-//        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-//        
-//        NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
-//        NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
-//        measuresFilePath = filePath;
-//        NSError *error = nil;
-//        BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-//        if(success == NO) {
-//            NSLog(@"-- cannot create measures files %@", error);
-//            return;
-//        }
-//        
-//    }
-//    
-//    NSFileHandle *fh = [NSFileHandle fileHandleForUpdatingAtPath:measuresFilePath];
-//    [fh seekToEndOfFile];
-//    [fh writeData:csvData];
-//    [fh closeFile];
-//}
+-(void)updateMetadataFile{
+    
+  //  if (fileName != nil) {
+ 
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd/MM/yyyy"];
+    
+    
+    NSString *info=[NSString stringWithFormat:@"Date:, %@, Mode:, %@, File:, %@, Comments:, %@, Duration:, %f",
+                                                    [dateFormat stringFromDate:today],
+                                                    previousMode,
+                                                    fileName,
+                                                    comment,
+                                                    totalRecordTime];
+    
+    //clear the comment variable after saving
+    comment = nil;
+    
+    NSString *csvLine = [info stringByAppendingString:@"\n"];
+    NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
+    NSFileHandle *fh = [NSFileHandle fileHandleForUpdatingAtPath:recordingInfoFile];
+    [fh seekToEndOfFile];
+    [fh writeData:csvData];
+    [fh closeFile];
+  //  }
+    
+}
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.textfieldComment resignFirstResponder];
+    return YES;
+}
 
 
 @end
