@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -84,7 +84,7 @@
                                     <action selector="uploadFile:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aqH-w4-YnG"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-i1-Kyu">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8rl-i1-Kyu">
                                 <rect key="frame" x="123" y="580" width="130" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Vcy-jw-Dw2"/>
@@ -186,6 +186,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="statusLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wK5-Jy-hTf">
+                                <rect key="frame" x="140" y="13" width="94" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="94" id="6UM-iH-1id"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.94830587635869568" green="0.94830587635869568" blue="0.94830587635869568" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -215,6 +224,7 @@
                             <constraint firstItem="Tp7-QT-3Ea" firstAttribute="top" secondItem="oWJ-5d-mgU" secondAttribute="top" constant="10" id="Nbv-Ft-m8U"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="yyL-Br-UD8" secondAttribute="bottom" constant="26" id="Ng9-Rz-s5x"/>
                             <constraint firstItem="P9z-vc-9Pm" firstAttribute="trailing" secondItem="hCg-7H-KI3" secondAttribute="trailing" id="OoN-bm-X35"/>
+                            <constraint firstItem="wK5-Jy-hTf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="140" id="Ozr-vx-pnw"/>
                             <constraint firstItem="f7e-Rx-GNR" firstAttribute="leading" secondItem="mSp-xF-7d7" secondAttribute="trailing" constant="59" id="P2m-Sf-q8B"/>
                             <constraint firstItem="5YC-qn-Uzb" firstAttribute="leading" secondItem="yyL-Br-UD8" secondAttribute="trailing" constant="-22" id="PdZ-Kf-Qkr"/>
                             <constraint firstItem="kb6-ka-zad" firstAttribute="leading" secondItem="ygw-Mi-k9U" secondAttribute="leading" id="Pie-SO-d4y"/>
@@ -239,6 +249,7 @@
                             <constraint firstItem="kb6-ka-zad" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="pGR-qK-9tL"/>
                             <constraint firstItem="ygw-Mi-k9U" firstAttribute="trailing" secondItem="hCg-7H-KI3" secondAttribute="trailing" id="pJg-aa-FMT"/>
                             <constraint firstItem="mSp-xF-7d7" firstAttribute="top" secondItem="P9z-vc-9Pm" secondAttribute="bottom" constant="15" id="qrb-Wk-jKR"/>
+                            <constraint firstItem="wK5-Jy-hTf" firstAttribute="top" secondItem="1vQ-nC-97Z" secondAttribute="top" id="r73-m5-hAg"/>
                             <constraint firstItem="Tp7-QT-3Ea" firstAttribute="leading" secondItem="oWJ-5d-mgU" secondAttribute="trailing" constant="104" id="sQH-K9-yzp"/>
                             <constraint firstItem="P9z-vc-9Pm" firstAttribute="leading" secondItem="hCg-7H-KI3" secondAttribute="leading" id="sR0-vp-1T9"/>
                             <constraint firstItem="P9z-vc-9Pm" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="249" id="vYj-aL-9cv"/>
@@ -264,6 +275,7 @@
                         <outlet property="numberOfMinutesRecorded" destination="iEg-fq-Plu" id="QHr-GB-wwE"/>
                         <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="hJf-25-NAB"/>
                         <outlet property="percentageDiskSpaceRemainingLabel" destination="Nip-KC-0TW" id="Vgg-9T-dDR"/>
+                        <outlet property="statusLabel" destination="wK5-Jy-hTf" id="Hyl-u6-kqo"/>
                         <outlet property="textfieldComment" destination="f7e-Rx-GNR" id="0dn-MD-CB9"/>
                         <outlet property="timeElapsedLabel" destination="kb6-ka-zad" id="WMp-GH-DRc"/>
                         <outlet property="uploadButton" destination="oWJ-5d-mgU" id="up1-Fk-iJX"/>

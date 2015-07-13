@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2502D9481B0F99B1005D7C45 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9471B0F99B1005D7C45 /* button.png */; };
 		2502D95B1B0F9F37005D7C45 /* button-enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9591B0F9F37005D7C45 /* button-enabled.png */; };
 		2502D95C1B0F9F37005D7C45 /* button-disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D95A1B0F9F37005D7C45 /* button-disabled.png */; };
 		2502D95F1B0FA05C005D7C45 /* stop-disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D95D1B0FA05C005D7C45 /* stop-disabled.png */; };
@@ -58,7 +57,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2502D9471B0F99B1005D7C45 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button.png; path = ../../../../../../Downloads/button.png; sourceTree = "<group>"; };
 		2502D9591B0F9F37005D7C45 /* button-enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-enabled.png"; sourceTree = "<group>"; };
 		2502D95A1B0F9F37005D7C45 /* button-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-disabled.png"; sourceTree = "<group>"; };
 		2502D95D1B0FA05C005D7C45 /* stop-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-disabled.png"; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 				2502D95D1B0FA05C005D7C45 /* stop-disabled.png */,
 				2502D9591B0F9F37005D7C45 /* button-enabled.png */,
 				2502D95A1B0F9F37005D7C45 /* button-disabled.png */,
-				2502D9471B0F99B1005D7C45 /* button.png */,
 				25CC4A031ACB2ACE00F0BDF6 /* checked.png */,
 				25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */,
 				25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */,
@@ -306,7 +303,6 @@
 				2502D9621B0FA178005D7C45 /* stop-enabled.png in Resources */,
 				25F770C71AC06DCA00167320 /* Upload_Red.tif in Resources */,
 				2502D9691B261AC4005D7C45 /* Main.storyboard in Resources */,
-				2502D9481B0F99B1005D7C45 /* button.png in Resources */,
 				25F770C21AC06DCA00167320 /* Record_Red-2.tif in Resources */,
 				2502D95B1B0F9F37005D7C45 /* button-enabled.png in Resources */,
 				2502D95C1B0F9F37005D7C45 /* button-disabled.png in Resources */,

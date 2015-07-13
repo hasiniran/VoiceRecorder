@@ -186,6 +186,7 @@
         }
 
     }
+    [self.uploadButton setEnabled:YES];
 
 }
 
@@ -692,6 +693,7 @@
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
+    [self.uploadButton setEnabled:NO];
     
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
@@ -719,22 +721,26 @@
                       [alert show];
 
                   }
-                  else
-                  {
+                  else if(!success){
                       NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
                       
                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                       [alert show];
+                  }
+                  else
+                  {
+                      
 
                       NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
                   }
 
                   // Update count of recordings
                   [self setNumberOfFilesRemainingForUpload];
+
               }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-    
+
     NSString *errorText = [error localizedDescription];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -781,6 +787,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     self->fullName = [alertView textFieldAtIndex:0].text;
     [self saveUsername:fullName];
+    self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
 }
 
 -(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
@@ -851,7 +858,7 @@
     
     //disable advanced settings if the username is not admin
     if([fullName  isEqual: @"admin"]){
-        [self.statusLabel setHidden:NO];
+        [self.statusLabel setHidden:YES];
         [self.audioLevelLabel setHidden:NO];
         [self.playButton setHidden:NO];
         //TODO hide advanced settings
@@ -939,9 +946,6 @@
         
         [self initAudioMonitorAndRecord];
         
-        // Start monitoring
-        //start recording
-        [self startRecording];
     }
     else{
         [self stopAndRecord];
