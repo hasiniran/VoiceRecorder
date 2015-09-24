@@ -127,6 +127,12 @@
     [self initInfoFile]; // load file to record recording metadata
     
     [self.textfieldComment setDelegate:self];
+    
+    //load recording time for each mode
+    [self loadRecordedTime];
+    
+    
+    
 }
 
 
@@ -186,6 +192,9 @@
         }
 
     }
+    
+    [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir fromPath:recordingInfoFile];
+
     [self.uploadButton setEnabled:YES];
 
 }
@@ -520,7 +529,6 @@
 //comment added
 - (IBAction)commentEndEditing:(id)sender {
     
-    NSLog(self.textfieldComment.text);
     comment = self.textfieldComment.text;
 
 }
@@ -712,7 +720,10 @@
                   NSLog(@"File uploaded successfully to path: %@ from path: %@", metadata.path, srcPath);
 
                   // Delete file after upload
+                  //dont delete the <name>-info.csv file
                   NSError *error;
+    
+                if(srcPath != recordingInfoFile){
                   BOOL success = [fileManager removeItemAtPath:srcPath error:&error];
                   // Display success message if all recordings successfully uploaded
                   if (success && numberOfRecordingsForUpload == 1) {
@@ -736,6 +747,7 @@
 
                   // Update count of recordings
                   [self setNumberOfFilesRemainingForUpload];
+                }
 
               }
 
@@ -837,6 +849,21 @@
 - (IBAction)getUsername{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     fullName = [defaults objectForKey:@"username"];
+}
+
+-(void)loadRecordedTime{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    cribTime = [defaults floatForKey:@"cribTime"];
+    supTime = [defaults floatForKey:@"supTime"];
+    unsupTime = [defaults floatForKey:@"unsupTime"];
+}
+
+-(void)saveRecordedTime{
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    [defaults setFloat:cribTime forKey:@"cribTime"];
+    [defaults setFloat:supTime forKey:@"supTime"];
+    [defaults setFloat:unsupTime forKey:@"unsupTime"];
+    [defaults synchronize];
 }
 
 
@@ -1052,6 +1079,9 @@
         }
     }
     
+    //save to user defaults to make persistant
+    [self saveRecordedTime];
+    
     NSLog(@"crib: %f, sup: %f, unsup: %f ", cribTime, supTime, unsupTime);
 }
 
@@ -1103,15 +1133,20 @@
     if(recordingInfoFile == nil) {
         NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         
-        NSString *infoFileName = [NSString stringWithFormat:@"info.csv"];
+        NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
         NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
         recordingInfoFile = filePath;
-        NSError *error = nil;
-        BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-        if(success == NO) {
-            NSLog(@"cannot create info file:  %@", error);
-            return;
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
+            [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
         }
+        
+      //  NSError *error = nil;
+        //BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        //if(success == NO) {
+          //  NSLog(@"cannot create info file:  %@", error);
+            //return;
+        //}
     }
 }
 
