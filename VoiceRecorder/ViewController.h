@@ -48,11 +48,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOn;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTrackProgress;
+@property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
 - (IBAction)uploadFile:(id)sender;
+- (IBAction)readingTestTapped:(id)sender;
 - (void)setNumberOfFilesRemainingForUpload;
 - (void)askForUserInfo;
 

@@ -12,6 +12,7 @@
 
 #import "ViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "ReadingTestViewController.h"
 
 //DBRestClient is used to access Dropbox after linking
 @interface ViewController () <DBRestClientDelegate, UIAlertViewDelegate>{
@@ -103,6 +104,7 @@
     }
     
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
+    
 
     // Set disk space etc
     [self setFreeDiskspace];
@@ -124,7 +126,7 @@
         [self saveWeekOfYear:weekNumber];
     }
     
-    [self initInfoFile]; // load file to record recording metadata
+    
     
     [self.textfieldComment setDelegate:self];
     
@@ -182,7 +184,7 @@
 
     for (filePath in dirContents)
     {
-        if ([filePath containsString:@"Recording"])
+        if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
         {
             NSLog(@"filePath: %@", filePath);
 
@@ -190,12 +192,22 @@
             // Upload file to Dropbox
             [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
         }
+        
+//        if ([filePath containsString:@"ReadingTest"])
+//        {
+//            NSLog(@"filePath: %@", filePath);
+//            
+//            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
+//            // Upload file to Dropbox
+//            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+//        }
 
     }
     
+    if(recordingInfoFile != NULL){
+    
     [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir fromPath:recordingInfoFile];
-
-    [self.uploadButton setEnabled:YES];
+    }
 
 }
 
@@ -711,7 +723,10 @@
     [alert addSubview:indicator];
     [alert dismissWithClickedButtonIndex:0 animated:YES];
     [self uploadFiles]; //upload the test file
+    [self.uploadButton setEnabled:YES];
 }
+
+
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
@@ -726,7 +741,11 @@
                 if(srcPath != recordingInfoFile){
                   BOOL success = [fileManager removeItemAtPath:srcPath error:&error];
                   // Display success message if all recordings successfully uploaded
-                  if (success && numberOfRecordingsForUpload == 1) {
+                    // Update count of recordings
+                    [self setNumberOfFilesRemainingForUpload];
+                    
+                  // numberOfRecordingsForUpload=1 because we are checking before deleting the file
+                  if (success && numberOfRecordingsForUpload == 0) {
 
                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                       [alert show];
@@ -745,8 +764,7 @@
                       NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
                   }
 
-                  // Update count of recordings
-                  [self setNumberOfFilesRemainingForUpload];
+
                 }
 
               }
@@ -774,7 +792,7 @@
     int numOfRecordings = 0;
     for (filePath in filePathsArray)
     {
-        if ([filePath containsString:@"Recording"])
+        if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
         {
             numOfRecordings++;
         }
@@ -794,12 +812,16 @@
     alert.alertViewStyle=UIAlertViewStylePlainTextInput;
     [alert setDelegate:self];
     [alert show];
+   
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     self->fullName = [alertView textFieldAtIndex:0].text;
     [self saveUsername:fullName];
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
+    if (fileName == nil) {
+        [self initInfoFile]; // load file to record recording metadata
+    }
 }
 
 -(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
@@ -825,6 +847,8 @@
     DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
     dvc.settings = settings;
     dvc.delegate = self;
+    
+  
     
 }
 
@@ -1026,7 +1050,7 @@
        UIDeviceBatteryState currentState = [UIDevice currentDevice].batteryState;
     float batteryLevel = [UIDevice currentDevice].batteryLevel;
     
-    NSString *deviceInfo=[NSString stringWithFormat:@"time:, %d, monitor-time:, %f, record:, %f ,deviceBatteryState:, %d, deviceBatteryLevel:, %f",  (int)[[NSDate date] timeIntervalSince1970], [audioMonitor currentTime], [recorder currentTime], currentState, batteryLevel];
+    NSString *deviceInfo=[NSString stringWithFormat:@"time:, %d, monitor-time:, %f, record:, %f ,deviceBatteryState:, %ld, deviceBatteryLevel:, %f",  (int)[[NSDate date] timeIntervalSince1970], [audioMonitor currentTime], [recorder currentTime], (long)currentState, batteryLevel];
     
     NSString *csvLine = [deviceInfo stringByAppendingString:@"\n"];
     NSData *csvData = [csvLine dataUsingEncoding:NSUTF8StringEncoding];
@@ -1140,19 +1164,14 @@
         if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
             [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
         }
-        
-      //  NSError *error = nil;
-        //BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-        //if(success == NO) {
-          //  NSLog(@"cannot create info file:  %@", error);
-            //return;
-        //}
     }
 }
 
 -(void)updateMetadataFile{
     
-  //  if (fileName != nil) {
+    if (fileName == nil) {
+     [self initInfoFile]; // load file to record recording metadata
+    }
  
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -1175,8 +1194,16 @@
     [fh seekToEndOfFile];
     [fh writeData:csvData];
     [fh closeFile];
-  //  }
+  
     
+}
+- (IBAction)readingTestTapped:(id)sender {
+    ReadingTestViewController *readingTestView= (ReadingTestViewController *)[[ReadingTestViewController alloc] initWithNibName:nil bundle:nil];
+//    ReadingTestViewController *readingTestView = (ReadingTestViewController *)[storyboard instantiateViewControllerWithIdentifier:(NSString *)@"secondBoard"];
+
+    readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:readingTestView animated:YES];
+
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

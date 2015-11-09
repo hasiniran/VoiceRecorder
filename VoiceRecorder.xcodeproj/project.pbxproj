@@ -16,6 +16,9 @@
 		2502D9711B264E13005D7C45 /* button-12.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9701B264E13005D7C45 /* button-12.png */; };
 		2502D9731B264EB5005D7C45 /* button-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9721B264EB5005D7C45 /* button-14.png */; };
 		2502D9751B264F26005D7C45 /* button-15.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9741B264F26005D7C45 /* button-15.png */; };
+		25A5B99D1BBC478A00F45A73 /* button_reading.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B99C1BBC478A00F45A73 /* button_reading.png */; };
+		25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */; };
+		25A5B9AE1BC153A200F45A73 /* ReadingTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */; };
 		25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */; };
 		25CC4A021AC9D51000F0BDF6 /* Record_unsupervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */; };
 		25CC4A071ACB2ACE00F0BDF6 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A031ACB2ACE00F0BDF6 /* checked.png */; };
@@ -66,6 +69,10 @@
 		2502D9701B264E13005D7C45 /* button-12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-12.png"; sourceTree = "<group>"; };
 		2502D9721B264EB5005D7C45 /* button-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-14.png"; sourceTree = "<group>"; };
 		2502D9741B264F26005D7C45 /* button-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-15.png"; sourceTree = "<group>"; };
+		25A5B99C1BBC478A00F45A73 /* button_reading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_reading.png; sourceTree = "<group>"; };
+		25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadingTestViewController.h; path = ../ReadingTestViewController.h; sourceTree = "<group>"; };
+		25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadingTestViewController.m; path = ../ReadingTestViewController.m; sourceTree = "<group>"; };
+		25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReadingTestViewController.xib; path = ../ReadingTestViewController.xib; sourceTree = "<group>"; };
 		25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_supervised.tif; sourceTree = "<group>"; };
 		25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_unsupervised.tif; sourceTree = "<group>"; };
 		25CC4A031ACB2ACE00F0BDF6 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
@@ -152,6 +159,9 @@
 		E84927A919DB5C35005ACA9B /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */,
+				25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */,
+				25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */,
 				E84927AE19DB5C35005ACA9B /* AppDelegate.h */,
 				E84927AF19DB5C35005ACA9B /* AppDelegate.m */,
 				E84927B119DB5C35005ACA9B /* ViewController.h */,
@@ -170,6 +180,7 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25A5B99C1BBC478A00F45A73 /* button_reading.png */,
 				2502D9741B264F26005D7C45 /* button-15.png */,
 				2502D9721B264EB5005D7C45 /* button-14.png */,
 				2502D9701B264E13005D7C45 /* button-12.png */,
@@ -316,9 +327,11 @@
 				2502D96F1B264DFE005D7C45 /* button-11.png in Resources */,
 				25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */,
 				25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */,
+				25A5B9AE1BC153A200F45A73 /* ReadingTestViewController.xib in Resources */,
 				2502D9751B264F26005D7C45 /* button-15.png in Resources */,
 				25F770CB1AC8DE7A00167320 /* icon.png in Resources */,
 				E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */,
+				25A5B99D1BBC478A00F45A73 /* button_reading.png in Resources */,
 				25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */,
 				25F770C41AC06DCA00167320 /* Square_Black.tif in Resources */,
 				25CC4A081ACB2ACE00F0BDF6 /* checked@2x.png in Resources */,
@@ -343,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E937C5171A917B16006CE41E /* DevelopmentInterfaceViewController.m in Sources */,
+				25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */,
 				E84927B319DB5C35005ACA9B /* ViewController.m in Sources */,
 				E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */,
 				E937C5191A917B68006CE41E /* DevelopmentSettings.m in Sources */,
