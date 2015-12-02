@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "ReadingTestViewController.h"
 
 @interface AppDelegate ()
 
@@ -20,8 +21,8 @@
     // Override point for customization after application launch.
     // Add in keys manually so not in source control
     // TODO put in plist for safety
-    NSString *dropboxAppKey = @"m9mgh6ftclmptsl";
-    NSString *dropboxAppSecret = @"99w0fy8w1foiegh";
+    NSString *dropboxAppKey = @"8sctgk4f1a8pp16";
+    NSString *dropboxAppSecret = @"dn1gpc9oqla9hf9";
     
     DBSession *dbSession = [[DBSession alloc] initWithAppKey:dropboxAppKey appSecret:dropboxAppSecret root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];

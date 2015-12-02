@@ -16,6 +16,10 @@
 		2502D9711B264E13005D7C45 /* button-12.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9701B264E13005D7C45 /* button-12.png */; };
 		2502D9731B264EB5005D7C45 /* button-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9721B264EB5005D7C45 /* button-14.png */; };
 		2502D9751B264F26005D7C45 /* button-15.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9741B264F26005D7C45 /* button-15.png */; };
+		2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */; };
+		2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2587FEB21BF27D9700383823 /* cookieTheft.jpg */; };
+		2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEB71BF3C63300383823 /* ReadingTestHome.m */; };
+		2587FEBB1BF51B2A00383823 /* ReadingTest1Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */; };
 		25A5B99D1BBC478A00F45A73 /* button_reading.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B99C1BBC478A00F45A73 /* button_reading.png */; };
 		25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */; };
 		25A5B9AE1BC153A200F45A73 /* ReadingTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */; };
@@ -25,6 +29,7 @@
 		25CC4A081ACB2ACE00F0BDF6 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */; };
 		25CC4A091ACB2ACE00F0BDF6 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */; };
 		25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */; };
+		25DB59BE1BFA33A9009B1337 /* readingtestButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DB59BD1BFA33A9009B1337 /* readingtestButton.png */; };
 		25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B51AC06DCA00167320 /* Play_Black.tif */; };
 		25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B61AC06DCA00167320 /* Play_Red.tif */; };
 		25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B71AC06DCA00167320 /* Record_Black.tif */; };
@@ -69,6 +74,13 @@
 		2502D9701B264E13005D7C45 /* button-12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-12.png"; sourceTree = "<group>"; };
 		2502D9721B264EB5005D7C45 /* button-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-14.png"; sourceTree = "<group>"; };
 		2502D9741B264F26005D7C45 /* button-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-15.png"; sourceTree = "<group>"; };
+		2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest2Controller.h; sourceTree = "<group>"; };
+		2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest2Controller.m; sourceTree = "<group>"; };
+		2587FEB21BF27D9700383823 /* cookieTheft.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cookieTheft.jpg; sourceTree = "<group>"; };
+		2587FEB61BF3C63300383823 /* ReadingTestHome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTestHome.h; sourceTree = "<group>"; };
+		2587FEB71BF3C63300383823 /* ReadingTestHome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTestHome.m; sourceTree = "<group>"; };
+		2587FEB91BF51B2A00383823 /* ReadingTest1Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest1Controller.h; sourceTree = "<group>"; };
+		2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest1Controller.m; sourceTree = "<group>"; };
 		25A5B99C1BBC478A00F45A73 /* button_reading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_reading.png; sourceTree = "<group>"; };
 		25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadingTestViewController.h; path = ../ReadingTestViewController.h; sourceTree = "<group>"; };
 		25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadingTestViewController.m; path = ../ReadingTestViewController.m; sourceTree = "<group>"; };
@@ -79,6 +91,7 @@
 		25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
+		25DB59BD1BFA33A9009B1337 /* readingtestButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readingtestButton.png; sourceTree = "<group>"; };
 		25F770B51AC06DCA00167320 /* Play_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Black.tif; sourceTree = "<group>"; };
 		25F770B61AC06DCA00167320 /* Play_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Red.tif; sourceTree = "<group>"; };
 		25F770B71AC06DCA00167320 /* Record_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Black.tif; sourceTree = "<group>"; };
@@ -173,6 +186,12 @@
 				E84927B719DB5C35005ACA9B /* Images.xcassets */,
 				E84927B919DB5C35005ACA9B /* LaunchScreen.xib */,
 				E84927AA19DB5C35005ACA9B /* Supporting Files */,
+				2587FEB61BF3C63300383823 /* ReadingTestHome.h */,
+				2587FEB71BF3C63300383823 /* ReadingTestHome.m */,
+				2587FEB91BF51B2A00383823 /* ReadingTest1Controller.h */,
+				2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */,
+				2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */,
+				2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */,
 			);
 			path = VoiceRecorder;
 			sourceTree = "<group>";
@@ -180,6 +199,8 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25DB59BD1BFA33A9009B1337 /* readingtestButton.png */,
+				2587FEB21BF27D9700383823 /* cookieTheft.jpg */,
 				25A5B99C1BBC478A00F45A73 /* button_reading.png */,
 				2502D9741B264F26005D7C45 /* button-15.png */,
 				2502D9721B264EB5005D7C45 /* button-14.png */,
@@ -313,6 +334,7 @@
 				2502D9731B264EB5005D7C45 /* button-14.png in Resources */,
 				2502D9621B0FA178005D7C45 /* stop-enabled.png in Resources */,
 				25F770C71AC06DCA00167320 /* Upload_Red.tif in Resources */,
+				25DB59BE1BFA33A9009B1337 /* readingtestButton.png in Resources */,
 				2502D9691B261AC4005D7C45 /* Main.storyboard in Resources */,
 				25F770C21AC06DCA00167320 /* Record_Red-2.tif in Resources */,
 				2502D95B1B0F9F37005D7C45 /* button-enabled.png in Resources */,
@@ -328,6 +350,7 @@
 				25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */,
 				25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */,
 				25A5B9AE1BC153A200F45A73 /* ReadingTestViewController.xib in Resources */,
+				2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */,
 				2502D9751B264F26005D7C45 /* button-15.png in Resources */,
 				25F770CB1AC8DE7A00167320 /* icon.png in Resources */,
 				E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */,
@@ -356,10 +379,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E937C5171A917B16006CE41E /* DevelopmentInterfaceViewController.m in Sources */,
+				2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */,
 				25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */,
+				2587FEBB1BF51B2A00383823 /* ReadingTest1Controller.m in Sources */,
 				E84927B319DB5C35005ACA9B /* ViewController.m in Sources */,
 				E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */,
 				E937C5191A917B68006CE41E /* DevelopmentSettings.m in Sources */,
+				2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */,
 				E84927AD19DB5C35005ACA9B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTrackProgress;
 @property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;

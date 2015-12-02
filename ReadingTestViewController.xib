@@ -10,8 +10,9 @@
                 <outlet property="ButtonPrevious" destination="wp3-UZ-XYA" id="QBh-MD-G4Y"/>
                 <outlet property="buttonStart" destination="72L-Mp-7uH" id="Ao7-uA-FeT"/>
                 <outlet property="buttonStop" destination="Pef-fZ-B4G" id="Ao1-8x-WpW"/>
-                <outlet property="labelInstructions" destination="8rb-zJ-Jlg" id="1jX-H7-2hf"/>
-                <outlet property="textViewSentences" destination="OFt-9c-Iaz" id="rcb-WN-J60"/>
+                <outlet property="readingTask1" destination="wF2-8C-GL5" id="6AL-pJ-rxn"/>
+                <outlet property="readingTask2" destination="1eg-IB-cTq" id="e2O-ts-spi"/>
+                <outlet property="segmentedControl" destination="zDN-xL-gQM" id="my9-KA-Ain"/>
                 <outlet property="textboxName" destination="5GL-wQ-OAF" id="HMl-J1-CCU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -21,41 +22,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Read the following sentences" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rb-zJ-Jlg" userLabel="label_instruction">
-                    <rect key="frame" x="42" y="215" width="241" height="59"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="59" id="AQ4-1U-Inz"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFt-9c-Iaz">
-                    <rect key="frame" x="37" y="296" width="246" height="185"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="185" id="Ybb-qA-SX1"/>
-                    </constraints>
-                    <string key="text">The quick brown fox jumps over the lazy dog.
-
-</string>
-                    <color key="textColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72L-Mp-7uH">
-                    <rect key="frame" x="37" y="167" width="105" height="30"/>
-                    <color key="backgroundColor" red="0.55096301721352936" green="0.85119047619047616" blue="0.38519863867383591" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="105" id="BDh-FH-d40"/>
-                    </constraints>
-                    <state key="normal" title="START">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="startTapped:" destination="-1" eventType="touchUpInside" id="aeJ-xD-ZPr"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wp3-UZ-XYA">
                     <rect key="frame" x="8" y="24" width="109" height="36"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,25 +36,40 @@
                         <action selector="previousButtonTapped:" destination="-1" eventType="touchUpInside" id="aGv-02-apg"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5GL-wQ-OAF">
-                    <rect key="frame" x="135" y="101" width="148" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <action selector="nameEntered:" destination="-1" eventType="editingDidEnd" id="afU-ZW-jAw"/>
-                    </connections>
-                </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zl-fV-H5w">
                     <rect key="frame" x="37" y="101" width="90" height="25"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="90" id="6Ax-qC-RBx"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zDN-xL-gQM">
+                    <rect key="frame" x="37" y="151" width="246" height="29"/>
+                    <segments>
+                        <segment title="Test 1"/>
+                        <segment title="Test 2"/>
+                    </segments>
+                    <connections>
+                        <action selector="testAction:" destination="-1" eventType="valueChanged" id="QiA-uo-CFP"/>
+                    </connections>
+                </segmentedControl>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72L-Mp-7uH">
+                    <rect key="frame" x="49" y="213" width="105" height="30"/>
+                    <color key="backgroundColor" red="0.55096301721352936" green="0.85119047619047616" blue="0.38519863867383591" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="105" id="BDh-FH-d40"/>
+                    </constraints>
+                    <state key="normal" title="START">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="startTapped:" destination="-1" eventType="touchUpInside" id="aeJ-xD-ZPr"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pef-fZ-B4G">
-                    <rect key="frame" x="178" y="167" width="105" height="30"/>
+                    <rect key="frame" x="171" y="213" width="105" height="30"/>
                     <color key="backgroundColor" red="0.89880952380952384" green="0.17600742917744236" blue="0.24677542643873329" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="105" id="quU-br-WJx"/>
@@ -100,29 +81,69 @@
                         <action selector="stopTapped:" destination="-1" eventType="touchUpInside" id="yxY-YP-m5k"/>
                     </connections>
                 </button>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wF2-8C-GL5">
+                    <rect key="frame" x="37" y="265" width="297" height="320"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Read the following sentences" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z1N-ZT-DAt">
+                            <rect key="frame" x="13" y="20" width="237" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cC-0z-hnH">
+                            <rect key="frame" x="8" y="70" width="246" height="207"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <string key="text">The quick brown fox jumps over the lazy dog.
+
+</string>
+                            <color key="textColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                </scrollView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" fixedFrame="YES" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="1eg-IB-cTq">
+                    <rect key="frame" x="8" y="251" width="355" height="365"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Describe the following image" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUG-5w-uDe">
+                            <rect key="frame" x="46" y="25" width="237" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cookieTheft.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="xbE-GH-tzy">
+                            <rect key="frame" x="46" y="59" width="216" height="188"/>
+                        </imageView>
+                    </subviews>
+                </scrollView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5GL-wQ-OAF">
+                    <rect key="frame" x="135" y="101" width="148" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="nameEntered:" destination="-1" eventType="editingDidEnd" id="afU-ZW-jAw"/>
+                    </connections>
+                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="8rb-zJ-Jlg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="42" id="2vt-72-qVE"/>
-                <constraint firstItem="Pef-fZ-B4G" firstAttribute="trailing" secondItem="5GL-wQ-OAF" secondAttribute="trailing" id="6z3-Md-a7g"/>
+                <constraint firstItem="Pef-fZ-B4G" firstAttribute="trailing" secondItem="5GL-wQ-OAF" secondAttribute="trailing" constant="-7" id="6z3-Md-a7g"/>
                 <constraint firstItem="4zl-fV-H5w" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="37" id="A7b-J7-CHJ"/>
-                <constraint firstItem="8rb-zJ-Jlg" firstAttribute="trailing" secondItem="Pef-fZ-B4G" secondAttribute="trailing" id="HEQ-Aw-t0g"/>
                 <constraint firstItem="wp3-UZ-XYA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="Iq9-SA-hXJ"/>
-                <constraint firstItem="4zl-fV-H5w" firstAttribute="leading" secondItem="72L-Mp-7uH" secondAttribute="leading" id="PEt-mZ-ekl"/>
+                <constraint firstItem="4zl-fV-H5w" firstAttribute="leading" secondItem="72L-Mp-7uH" secondAttribute="leading" constant="-12" id="PEt-mZ-ekl"/>
                 <constraint firstItem="5GL-wQ-OAF" firstAttribute="leading" secondItem="4zl-fV-H5w" secondAttribute="trailing" constant="8" symbolic="YES" id="X1R-Kb-eLq"/>
                 <constraint firstItem="72L-Mp-7uH" firstAttribute="baseline" secondItem="Pef-fZ-B4G" secondAttribute="baseline" id="YCS-RO-oeD"/>
                 <constraint firstItem="4zl-fV-H5w" firstAttribute="top" secondItem="wp3-UZ-XYA" secondAttribute="bottom" constant="41" id="YFI-vN-Loq"/>
-                <constraint firstItem="72L-Mp-7uH" firstAttribute="top" secondItem="5GL-wQ-OAF" secondAttribute="bottom" constant="36" id="amP-Zp-pIQ"/>
-                <constraint firstItem="OFt-9c-Iaz" firstAttribute="leading" secondItem="72L-Mp-7uH" secondAttribute="leading" id="cX4-cc-Tcl"/>
+                <constraint firstItem="72L-Mp-7uH" firstAttribute="top" secondItem="5GL-wQ-OAF" secondAttribute="bottom" constant="82" id="amP-Zp-pIQ"/>
                 <constraint firstItem="5GL-wQ-OAF" firstAttribute="top" secondItem="4zl-fV-H5w" secondAttribute="top" id="fkO-0j-OOh"/>
-                <constraint firstItem="Pef-fZ-B4G" firstAttribute="leading" secondItem="72L-Mp-7uH" secondAttribute="trailing" constant="36" id="hwI-ob-OSP"/>
+                <constraint firstItem="Pef-fZ-B4G" firstAttribute="leading" secondItem="72L-Mp-7uH" secondAttribute="trailing" constant="17" id="hwI-ob-OSP"/>
                 <constraint firstItem="wp3-UZ-XYA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="iq0-EJ-OUQ"/>
-                <constraint firstItem="8rb-zJ-Jlg" firstAttribute="top" secondItem="72L-Mp-7uH" secondAttribute="bottom" constant="18" id="isc-j1-34Y"/>
-                <constraint firstItem="OFt-9c-Iaz" firstAttribute="trailing" secondItem="8rb-zJ-Jlg" secondAttribute="trailing" id="la8-i2-oqO"/>
-                <constraint firstItem="OFt-9c-Iaz" firstAttribute="top" secondItem="8rb-zJ-Jlg" secondAttribute="bottom" constant="22" id="rLm-Cu-spF"/>
-                <constraint firstItem="72L-Mp-7uH" firstAttribute="top" secondItem="4zl-fV-H5w" secondAttribute="bottom" constant="41" id="w6O-Xi-hgY"/>
+                <constraint firstItem="72L-Mp-7uH" firstAttribute="top" secondItem="4zl-fV-H5w" secondAttribute="bottom" constant="87" id="w6O-Xi-hgY"/>
             </constraints>
             <point key="canvasLocation" x="226" y="402"/>
         </view>
     </objects>
+    <resources>
+        <image name="cookieTheft.jpg" width="798" height="584"/>
+    </resources>
 </document>

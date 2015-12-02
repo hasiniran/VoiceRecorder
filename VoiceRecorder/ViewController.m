@@ -119,7 +119,7 @@
     //[self recordBatteryStatus];
     
     //set week number for the first time
-    if([self getWeekOfYear] == 0){
+    if(weekNumber == 0 || [self getWeekOfYear] == 0){
         NSCalendar *cal = [NSCalendar currentCalendar];
         NSDateComponents *components = [cal components:NSCalendarUnitWeekOfYear fromDate:[NSDate date]];
         weekNumber = [components weekOfYear];
@@ -133,7 +133,7 @@
     //load recording time for each mode
     [self loadRecordedTime];
     
-    
+    [self getFirstDayofWeek];
     
 }
 
@@ -160,55 +160,6 @@
         nil];
 
     outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
-}
-
-//uploads the file
--(IBAction)uploadFiles {
-    /*
-     * Iterates through documents directory, searches for files beginning with
-     * "Recording", and uploads files.
-     */
-
-    // Dropbox destination path
-    NSString *destDir = @"/";
-
-    // Get file manager
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    // Get directory path
-    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-
-    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
-
-    // Iterate through contents, if starts with "Recording", upload
-    NSString *filePath;
-
-    for (filePath in dirContents)
-    {
-        if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
-        {
-            NSLog(@"filePath: %@", filePath);
-
-            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
-            // Upload file to Dropbox
-            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-        }
-        
-//        if ([filePath containsString:@"ReadingTest"])
-//        {
-//            NSLog(@"filePath: %@", filePath);
-//            
-//            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
-//            // Upload file to Dropbox
-//            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-//        }
-
-    }
-    
-    if(recordingInfoFile != NULL){
-    
-    [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir fromPath:recordingInfoFile];
-    }
-
 }
 
 //initialize the audio monitor
@@ -330,7 +281,7 @@
                 else{
                     //silent but hasn't been silent for too long so increment time
                     // For some reason, increment is off by 10
-                    silenceTime += dt;
+                    silenceTime += dt*10;
                 }
             }
         }
@@ -396,11 +347,13 @@
     double timeRecorded = [recorder currentTime];
     NSLog(@"stopRecorder Record time: %f", timeRecorded);
     totalRecordTime += timeRecorded;
-    float minutesRecorded = floor(totalRecordTime/60);
-    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
-
+//    float minutesRecorded = floor(totalRecordTime/60);
+//    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
     
-    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+    unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
+
+  //  self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+    self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
     
     [self updateRecordingTime:previousMode :timeRecorded];
 
@@ -518,9 +471,12 @@
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
     self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"%llu%%", percentageSpaceRemaining];
     
-    float minutesRecorded = floor(totalRecordTime/60);
-    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
-    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+//    float minutesRecorded = floor(totalRecordTime/60);
+//    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
+//    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+    
+    unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
+    self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
 }
 
 
@@ -578,7 +534,7 @@
     
     
     //show time
-    self.timeElapsedLabel.text = @"Time 0:0";
+    self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
     
 }
@@ -615,25 +571,18 @@
 }
 
 - (void)updateSlider {
-    // Update the slider about the music time
-    float minutesMonitoring = floor(audioMonitor.currentTime/60);
-    float secondsMonitoring = audioMonitor.currentTime - (minutesMonitoring * 60);
-
-    float minutesRecording = floor(recorder.currentTime/60);
-    float secondsRecording = recorder.currentTime - (minutesRecording * 60);
-
-    //uncomment for the original-commented just for texting
-   NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesMonitoring, secondsMonitoring];
     
-    //comment after testing
-  //  NSString *time = [[NSString alloc] initWithFormat:@"Time %0.0f:%0.0f", minutesRecording, secondsRecording];
+  unsigned int elasedTimeinSec = (unsigned int)round(audioMonitor.currentTime);
+  NSString *string = [NSString stringWithFormat:@"%02u:%02u:%02u",
+                        elasedTimeinSec / 3600, (elasedTimeinSec / 60) % 60, elasedTimeinSec % 60];
+
     
-    self.timeElapsedLabel.text = time;
+    self.timeElapsedLabel.text = string;
 
     // If recording has gone on for more than given time, start new recording
     // In minutes
     double allowedElapsedTime = MAX_RECORDTIME;
-    if (minutesRecording >= allowedElapsedTime && isRecording)
+    if ((elasedTimeinSec/60)%60 >= allowedElapsedTime && isRecording)
     {
         // Stop old recording and start new one to decrease upload file sizes
         [self stopRecorder];
@@ -723,10 +672,73 @@
     [alert addSubview:indicator];
     [alert dismissWithClickedButtonIndex:0 animated:YES];
     [self uploadFiles]; //upload the test file
-    [self.uploadButton setEnabled:YES];
+    
 }
 
 
+//uploads the file
+-(IBAction)uploadFiles {
+    /*
+     * Iterates through documents directory, searches for files beginning with
+     * "Recording", and uploads files.
+     */
+    
+    // Dropbox destination path
+    NSString *destDir = @"/";
+    
+    // Get file manager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    // Get directory path
+    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
+    
+    // Iterate through contents, if starts with "Recording", upload
+    NSString *filePath;
+    
+    for (filePath in dirContents)
+    {
+        if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
+        {
+            NSLog(@"filePath: %@", filePath);
+            
+            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
+            
+            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:NULL];
+            unsigned long long fileSize = [attributes fileSize];
+            
+            //if size > 100 MB upload in chunks
+            //
+            //            if(fileSize > 10000){
+            //                [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+            //            }else{
+            
+            // Upload file to Dropbox
+            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+//            [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+
+            //            }
+        }
+        
+        //        if ([filePath containsString:@"ReadingTest"])
+        //        {
+        //            NSLog(@"filePath: %@", filePath);
+        //
+        //            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
+        //            // Upload file to Dropbox
+        //            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+        //        }
+        
+    }
+    
+    if(recordingInfoFile != NULL){
+        [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir fromPath:recordingInfoFile];
+        
+    }
+    
+    [self.uploadButton setEnabled:YES];
+    
+}
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
@@ -757,13 +769,13 @@
                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                       [alert show];
                   }
-                  else
-                  {
-                      
-
-                      NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
-                  }
-
+//                  else
+//                  {
+//                      
+//
+//                      NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
+//                  }
+//
 
                 }
 
@@ -771,14 +783,42 @@
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
 
-    NSString *errorText = [error localizedDescription];
+    NSString *errorText = error.userInfo;
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
-    [self.restClient cancelAllRequests];
+//    [self.restClient cancelAllRequests];
     
     NSLog(@"File upload failed with error: %@", error.localizedDescription);
+}
+
+- (void)restClient:(DBRestClient *)client uploadedFileChunk:(NSString *)uploadId newOffset:(unsigned long long)offset
+          fromFile:(NSString *)localPath expires:(NSDate *)expiresDate {
+    
+//    NSLog(@"uploadedFileChunk: %@, newOffset: %llu, fromFile: %@, expires: %@", uploadId, offset, localPath, expiresDate);
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attrs = [fileManager attributesOfItemAtPath:localPath error: NULL];
+    
+    // in real use, there's probably a dangerous race condition here in checking the size each time, but this is just for demonstration purposes
+    if (offset >= [attrs fileSize]) {
+        // all data has been uploaded
+        NSLog(@"Finishing upload...");
+        [self.restClient uploadFile:localPath toPath:@"/" withParentRev:nil fromUploadId:uploadId];
+    } else {
+        // more data to upload
+        NSLog(@"Continuing upload...");
+        [self.restClient uploadFileChunk:uploadId offset:offset fromPath:localPath];
+    }
+    
+}
+
+- (void)restClient:(DBRestClient *)client uploadFileChunkFailedWithError:(NSError *)error {
+    
+    NSLog(@"uploadFileChunkFailedWithError: %@", error);
+    // TODO: retry
+    
 }
 
 - (void)setNumberOfFilesRemainingForUpload {
@@ -819,7 +859,7 @@
     self->fullName = [alertView textFieldAtIndex:0].text;
     [self saveUsername:fullName];
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
-    if (fileName == nil) {
+    if (recordingInfoFile == nil) {
         [self initInfoFile]; // load file to record recording metadata
     }
 }
@@ -835,6 +875,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([[segue identifier] isEqualToString:@"DevelopmentSettings"]){
     DevelopmentSettings *settings = [DevelopmentSettings new];
     settings.AUDIOMONITOR_THRESHOLD = AUDIOMONITOR_THRESHOLD;
     settings.MAX_SILENCETIME = MAX_SILENCETIME;
@@ -847,7 +889,7 @@
     DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
     dvc.settings = settings;
     dvc.delegate = self;
-    
+    }
   
     
 }
@@ -880,6 +922,9 @@
     cribTime = [defaults floatForKey:@"cribTime"];
     supTime = [defaults floatForKey:@"supTime"];
     unsupTime = [defaults floatForKey:@"unsupTime"];
+    totalRecordTime += cribTime + supTime + unsupTime;
+    unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
+    self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
 }
 
 -(void)saveRecordedTime{
@@ -899,7 +944,7 @@
 
 -(void) saveWeekOfYear:(NSInteger)weekOfYear{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:weekOfYear forKey:@"week"];
+    [defaults setInteger:weekOfYear forKey:@"weekOfYear"];
     [defaults synchronize];
 }
 
@@ -1006,7 +1051,7 @@
     [self.buttonCribOff setEnabled:YES];
     
     //show time
-    self.timeElapsedLabel.text = @"Time 0:0";
+    self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
      NSLog(@"%@",outputFileURL);
     
@@ -1120,30 +1165,52 @@
     
     //calculate total crib mode recording time
     
-    hours = floor(cribTime/3600);
-    mins  = floor((cribTime - hours*3600)/60);
-    seconds = cribTime - hours*3600 - mins*60;
+//    hours = floor(cribTime/3600);
+//    mins  = floor((cribTime - hours*3600)/60);
+//    seconds = cribTime - hours*3600 - mins*60;
+//    
+    unsigned int timeInSec = (unsigned int)round(cribTime);
     
-    [message appendString: [[NSString alloc] initWithFormat:@"CRIB Mode\t\t\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
+   [message appendString:[NSString stringWithFormat:@"CRIB Mode\t\t\t\t %02u:%02u:%02u",
+                        timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
+    
+//    [message appendString: [[NSString alloc] initWithFormat:@"CRIB Mode\t\t\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
     
     
     //calculate supervised mode time
     
-    hours = floor(supTime/3600);
-    mins  = floor((supTime - hours*3600)/60);
-    seconds = supTime - hours*3600 - mins*60;
+//    hours = floor(supTime/3600);
+//    mins  = floor((supTime - hours*3600)/60);
+//    seconds = supTime - hours*3600 - mins*60;
     
-    [message appendString: [[NSString alloc] initWithFormat:@"SUPERVISED Mode\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
+    timeInSec = (unsigned int)round(supTime);
+    [message appendString:[NSString stringWithFormat:@"\nSUPERVISED Mode\t\t %02u:%02u:%02u",
+                           timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
+    
     
     //calculate un-supervised mode time
     
-    hours = floor(unsupTime/3600);
-    mins  = floor((unsupTime - hours*3600)/60);
-    seconds = unsupTime - hours*3600 - mins*60;
+//    hours = floor(unsupTime/3600);
+//    mins  = floor((unsupTime - hours*3600)/60);
+//    seconds = unsupTime - hours*3600 - mins*60;
+//    
+//    [message appendString: [[NSString alloc] initWithFormat:@"UN-SUPERVISED Mode\t %d:%d:%0.0f     \n", hours, mins, seconds ]];
     
-    [message appendString: [[NSString alloc] initWithFormat:@"UN-SUPERVISED Mode\t %d:%d:%0.0f     \n", hours, mins, seconds ]];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Hours Recorded During the Week" message:message delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    timeInSec = (unsigned int)round(unsupTime);
+    
+
+    
+    [message appendString:[NSString stringWithFormat:@"\nUN-SUPERVISED Mode\t %02u:%02u:%02u",
+                           timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
+    
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    NSLog(@"%@",[dateFormat stringFromDate:[self getFirstDayofWeek]]);
+    NSString *title = [NSString stringWithFormat:@"Hours Recorded During the Week starting from %@", [dateFormat stringFromDate:[self getFirstDayofWeek]]];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: title message:message delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     
     
@@ -1154,7 +1221,7 @@
 
 -(void)initInfoFile{
     
-    if(recordingInfoFile == nil) {
+//    if(recordingInfoFile == nil) {
         NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         
         NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
@@ -1164,12 +1231,12 @@
         if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
             [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
         }
-    }
+//    }
 }
 
 -(void)updateMetadataFile{
     
-    if (fileName == nil) {
+    if (recordingInfoFile == nil) {
      [self initInfoFile]; // load file to record recording metadata
     }
  
@@ -1199,18 +1266,91 @@
 }
 - (IBAction)readingTestTapped:(id)sender {
     ReadingTestViewController *readingTestView= (ReadingTestViewController *)[[ReadingTestViewController alloc] initWithNibName:nil bundle:nil];
-//    ReadingTestViewController *readingTestView = (ReadingTestViewController *)[storyboard instantiateViewControllerWithIdentifier:(NSString *)@"secondBoard"];
+////    ReadingTestViewController *readingTestView = (ReadingTestViewController *)[storyboard instantiateViewControllerWithIdentifier:(NSString *)@"secondBoard"];
 
-    readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
+     readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:readingTestView animated:YES];
-
+    
+    
+//    UITabBarController *tabBarController = [[UITabBarController alloc]init];
+//    [tabBarController setViewControllers:[NSArray arrayWithObjects:readingTestView,nil] animated:NO];
+   // [self.view addSubview:tabBarController.view];
+    //[self addSubview:tabBarController.view];
+    
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [self.textfieldComment resignFirstResponder];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
     return YES;
 }
 
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,-50,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    
+}
+
+
+-(void)initNSUserDefaults{
+    
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
+}
+
+//to dismiss the keyboard when tapped anywhere
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+    [self.textfieldComment endEditing:YES];
+    [self textFieldShouldReturn:self.textfieldComment];
+}
+
+
+
+// to show the hidden content on the view by the keyboard
+//- (void)keyboardWasShown:(NSNotification*)aNotification {
+//    NSDictionary* info = [aNotification userInfo];
+//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+//    CGRect bkgndRect = self.textfieldComment.superview.frame;
+//    bkgndRect.size.height += kbSize.height;
+//    [self.textfieldComment.superview setFrame:bkgndRect];
+//    [self.scrollview setContentOffset:CGPointMake(0.0, self.textfieldComment.frame.origin.y-kbSize.height) animated:YES];
+//}
+
+
+-(NSDate*)getFirstDayofWeek{
+    
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDate *now = [NSDate date];
+    NSDate *startOfTheWeek;
+    NSDate *endOfWeek;
+    NSTimeInterval interval;
+    [cal rangeOfUnit:NSWeekCalendarUnit
+           startDate:&startOfTheWeek
+            interval:&interval
+             forDate:now];
+    //startOfWeek holds now the first day of the week, according to locale (monday vs. sunday)
+
+    NSDateFormatter *dateFormat_first = [[NSDateFormatter alloc] init];
+    [dateFormat_first setDateFormat:@"yyyy-MM-dd"];
+  
+    NSLog(@"%@",[dateFormat_first stringFromDate:startOfTheWeek]);
+    return startOfTheWeek;
+}
 
 @end

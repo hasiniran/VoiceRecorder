@@ -13,6 +13,7 @@
     NSString* name;
     NSURL* filepath;
     BOOL isrecording;
+    NSString* testName;
     
     AVAudioRecorder *recorder;
     AVAudioSession *session;
@@ -32,7 +33,12 @@
     [self.buttonStop setEnabled:NO];
     [self.buttonStart setEnabled:NO];
     isrecording = NO;
-    self.textboxName.delegate = self; 
+    self.textboxName.delegate = self;
+    [self.readingTask1 setHidden:YES];
+    [self.readingTask2 setHidden:YES];
+    [self.segmentedControl setEnabled:NO];
+    testName = @"Test1";
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,9 +51,8 @@
 }
 - (IBAction)startTapped:(id)sender {
     [self.labelInstructions setHidden:NO];
-    [self.textViewSentences setHidden:NO];
-
-    //if recorder is not initialized
+    
+       //if recorder is not initialized
     
     if(!isrecording){
         //set the output file url
@@ -56,7 +61,7 @@
         [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
-        NSString* fileName = [NSString stringWithFormat:@"ReadingTest %@ %@.m4a", self->name, dateString];
+        NSString* fileName = [NSString stringWithFormat:@"ReadingTest %@ %@ %@.m4a", self->name, testName, dateString];
         
         //set the audio file
         //this is for defining the URL of where the sound file will be saved on the device
@@ -125,6 +130,31 @@
     name = [NSString stringWithFormat:@"%@_%@", self.userid, self.textboxName.text];
     NSLog(@"name : %@", name);
         [self.buttonStart setEnabled:YES];
+        
+        [self.segmentedControl setEnabled:YES];
+        
+    if([testName isEqualToString:@"Test1"]){
+            [self.readingTask1 setHidden:NO];
+            [self.readingTask2 setHidden:YES];
+        }
+        else{
+            [self.readingTask1 setHidden:YES];
+            [self.readingTask2 setHidden:NO];
+        }
+        
+    }
+    
+    
+}
+- (IBAction)testAction:(id)sender {
+    if(self.segmentedControl.selectedSegmentIndex == 0){
+        testName = @"Test1";
+        [self.readingTask1 setHidden:NO];
+        [self.readingTask2 setHidden:YES];
+    }else if (self.segmentedControl.selectedSegmentIndex == 1){
+        testName = @"Test2";
+        [self.readingTask1 setHidden:YES];
+        [self.readingTask2 setHidden:NO];
     }
 }
 
