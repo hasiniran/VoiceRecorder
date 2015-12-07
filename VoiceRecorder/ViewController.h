@@ -11,6 +11,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DevelopmentInterfaceViewController.h"
 #import "DevelopmentSettings.h"
+#import "NamePickerController.h"
 
 @interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 

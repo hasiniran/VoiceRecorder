@@ -21,11 +21,12 @@
     // Override point for customization after application launch.
     // Add in keys manually so not in source control
     // TODO put in plist for safety
-    NSString *dropboxAppKey = @"8sctgk4f1a8pp16";
-    NSString *dropboxAppSecret = @"dn1gpc9oqla9hf9";
+    NSString *dropboxAppKey = @"";
+    NSString *dropboxAppSecret = @"";
     
     DBSession *dbSession = [[DBSession alloc] initWithAppKey:dropboxAppKey appSecret:dropboxAppSecret root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];
+    
     return YES;
 }
 

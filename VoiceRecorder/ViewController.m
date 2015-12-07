@@ -59,6 +59,11 @@
     double cribTime; // minutes recorded in crib mode within current week
     double supTime; // minutes recorded in supervised mode within current week
     double unsupTime; // minutes recorded in unsupervised mode within current week
+    
+    //custom variables for the case study 1
+    id selectedSender;
+    NSString *childName;
+    
     }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -148,7 +153,7 @@
     }
 
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"Recording of %@ %@ %@.m4a", self->fullName, self->currentMode, [self getDate]];
+    fileName = [NSString stringWithFormat:@"Recording of %@_%@ %@ %@.m4a", self->fullName, self->childName, self->currentMode, [self getDate]];
 
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -523,7 +528,6 @@
     // Setup Audio Session and Recorder
     [self initRecorder];
     
-         NSLog(@"%@",outputFileURL);
     // Start recording
     [recorder record];
     isRecording = YES;
@@ -536,6 +540,8 @@
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
+    
+    NSLog(@"File : %@",outputFileURL);
     
 }
 
@@ -996,6 +1002,17 @@
 }
 
 -(void)modeChanged:(id)sender{
+    
+    selectedSender = sender;
+    NSString * storyboardName = @"Main";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+    NamePickerController *vc = [storyboard instantiateViewControllerWithIdentifier:@"NamePickerController"];
+    vc.delegate = self;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+-(void)doRecording:(id)sender{
+    
     previousMode = currentMode;
     [self resetModeButtons];
     switch ([sender tag]) {
@@ -1053,10 +1070,16 @@
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
-     NSLog(@"%@",outputFileURL);
-    
+    NSLog(@"%@",outputFileURL);
 }
 
+-(void)getSelectedChild:(NSString *)name
+{
+    // data will come here from NamePickerController
+    childName = name;
+    [self doRecording:selectedSender];
+    NSLog(@"child : %@",childName);
+}
 
 //methods to check battery status. These are used to compare microphones.
 
@@ -1264,20 +1287,15 @@
   
     
 }
+
+
+
 - (IBAction)readingTestTapped:(id)sender {
     ReadingTestViewController *readingTestView= (ReadingTestViewController *)[[ReadingTestViewController alloc] initWithNibName:nil bundle:nil];
-////    ReadingTestViewController *readingTestView = (ReadingTestViewController *)[storyboard instantiateViewControllerWithIdentifier:(NSString *)@"secondBoard"];
-
-     readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
+    readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:readingTestView animated:YES];
-    
-    
-//    UITabBarController *tabBarController = [[UITabBarController alloc]init];
-//    [tabBarController setViewControllers:[NSArray arrayWithObjects:readingTestView,nil] animated:NO];
-   // [self.view addSubview:tabBarController.view];
-    //[self addSubview:tabBarController.view];
-    
 }
+
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -1300,16 +1318,18 @@
 }
 
 
--(void)initNSUserDefaults{
-    
-}
+//- (BOOL)shouldAutorotate {
+//    return NO;
+//}
+//
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationPortrait;
+//}
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 //to dismiss the keyboard when tapped anywhere
