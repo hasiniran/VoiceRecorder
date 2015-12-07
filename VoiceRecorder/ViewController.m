@@ -332,9 +332,7 @@
     else{
         [audioMonitor record];
     }
-    //[audioMonitor record];
-    //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
-    //NSLog(@"calling again");
+
 }
 
 -(void) stopRecorder{
@@ -347,12 +345,9 @@
     double timeRecorded = [recorder currentTime];
     NSLog(@"stopRecorder Record time: %f", timeRecorded);
     totalRecordTime += timeRecorded;
-//    float minutesRecorded = floor(totalRecordTime/60);
-//    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
     
     unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
 
-  //  self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
     self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
     
     [self updateRecordingTime:previousMode :timeRecorded];
@@ -470,10 +465,7 @@
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
     self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"%llu%%", percentageSpaceRemaining];
-    
-//    float minutesRecorded = floor(totalRecordTime/60);
-//    float secondsRecorded = totalRecordTime - (minutesRecorded * 60);
-//    self.numberOfMinutesRecorded.text = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutesRecorded, secondsRecorded];
+
     
     unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
     self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
@@ -706,28 +698,12 @@
             
             NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:NULL];
             unsigned long long fileSize = [attributes fileSize];
-            
-            //if size > 100 MB upload in chunks
-            //
-            //            if(fileSize > 10000){
-            //                [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
-            //            }else{
-            
-            // Upload file to Dropbox
-            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-//            [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
 
-            //            }
+            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+
         }
         
-        //        if ([filePath containsString:@"ReadingTest"])
-        //        {
-        //            NSLog(@"filePath: %@", filePath);
-        //
-        //            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
-        //            // Upload file to Dropbox
-        //            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-        //        }
+
         
     }
     
@@ -1164,37 +1140,17 @@
     float seconds;
     
     //calculate total crib mode recording time
-    
-//    hours = floor(cribTime/3600);
-//    mins  = floor((cribTime - hours*3600)/60);
-//    seconds = cribTime - hours*3600 - mins*60;
-//    
+   
     unsigned int timeInSec = (unsigned int)round(cribTime);
     
    [message appendString:[NSString stringWithFormat:@"CRIB Mode\t\t\t\t %02u:%02u:%02u",
                         timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
     
-//    [message appendString: [[NSString alloc] initWithFormat:@"CRIB Mode\t\t\t\t %d:%d:%0.0f\n", hours, mins, seconds ]];
-    
-    
-    //calculate supervised mode time
-    
-//    hours = floor(supTime/3600);
-//    mins  = floor((supTime - hours*3600)/60);
-//    seconds = supTime - hours*3600 - mins*60;
+
     
     timeInSec = (unsigned int)round(supTime);
     [message appendString:[NSString stringWithFormat:@"\nSUPERVISED Mode\t\t %02u:%02u:%02u",
                            timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
-    
-    
-    //calculate un-supervised mode time
-    
-//    hours = floor(unsupTime/3600);
-//    mins  = floor((unsupTime - hours*3600)/60);
-//    seconds = unsupTime - hours*3600 - mins*60;
-//    
-//    [message appendString: [[NSString alloc] initWithFormat:@"UN-SUPERVISED Mode\t %d:%d:%0.0f     \n", hours, mins, seconds ]];
     
     
     timeInSec = (unsigned int)round(unsupTime);
@@ -1266,16 +1222,9 @@
 }
 - (IBAction)readingTestTapped:(id)sender {
     ReadingTestViewController *readingTestView= (ReadingTestViewController *)[[ReadingTestViewController alloc] initWithNibName:nil bundle:nil];
-////    ReadingTestViewController *readingTestView = (ReadingTestViewController *)[storyboard instantiateViewControllerWithIdentifier:(NSString *)@"secondBoard"];
-
      readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
     [self presentModalViewController:readingTestView animated:YES];
-    
-    
-//    UITabBarController *tabBarController = [[UITabBarController alloc]init];
-//    [tabBarController setViewControllers:[NSArray arrayWithObjects:readingTestView,nil] animated:NO];
-   // [self.view addSubview:tabBarController.view];
-    //[self addSubview:tabBarController.view];
+
     
 }
 
@@ -1308,9 +1257,11 @@
     return NO;
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationPortrait;
+- (NSUInteger)supportedInterfaceOrientations
+{
+       return UIInterfaceOrientationMaskPortrait;
 }
+
 
 //to dismiss the keyboard when tapped anywhere
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -1322,15 +1273,6 @@
 
 
 
-// to show the hidden content on the view by the keyboard
-//- (void)keyboardWasShown:(NSNotification*)aNotification {
-//    NSDictionary* info = [aNotification userInfo];
-//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-//    CGRect bkgndRect = self.textfieldComment.superview.frame;
-//    bkgndRect.size.height += kbSize.height;
-//    [self.textfieldComment.superview setFrame:bkgndRect];
-//    [self.scrollview setContentOffset:CGPointMake(0.0, self.textfieldComment.frame.origin.y-kbSize.height) animated:YES];
-//}
 
 
 -(NSDate*)getFirstDayofWeek{
