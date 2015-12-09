@@ -67,6 +67,7 @@
 
 @implementation ViewController
 @synthesize storageText, currentText, lastRecordingText, recordButton, playButton, uploadButton;
+@synthesize uploadProgressValue;
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -654,7 +655,7 @@
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
-    [self.uploadButton setEnabled:NO];
+//    [self.uploadButton setEnabled:NO];
     
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
@@ -663,6 +664,7 @@
     [indicator startAnimating];
     [alert addSubview:indicator];
     [alert dismissWithClickedButtonIndex:0 animated:YES];
+    [self startUploadProgress:[NSNumber numberWithInt:numberOfRecordingsForUpload]];
     [self uploadFiles]; //upload the test file
     
 }
@@ -712,7 +714,7 @@
         
     }
     
-    [self.uploadButton setEnabled:YES];
+//    [self.uploadButton setEnabled:YES];
     
 }
 
@@ -1293,6 +1295,36 @@
   
     NSLog(@"%@",[dateFormat_first stringFromDate:startOfTheWeek]);
     return startOfTheWeek;
+}
+
+
+//methods to show upload progress
+-(void)startUploadProgress:(NSNumber *)numberOfFiles{
+    uploadProgressValue =0.0f;
+    [self.progressViewUpload setHidden:NO];
+    [self.labelUploadProgress setHidden:NO];
+    [self.uploadButton setEnabled:NO];
+    [self increaseUploadProgress:numberOfFiles];
+    
+}
+-(void)increaseUploadProgress:(NSNumber*)numberOfFiles{
+    
+    if(self.progressViewUpload.progress < 1 && numberOfFiles > 0){
+        uploadProgressValue = ([numberOfFiles integerValue]-numberOfRecordingsForUpload)/(float)[numberOfFiles integerValue];
+        self.progressViewUpload.progress = uploadProgressValue;
+        [self performSelector:@selector(increaseUploadProgress:) withObject:numberOfFiles  afterDelay:0.1];
+    }else if (uploadProgressValue == 1 || numberOfRecordingsForUpload ==0 ){
+        [self resetUploadProgressView];
+    }
+    
+    NSLog(@"progress: %f", uploadProgressValue);
+}
+-(void)resetUploadProgressView{
+    uploadProgressValue = 0;
+    self.progressViewUpload.progress = 0;
+    [self.progressViewUpload setHidden:YES];
+    [self.labelUploadProgress setHidden:YES];
+    [self.uploadButton setEnabled:YES];
 }
 
 @end
