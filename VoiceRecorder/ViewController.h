@@ -47,11 +47,15 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonUnsupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOn;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTrackProgress;
 @property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 
+@property (weak, nonatomic) IBOutlet UIProgressView *progressViewUpload;
+@property (nonatomic) float uploadProgressValue;
+@property (weak, nonatomic) IBOutlet UILabel *labelUploadProgress;
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
