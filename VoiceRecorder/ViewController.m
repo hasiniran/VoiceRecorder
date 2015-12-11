@@ -1071,6 +1071,7 @@
     
     // Enable stop button and disable play button
     [self.buttonCribOff setEnabled:YES];
+    [self.textfieldComment setEnabled:YES];
     
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
@@ -1391,7 +1392,7 @@
     if(self.progressViewUpload.progress < 1 && numberOfFiles > 0){
         uploadProgressValue = ([numberOfFiles integerValue]-numberOfRecordingsForUpload)/(float)[numberOfFiles integerValue];
         self.progressViewUpload.progress = uploadProgressValue;
-        [self performSelector:@selector(increaseUploadProgress:) withObject:numberOfFiles  afterDelay:0.01];
+        [self performSelector:@selector(increaseUploadProgress:) withObject:numberOfFiles  afterDelay:0.1];
     }else if (uploadProgressValue == 1 || numberOfRecordingsForUpload ==0 ){
         [self resetUploadProgressView];
     }
