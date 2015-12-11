@@ -560,6 +560,7 @@
     [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
+    [self.textfieldComment setEnabled:YES];
 
 }
 
@@ -971,6 +972,7 @@
     
     //clear comment field
     self.textfieldComment.text =@"";
+    [self.textfieldComment setEnabled:NO];
 }
 
 -(void)modeChanged:(id)sender{
@@ -1027,6 +1029,7 @@
     
     // Enable stop button and disable play button
     [self.buttonCribOff setEnabled:YES];
+    [self.textfieldComment setEnabled:YES];
     
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
@@ -1316,8 +1319,6 @@
     }else if (uploadProgressValue == 1 || numberOfRecordingsForUpload ==0 ){
         [self resetUploadProgressView];
     }
-    
-    NSLog(@"progress: %f", uploadProgressValue);
 }
 -(void)resetUploadProgressView{
     uploadProgressValue = 0;
