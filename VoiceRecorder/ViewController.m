@@ -581,6 +581,7 @@
 - (void)updateSlider {
     
   unsigned int elasedTimeinSec = (unsigned int)round(audioMonitor.currentTime);
+  unsigned int elasedRecordedTime = (unsigned int)round(recorder.currentTime);
   NSString *string = [NSString stringWithFormat:@"%02u:%02u:%02u",
                         elasedTimeinSec / 3600, (elasedTimeinSec / 60) % 60, elasedTimeinSec % 60];
 
@@ -590,7 +591,7 @@
     // If recording has gone on for more than given time, start new recording
     // In minutes
     double allowedElapsedTime = MAX_RECORDTIME;
-    if ((elasedTimeinSec/60)%60 >= allowedElapsedTime && isRecording)
+    if ((elasedRecordedTime/60)%60 >= allowedElapsedTime && isRecording)
     {
         // Stop old recording and start new one to decrease upload file sizes
         [self stopRecorder];
