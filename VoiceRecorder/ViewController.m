@@ -59,6 +59,8 @@
     double cribTime; // minutes recorded in crib mode within current week
     double supTime; // minutes recorded in supervised mode within current week
     double unsupTime; // minutes recorded in unsupervised mode within current week
+    
+    NSInteger userGroup; // used to customize the UI according to the test group user belongs to
     }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -71,6 +73,11 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
+    
+    //set the test group.
+    // userGroup = 1 for the infant study. userGroup = 2 for the emotion recognition study.
+    userGroup = 2;
+    
 
     //set monitoring and recording variables
     AUDIOMONITOR_THRESHOLD = .1;
@@ -944,7 +951,28 @@
         [self.playButton setHidden:YES];
     }
     
+    //show only the buttons relevant to test group
+    if(userGroup == 1){
+        //all three tests need to be done. hence no alterations to the UI
+        
+    }else if(userGroup ==2){
+       //only the recodring of sibling is required
+        [self.buttonSupOn setHidden:YES];
+        [self.buttonCribOn setHidden:YES];
+        [self.buttonUnsupOn setHidden:YES];
+        [self.buttonReadingTest setHidden:YES];
+        [self.buttonTrackProgress setHidden:YES];
+        [self.labelTimeRecorded setHidden:YES];
+        [self.numberOfMinutesRecorded setHidden:YES];
+        [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
+        
+        self.buttonRecordSibling.frame = CGRectMake(23,109,140, 40);
+        self.buttonReadingTest.frame = CGRectMake(23, 175, 140, 40);
+        self.labelComment.frame = CGRectMake(23, 241, 84, 21);
+        self.textfieldComment.frame = CGRectMake(167,241 , 140, 30);
+        
 
+    }
 }
 
 
@@ -953,9 +981,11 @@
     [self.buttonCribOn setTag:0];
     [self.buttonSupOn setTag:1];
     [self.buttonUnsupOn setTag:2];
+    [self.buttonRecordSibling setTag:3];
     [self.buttonCribOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     [self.buttonSupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     [self.buttonUnsupOn  addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonRecordSibling addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.buttonCribOff addTarget:self action:@selector(stopTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -967,9 +997,11 @@
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
     [self.buttonUnsupOn setEnabled:YES];
+    [self.buttonRecordSibling setEnabled:YES];
     [self.buttonCribOn setSelected:NO];
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
+    [self.buttonRecordSibling setSelected:NO];
     
     //clear comment field
     self.textfieldComment.text =@"";
@@ -986,6 +1018,7 @@
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:NO];
             [self.buttonUnsupOn setSelected:NO];
+            [self.buttonRecordSibling setSelected:NO];
             break;
         case 1:
             currentMode = @"SUPERVISED";
@@ -993,6 +1026,7 @@
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:YES];
             [self.buttonUnsupOn setSelected:NO];
+            [self.buttonRecordSibling setSelected:NO];
             break;
         case 2:
             currentMode = @"UNSUPERVISED";
@@ -1000,6 +1034,15 @@
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:NO];
             [self.buttonUnsupOn setSelected:YES];
+            [self.buttonRecordSibling setSelected:NO];
+            break;
+        case 3:
+            currentMode = @"sibling";
+            [self.buttonCribOn setSelected:NO];
+            [self.buttonCribOff setEnabled:YES];
+            [self.buttonSupOn setSelected:NO];
+            [self.buttonUnsupOn setSelected:NO];
+            [self.buttonRecordSibling setSelected:YES];
             break;
         default:
             break;
@@ -1249,7 +1292,12 @@
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.25];
-    self.view.frame = CGRectMake(0,-50,self.view.frame.size.width,self.view.frame.size.height);
+    
+    if(userGroup == 1){
+            self.view.frame = CGRectMake(0,-50,self.view.frame.size.width,self.view.frame.size.height);
+    }else if (userGroup==2) {
+            self.view.frame = CGRectMake(0,-70,self.view.frame.size.width,self.view.frame.size.height);
+    }
     [UIView commitAnimations];
     
 }

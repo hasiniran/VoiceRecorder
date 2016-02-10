@@ -36,9 +36,9 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIButton *uploadButton;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSupervised;
-@property (weak, nonatomic) IBOutlet UIButton *buttonCrib;
-@property (weak, nonatomic) IBOutlet UIButton *buttonUnsupervised;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonSupervised;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonCrib;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonUnsupervised;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonUnsupOn;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCribOff;
@@ -48,11 +48,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOn;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSupOff;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTrackProgress;
-@property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressViewUpload;
 @property (nonatomic) float uploadProgressValue;
 @property (weak, nonatomic) IBOutlet UILabel *labelUploadProgress;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRecordSibling;
+@property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
+@property (weak, nonatomic) IBOutlet UILabel *labelComment;
+@property (weak, nonatomic) IBOutlet UILabel *labelTimeRecorded;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
