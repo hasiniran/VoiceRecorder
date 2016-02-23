@@ -76,7 +76,7 @@
     
     //set the test group.
     // userGroup = 1 for the infant study. userGroup = 2 for the emotion recognition study.
-    userGroup = 2;
+    userGroup = 1;
     
 
     //set monitoring and recording variables

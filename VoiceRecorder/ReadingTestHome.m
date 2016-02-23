@@ -26,6 +26,9 @@
     siblingName = [defaults objectForKey:@"siblingname"];
     if(siblingName !=NULL){
        self.textfieldName.text = siblingName;
+    }else{
+        [self.buttonTest1 setEnabled:NO];
+        [self.buttonTest2 setEnabled:NO];
     }
     
     self.textfieldName.delegate =self;
@@ -63,9 +66,14 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setValue:self.textfieldName.text forKey:@"siblingname"];
         [defaults synchronize];
+        [self.buttonTest1 setEnabled:YES];
+        [self.buttonTest2 setEnabled:YES];
+
+    }else{
+        [self.buttonTest1 setEnabled:NO];
+        [self.buttonTest2 setEnabled:NO];
     }
-    
-    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"siblingname"]);
+    //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"siblingname"]);
 }
 
 
@@ -74,6 +82,14 @@
     //hide the keyboard
     [self.textfieldName resignFirstResponder];
     return YES;
+}
+
+//to dismiss the keyboard when tapped anywhere
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+    [self.textfieldName endEditing:YES];
+    [self textFieldShouldReturn:self.textfieldName];
 }
 
 
