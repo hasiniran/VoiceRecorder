@@ -62,7 +62,6 @@
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
 - (IBAction)uploadFile:(id)sender;
-- (IBAction)readingTestTapped:(id)sender;
 - (void)setNumberOfFilesRemainingForUpload;
 - (void)askForUserInfo;
 

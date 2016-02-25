@@ -59,6 +59,7 @@
     double cribTime; // minutes recorded in crib mode within current week
     double supTime; // minutes recorded in supervised mode within current week
     double unsupTime; // minutes recorded in unsupervised mode within current week
+    double siblingTime; // minutes recorded in 'Record Sibling' mode within the current week
     
     NSInteger userGroup; // used to customize the UI according to the test group user belongs to
     }
@@ -76,7 +77,7 @@
     
     //set the test group.
     // userGroup = 1 for the infant study. userGroup = 2 for the emotion recognition study.
-    userGroup = 1;
+    userGroup = 2;
     
 
     //set monitoring and recording variables
@@ -113,7 +114,6 @@
     
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
     
-
     // Set disk space etc
     [self setFreeDiskspace];
     
@@ -133,8 +133,6 @@
         weekNumber = [components weekOfYear];
         [self saveWeekOfYear:weekNumber];
     }
-    
-    
     
     [self.textfieldComment setDelegate:self];
     
@@ -465,10 +463,9 @@
     //Make and display a string of the current free space of the device
     //If we want to display minutes remaining, recordings take roughly 2MB/minute
 
-    uint64_t actualFreeSpace = totalFreeSpace/(1024*1024); //convert to megabytes
-    uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
-    NSString* space = [@(actualFreeSpace) stringValue]; //put free space into a string
-    NSString* spaceUnit = @" MB"; //string for the unit of free space
+// uint64_t actualFreeSpace = totalFreeSpace/(1024*1024); //convert to megabytes
+//    uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
+
 
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
@@ -600,20 +597,25 @@
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
     [recordingTimer invalidate];
+    [self updateDisplay];
+   
+}
 
+-(void)updateDisplay{
     // Update count of recordings
     [self setNumberOfFilesRemainingForUpload];
-
+    
     // Update display of the free space on the device
     [self setFreeDiskspace];
-
+    
     //reset buttons
     [self resetModeButtons];
-     currentMode = @"";
+    currentMode = @"";
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
 
+    
 }
 
 - (void)stopAudioMonitorAndAudioMonitorTimer
@@ -656,11 +658,12 @@
 // TODO: Just put this to upload button
 - (IBAction)uploadFile:(id)sender
 {
-    if (![[DBSession sharedSession] isLinked]) {
-        [[DBSession sharedSession] linkFromController:self];
-        NSLog(@"linking");
-    }
-    NSLog(@"already linked");
+//    if (![[DBSession sharedSession] isLinked]) {
+//        [[DBSession sharedSession] linkFromController:self];
+//        NSLog(@"linking");
+//    }
+//    NSLog(@"already linked");
+//    
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
@@ -707,8 +710,8 @@
             
             NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
             
-            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:NULL];
-            unsigned long long fileSize = [attributes fileSize];
+//            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:NULL];
+//            unsigned long long fileSize = [attributes fileSize];
 
             [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
 
@@ -770,13 +773,20 @@
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
 
-    NSString *errorText = error.userInfo;
+    NSString *errorText = error.localizedDescription;
+    
+    //if authentication error
+    if(error.code == 401){
+        [self.restClient cancelAllRequests];
+        [self resetUploadProgressView];
+        [self didPressLink];
+    }else{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
 //    [self.restClient cancelAllRequests];
-    
+    }
     NSLog(@"File upload failed with error: %@", error.localizedDescription);
 }
 
@@ -808,10 +818,11 @@
     
 }
 
+/*
+ * Calculates and sets Label of number of files remaining for uplaod
+ */
 - (void)setNumberOfFilesRemainingForUpload {
-    /*
-     * Calculates and sets Label of number of files remaining for uplaod
-     */
+
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
@@ -909,7 +920,8 @@
     cribTime = [defaults floatForKey:@"cribTime"];
     supTime = [defaults floatForKey:@"supTime"];
     unsupTime = [defaults floatForKey:@"unsupTime"];
-    totalRecordTime += cribTime + supTime + unsupTime;
+    siblingTime = [defaults floatForKey:@"siblingTime"];
+    totalRecordTime += cribTime + supTime + unsupTime + siblingTime;
     unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
     self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
 }
@@ -919,6 +931,7 @@
     [defaults setFloat:cribTime forKey:@"cribTime"];
     [defaults setFloat:supTime forKey:@"supTime"];
     [defaults setFloat:unsupTime forKey:@"unsupTime"];
+    [defaults setFloat:siblingTime forKey:@"siblingTime"];
     [defaults synchronize];
 }
 
@@ -960,10 +973,10 @@
         [self.buttonSupOn setHidden:YES];
         [self.buttonCribOn setHidden:YES];
         [self.buttonUnsupOn setHidden:YES];
-        [self.buttonReadingTest setHidden:YES];
+       // [self.buttonReadingTest setHidden:YES];
         [self.buttonTrackProgress setHidden:YES];
-        [self.labelTimeRecorded setHidden:YES];
-        [self.numberOfMinutesRecorded setHidden:YES];
+        [self.labelTimeRecorded setHidden:NO];
+        [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
         
         self.buttonRecordSibling.frame = CGRectMake(23,109,140, 40);
@@ -1037,7 +1050,7 @@
             [self.buttonRecordSibling setSelected:NO];
             break;
         case 3:
-            currentMode = @"sibling";
+            currentMode = @"SIBLING";
             [self.buttonCribOn setSelected:NO];
             [self.buttonCribOff setEnabled:YES];
             [self.buttonSupOn setSelected:NO];
@@ -1100,8 +1113,8 @@
     if(measuresFilePath == nil) {
         NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
 
-        NSString *fileName = [NSString stringWithFormat:@"batterylevel.csv"];
-        NSString *filePath = [documentsDir stringByAppendingPathComponent:fileName];
+        NSString *file = [NSString stringWithFormat:@"batterylevel.csv"];
+        NSString *filePath = [documentsDir stringByAppendingPathComponent:file];
         measuresFilePath = filePath;
         NSError *error = nil;
         BOOL success = [@"" writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
@@ -1156,6 +1169,7 @@
         cribTime = 0;
         supTime  = 0;
         unsupTime = 0;
+        siblingTime = 0;
         weekNumber = currentWeek;
         [self saveWeekOfYear:weekNumber];
     }
@@ -1170,13 +1184,15 @@
             supTime += duration;
         }else if ( [recordingMode  isEqual: @"UNSUPERVISED"]){
             unsupTime += duration;
+        }else if( [recordingMode isEqual:@"SIBLING"]){
+            siblingTime +=duration;
         }
     }
     
     //save to user defaults to make persistant
     [self saveRecordedTime];
     
-    NSLog(@"crib: %f, sup: %f, unsup: %f ", cribTime, supTime, unsupTime);
+    NSLog(@"crib: %f, sup: %f, unsup: %f, sibl: %f ", cribTime, supTime, unsupTime, siblingTime);
 }
 
 
@@ -1185,8 +1201,6 @@
     
     NSMutableString *message = [NSMutableString string];
     
-    int hours, mins;
-    float seconds;
     
     //calculate total crib mode recording time
    
@@ -1207,6 +1221,12 @@
 
     
     [message appendString:[NSString stringWithFormat:@"\nUN-SUPERVISED Mode\t %02u:%02u:%02u",
+                           timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
+    
+    timeInSec = (unsigned int)round(siblingTime);
+    
+    
+    [message appendString:[NSString stringWithFormat:@"\nRecordings of sibling\t\t %02u:%02u:%02u",
                            timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
     
     
@@ -1269,13 +1289,7 @@
   
     
 }
-- (IBAction)readingTestTapped:(id)sender {
-    ReadingTestViewController *readingTestView= (ReadingTestViewController *)[[ReadingTestViewController alloc] initWithNibName:nil bundle:nil];
-     readingTestView.modalTransitionStyle=UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:readingTestView animated:YES];
 
-    
-}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -1334,7 +1348,6 @@
     NSCalendar *cal = [NSCalendar currentCalendar];
     NSDate *now = [NSDate date];
     NSDate *startOfTheWeek;
-    NSDate *endOfWeek;
     NSTimeInterval interval;
     [cal rangeOfUnit:NSWeekCalendarUnit
            startDate:&startOfTheWeek
@@ -1376,5 +1389,27 @@
     [self.labelUploadProgress setHidden:YES];
     [self.uploadButton setEnabled:YES];
 }
+
+-(IBAction)readingTestTapped:(id)sender{
+    
+    if(isMonitoring){
+        previousMode = currentMode;
+        [self stopRecorder];
+        [self stopAudioMonitorAndAudioMonitorTimer];
+        [recordingTimer invalidate];
+        [self updateDisplay];
+    }
+}
+
+
+/**
+ establishing a link and launching the authenticating process with dropbox,
+ **/
+- (void)didPressLink {
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    }
+}
+
 
 @end
