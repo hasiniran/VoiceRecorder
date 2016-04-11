@@ -996,8 +996,6 @@
         self.labelComment.frame = CGRectMake(29, 332, 84, 21);
         self.textfieldComment.frame = CGRectMake(167,323 , 140, 30);
         
-        [self.buttonRecordSibling setEnabled:NO];
-        [self.buttonReadingTest setEnabled:NO];
         
     }else if(userGroup ==2){
        //only the recodring of sibling is required
@@ -1044,7 +1042,7 @@
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
     [self.buttonUnsupOn setEnabled:YES];
-//    [self.buttonRecordSibling setEnabled:YES];
+    [self.buttonRecordSibling setEnabled:YES];
     [self.buttonCribOn setSelected:NO];
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
