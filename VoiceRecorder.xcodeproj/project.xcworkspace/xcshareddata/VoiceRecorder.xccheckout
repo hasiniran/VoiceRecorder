@@ -11,7 +11,7 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>5FD0722CAA163B654A255060320902DEA6DBC734</key>
-		<string>https://github.com/cshinaver/VoiceRecorder.git</string>
+		<string>https://github.com/hasiniran/VoiceRecorder.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>VoiceRecorder.xcodeproj/project.xcworkspace</string>
@@ -21,7 +21,7 @@
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/cshinaver/VoiceRecorder.git</string>
+	<string>https://github.com/hasiniran/VoiceRecorder.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>5FD0722CAA163B654A255060320902DEA6DBC734</string>
 			<key>IDESourceControlWCCName</key>
-			<string>VoiceRecorder</string>
+			<string>infantVoiceRecorder</string>
 		</dict>
 	</array>
 </dict>

@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonTest2;
 @property (weak, nonatomic) IBOutlet UILabel *labelTest1LastTaken;
 @property (weak, nonatomic) IBOutlet UILabel *labelTest2LastTaken;
+@property (weak, nonatomic) IBOutlet UIPickerView *uipickerNames;
 
 @end

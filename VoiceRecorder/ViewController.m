@@ -62,6 +62,11 @@
     double siblingTime; // minutes recorded in 'Record Sibling' mode within the current week
     
     NSInteger userGroup; // used to customize the UI according to the test group user belongs to
+    NSArray *diagnosedUsers; //list of diagnosed children names in the system
+    NSArray *undiagnosedUsers; // list of undiagnosed children in the system
+    
+    id selectedSender; // to store the id of mode button
+    NSString* childNames; // to log the selected child names
     }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -77,7 +82,7 @@
     
     //set the test group.
     // userGroup = 1 for the infant study. userGroup = 2 for the emotion recognition study.
-    userGroup = 2;
+    userGroup = [[NSUserDefaults standardUserDefaults] integerForKey:@"usergroup"];
     
 
     //set monitoring and recording variables
@@ -86,7 +91,7 @@
     MAX_MONITORTIME = 36000.0; // seconds
     MIN_RECORDTIME = 60.0; // seconds
     MAX_RECORDTIME = 3600;  // minutes
-    dt = .001;
+    dt = 1;
     silenceTime = 0;
 
     // Set Bools
@@ -136,6 +141,7 @@
     
     [self.textfieldComment setDelegate:self];
     
+    
     //load recording time for each mode
     [self loadRecordedTime];
     
@@ -154,7 +160,7 @@
     }
 
     //name the file with the recording date, later add device ID
-    fileName = [NSString stringWithFormat:@"Recording of %@ %@ %@.m4a", self->fullName, self->currentMode, [self getDate]];
+    fileName = [NSString stringWithFormat:@"Recording of %@-%@ %@ %@.m4a", self->fullName,self->childNames, self->currentMode, [self getDate]];
 
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
@@ -273,6 +279,7 @@
                 // start recording
                 [self startRecording];
             }
+            silenceTime = 0; // reset silence counter
         }
         //not above threshold, so don't record
         else{
@@ -286,8 +293,7 @@
                 }
                 else{
                     //silent but hasn't been silent for too long so increment time
-                    // For some reason, increment is off by 10
-                    silenceTime += dt*10;
+                    silenceTime += dt;
                 }
             }
         }
@@ -348,6 +354,8 @@
      */
 
     // Log elapsed record time
+    
+    if(isRecording){
     double timeRecorded = [recorder currentTime];
     NSLog(@"stopRecorder Record time: %f", timeRecorded);
     totalRecordTime += timeRecorded;
@@ -365,6 +373,7 @@
     
     //update metadata file
     [self updateMetadataFile];
+    }
 }
 
 //stop playing
@@ -785,8 +794,10 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
-//    [self.restClient cancelAllRequests];
+    [self.restClient cancelAllRequests];
     }
+    [self resetUploadProgressView];
+    [self.restClient cancelAllRequests];
     NSLog(@"File upload failed with error: %@", error.localizedDescription);
 }
 
@@ -865,6 +876,9 @@
 -(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
 {
     [self setDevelopmentSettingsFromInput:developmentSettings];
+    
+    //load new values
+    [self setUserSpecificSettings];
 }
 
 #pragma mark - Navigation
@@ -965,16 +979,33 @@
     }
     
     //show only the buttons relevant to test group
+    userGroup = [[NSUserDefaults standardUserDefaults] integerForKey:@"usergroup"];
     if(userGroup == 1){
         //all three tests need to be done. hence no alterations to the UI
+        [self.buttonSupOn setHidden:NO];
+        [self.buttonCribOn setHidden:NO];
+        [self.buttonUnsupOn setHidden:NO];
+        [self.buttonReadingTest setHidden:NO];
+        [self.buttonTrackProgress setHidden:NO];
+        [self.labelTimeRecorded setHidden:NO];
+        [self.numberOfMinutesRecorded setHidden:NO];
+        [self.buttonRecordSibling setTitle:@"Record Sibling" forState:UIControlStateNormal];
+
+        self.buttonRecordSibling.frame = CGRectMake(167,175,140, 40);
+        self.buttonReadingTest.frame = CGRectMake(167, 241, 140, 40);
+        self.labelComment.frame = CGRectMake(29, 332, 84, 21);
+        self.textfieldComment.frame = CGRectMake(167,323 , 140, 30);
+        
+        [self.buttonRecordSibling setEnabled:NO];
+        [self.buttonReadingTest setEnabled:NO];
         
     }else if(userGroup ==2){
        //only the recodring of sibling is required
         [self.buttonSupOn setHidden:YES];
         [self.buttonCribOn setHidden:YES];
         [self.buttonUnsupOn setHidden:YES];
-       // [self.buttonReadingTest setHidden:YES];
-        [self.buttonTrackProgress setHidden:YES];
+        [self.buttonReadingTest setHidden:NO];
+        [self.buttonTrackProgress setHidden:NO];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
@@ -983,9 +1014,12 @@
         self.buttonReadingTest.frame = CGRectMake(23, 175, 140, 40);
         self.labelComment.frame = CGRectMake(23, 241, 84, 21);
         self.textfieldComment.frame = CGRectMake(167,241 , 140, 30);
-        
-
     }
+    
+    //load names of children saved in the system
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    diagnosedUsers = [defaults arrayForKey:@"diagnosedUsers"];
+    undiagnosedUsers = [defaults arrayForKey:@"undiagnosedUsers"];
 }
 
 
@@ -1010,7 +1044,7 @@
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
     [self.buttonUnsupOn setEnabled:YES];
-    [self.buttonRecordSibling setEnabled:YES];
+//    [self.buttonRecordSibling setEnabled:YES];
     [self.buttonCribOn setSelected:NO];
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
@@ -1021,7 +1055,7 @@
     [self.textfieldComment setEnabled:NO];
 }
 
--(void)modeChanged:(id)sender{
+- (void)start:(id)sender {
     previousMode = currentMode;
     [self resetModeButtons];
     switch ([sender tag]) {
@@ -1091,9 +1125,44 @@
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
-     NSLog(@"%@",outputFileURL);
+    NSLog(@"%@",outputFileURL);
+}
+
+-(void)modeChanged:(id)sender{
+    
+    selectedSender = sender;
+    
+    //if more than one children participating to the study direct to namepicker page
+    if(([undiagnosedUsers count] >1 && [sender tag]<3) || ([diagnosedUsers count] >1 && [sender tag] ==3)){
+        NSString * storyboardName = @"Main";
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        NamePickerController *vc = [storyboard instantiateViewControllerWithIdentifier:@"NamePickerController"];
+        vc.delegate = self;
+        
+        if([sender tag] == 3){
+            vc.userType =2;
+        }else{
+            vc.userType =1;
+        }
+        [self presentViewController:vc animated:YES completion:nil];
+        
+    }else{
+       // no need to select the names
+        if([sender tag] == 3){
+            if([diagnosedUsers count] ==1) {
+                childNames = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"diagnosedUsers"] objectAtIndex:0];
+            }
+        }else{
+            if ([undiagnosedUsers count] ==1 ) {
+                childNames = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"undiagnosedUsers"] objectAtIndex:0];
+            }
+        }
+        [self start:sender];
+    }
+    
     
 }
+
 
 
 //methods to check battery status. These are used to compare microphones.
@@ -1270,8 +1339,9 @@
     [dateFormat setDateFormat:@"dd/MM/yyyy"];
     
     
-    NSString *info=[NSString stringWithFormat:@"Date:, %@, Mode:, %@, File:, %@, Comments:, %@, Duration:, %f",
+    NSString *info=[NSString stringWithFormat:@"Date:, %@, User:, %@_%@, Mode:, %@, File:, %@, Comments:, %@, Duration:, %f",
                                                     [dateFormat stringFromDate:today],
+                                                    fullName, childNames,
                                                     previousMode,
                                                     fileName,
                                                     comment,
@@ -1316,10 +1386,6 @@
     
 }
 
-
--(void)initNSUserDefaults{
-    
-}
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -1409,6 +1475,15 @@
     if (![[DBSession sharedSession] isLinked]) {
         [[DBSession sharedSession] linkFromController:self];
     }
+}
+
+
+-(void)getSelectedChild:(NSSet *)names
+{
+    // data will come here from NamePickerController
+    [self start:selectedSender];
+    childNames = [[names allObjects] componentsJoinedByString:@"_"];
+    NSLog(@"child : %@",childNames);
 }
 
 

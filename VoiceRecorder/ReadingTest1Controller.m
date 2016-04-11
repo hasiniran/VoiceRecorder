@@ -15,7 +15,7 @@
     AVAudioSession *session;
     BOOL isRecording;
     NSUserDefaults *defaults;
-     NSString        *dateString;
+    NSString        *dateString;
 }
 
 @end
@@ -84,6 +84,8 @@
         recorder.delegate = self;
         recorder.meteringEnabled = YES;
         [recorder prepareToRecord];
+        
+        NSLog(@"file :%@", fileName);
         
     }
     

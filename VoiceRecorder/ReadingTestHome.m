@@ -10,6 +10,7 @@
 
 @interface ReadingTestHome (){
     NSString* siblingName;
+    NSArray* siblingNames;
 }
 
 @end
@@ -24,14 +25,20 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     siblingName = [defaults objectForKey:@"siblingname"];
-    if(siblingName !=NULL){
-       self.textfieldName.text = siblingName;
-    }else{
-        [self.buttonTest1 setEnabled:NO];
-        [self.buttonTest2 setEnabled:NO];
-    }
     
+    siblingNames =[defaults arrayForKey:@"diagnosedUsers"];
+    
+//    
+//    if(siblingName !=NULL){
+//       self.textfieldName.text = siblingName;
+//    }else{
+//        [self.buttonTest1 setEnabled:NO];
+//        [self.buttonTest2 setEnabled:NO];
+//    }
+//
+    siblingName = [siblingNames objectAtIndex:0]; //default
     self.textfieldName.delegate =self;
+    
     
     // set last taken timstamps
     
@@ -61,37 +68,37 @@
 }
 */
 - (IBAction)nameEntered:(id)sender {
-    if(self.textfieldName.text != NULL && ![self.textfieldName.text  isEqual: @""]){
-        //save the name to ns defaults to populate the field later
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:self.textfieldName.text forKey:@"siblingname"];
-        [defaults synchronize];
-        [self.buttonTest1 setEnabled:YES];
-        [self.buttonTest2 setEnabled:YES];
-
-    }else{
-        [self.buttonTest1 setEnabled:NO];
-        [self.buttonTest2 setEnabled:NO];
-    }
+//    if(self.textfieldName.text != NULL && ![self.textfieldName.text  isEqual: @""]){
+//        //save the name to ns defaults to populate the field later
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        [defaults setValue:self.textfieldName.text forKey:@"siblingname"];
+//        [defaults synchronize];
+//        [self.buttonTest1 setEnabled:YES];
+//        [self.buttonTest2 setEnabled:YES];
+//
+//    }else{
+//        [self.buttonTest1 setEnabled:NO];
+//        [self.buttonTest2 setEnabled:NO];
+//    }
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"siblingname"]);
 }
 
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    //hide the keyboard
-    [self.textfieldName resignFirstResponder];
-    return YES;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    //hide the keyboard
+//    [self.textfieldName resignFirstResponder];
+//    return YES;
+//}
 
 //to dismiss the keyboard when tapped anywhere
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    
-    [self.textfieldName endEditing:YES];
-    [self textFieldShouldReturn:self.textfieldName];
-}
-
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//    
+//    [self.textfieldName endEditing:YES];
+//    [self textFieldShouldReturn:self.textfieldName];
+//}
+//
 
 - (BOOL)shouldAutorotate {
     return NO;
@@ -102,5 +109,46 @@
     
         return UIInterfaceOrientationMaskPortrait;
 }
+
+
+//uipickerview implementations
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [siblingNames count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [siblingNames objectAtIndex:row];
+}
+
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+
+    siblingName = [siblingNames objectAtIndex:row];
+    [[NSUserDefaults standardUserDefaults] setValue:siblingName forKey:@"siblingname"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel* tView = (UILabel*)view;
+    if (!tView)
+    {
+        tView = [[UILabel alloc] init];
+        [tView setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+    }
+    tView.text = [siblingNames objectAtIndex:row];
+    
+    return tView;
+}
+
+
 
 @end

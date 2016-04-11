@@ -14,6 +14,7 @@
     BOOL isRecording;
     NSUserDefaults *defaults;
     NSString        *dateString;
+    NSInteger imageNumber;
 }
 
 @end
@@ -27,6 +28,12 @@
     [self.buttonStop setTitle:@"Cancel" forState:UIControlStateNormal];
     isRecording = false;
     defaults = [NSUserDefaults standardUserDefaults];
+    
+    imageNumber = arc4random_uniform(8);
+    NSString *imageFileName = [@"readingtest_" stringByAppendingString:[NSString stringWithFormat:@"%d.jpg",imageNumber ]];
+    self.imageview.image = [UIImage imageNamed:imageFileName];
+    NSLog(@"image : %d", imageNumber);
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,7 +64,7 @@
         [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
-        NSString* fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ test2 %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
+        NSString* fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ test2_image%d %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],imageNumber, dateString];
         
         //set the audio file
         //this is for defining the URL of where the sound file will be saved on the device
@@ -81,6 +88,7 @@
         recorder.delegate = self;
         recorder.meteringEnabled = YES;
         [recorder prepareToRecord];
+        NSLog(@"file :%@", fileName);
         
     }
     
