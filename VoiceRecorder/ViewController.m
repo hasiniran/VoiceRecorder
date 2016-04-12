@@ -719,14 +719,9 @@
             
             NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
             
-//            NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error:NULL];
-//            unsigned long long fileSize = [attributes fileSize];
-
             [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
 
         }
-        
-
         
     }
     
@@ -768,13 +763,6 @@
                       UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                       [alert show];
                   }
-//                  else
-//                  {
-//                      
-//
-//                      NSLog(@"Could not delete file -:%@ ",[error localizedDescription]);
-//                  }
-//
 
                 }
 
@@ -783,22 +771,34 @@
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
 
     NSString *errorText = error.localizedDescription;
+    NSString *errorDisplaytext;
     
     //if authentication error
     if(error.code == 401){
+        errorDisplaytext = @"cannot login to the dropbox. Please sign in again";
         [self.restClient cancelAllRequests];
         [self resetUploadProgressView];
         [self didPressLink];
-    }else{
+    }else if(error.code == -1009){
+    //not connected to wifi
+        errorDisplaytext = @"Unable to upload files. Device is not connected to the internet. Please check your internet connection and try again.";
+    }else if (error.code == -1005){
+         errorDisplaytext = @"Couldnt upload all the files. Connection to the network was lost. Please check your internet connection and try again later.";
+    }else if(error.code == -1001){
+        //timeout
+         errorDisplaytext = @"The file upload cannot be completed due to an operation timeout. Please check your internet connection try again later.";
+    }
+    else{
+        errorDisplaytext = errorText;
+    }
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorDisplaytext delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
     [self.restClient cancelAllRequests];
-    }
     [self resetUploadProgressView];
     [self.restClient cancelAllRequests];
-    NSLog(@"File upload failed with error: %@", error.localizedDescription);
+    NSLog(@"File upload failed with error: %@", error);
 }
 
 - (void)restClient:(DBRestClient *)client uploadedFileChunk:(NSString *)uploadId newOffset:(unsigned long long)offset
