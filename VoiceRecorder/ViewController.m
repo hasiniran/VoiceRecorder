@@ -1050,7 +1050,7 @@
         [self.buttonSupOn setHidden:NO];
         [self.buttonCribOn setHidden:NO];
         [self.buttonUnsupOn setHidden:NO];
-        [self.buttonReadingTest setHidden:YES];
+        [self.buttonReadingTest setHidden:NO];
         [self.buttonTrackProgress setHidden:NO];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
