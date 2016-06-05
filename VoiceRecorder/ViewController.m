@@ -16,11 +16,11 @@
 
 //DBRestClient is used to access Dropbox after linking
 @interface ViewController () <DBRestClientDelegate, UIAlertViewDelegate>{
-//declare instances for recording and playing
+    //declare instances for recording and playing
     AVAudioRecorder *recorder;
     AVAudioPlayer *player;
     NSTimer *audioMonitorTimer;
-
+    
     NSString *fullName;
     NSString *fileName;  // recording file name
     NSString *currentMode; // current recording mode
@@ -32,15 +32,15 @@
     NSURL *outputFileURL;
     NSTimer *recordingTimer;
     int numberOfRecordingsForUpload;
-
+    
     NSURL *monitorTmpFile;
     NSURL *recordedTmpFile;
     AVAudioRecorder *audioMonitor;
-
+    
     BOOL isRecording;
     BOOL isMonitoring;
     BOOL isPlaying;
-
+    
     //variables for monitoring the audio input and recording
     double AUDIOMONITOR_THRESHOLD; //don't record if below this number
     double MAX_SILENCETIME; //max time allowed between words
@@ -67,7 +67,7 @@
     
     id selectedSender; // to store the id of mode button
     NSString* childNames; // to log the selected child names
-    }
+}
 
 @property (nonatomic, strong) DBRestClient *restClient;
 
@@ -84,32 +84,32 @@
     // userGroup = 1 for the infant study. userGroup = 2 for the emotion recognition study.
     userGroup = [[NSUserDefaults standardUserDefaults] integerForKey:@"usergroup"];
     
-
+    
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .1;
-    MAX_SILENCETIME = 300.0; // seconds
-    MAX_MONITORTIME = 36000.0; // seconds
-    MIN_RECORDTIME = 60.0; // seconds
-    MAX_RECORDTIME = 3600;  // minutes
+    AUDIOMONITOR_THRESHOLD = .004;
+    MAX_SILENCETIME = 300.0; // seconds (5 min)
+    MAX_MONITORTIME = 36000.0; // seconds (10 hours)
+    MIN_RECORDTIME = 60.0; // seconds ( 1 min)
+    MAX_RECORDTIME = 900;  // seconds ( 15 min)
     dt = 1;
     silenceTime = 0;
-
+    
     // Set Bools
     isPlaying = NO;
     isMonitoring = NO;
     isRecording = NO;
-
+    
     self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
     self.restClient.delegate = self;
     
-     // Disable stop and play buttons in the beginning
+    // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
     [self.playButton setEnabled:NO];
     
     // Set number of recordings remaining
     [self setNumberOfFilesRemainingForUpload];
     
-
+    
     // Get user info
     [self getUsername];
     if (!fullName)
@@ -127,9 +127,9 @@
     
     //setup mode buttons
     [self initRecordingModeButtons];
-
+    
     // uncomment if you want to record battery status
-    //[self recordBatteryStatus];
+   // [self recordBatteryStatus];
     
     //set week number for the first time
     if(weekNumber == 0 || [self getWeekOfYear] == 0){
@@ -152,53 +152,53 @@
 
 //set up the filename
 -(void)setOutputFileUrl {
-
+    
     // If name not set, set name
     if (!fullName)
     {
         [self askForUserInfo];
     }
-
+    
     //name the file with the recording date, later add device ID
     fileName = [NSString stringWithFormat:@"Recording of %@-%@ %@ %@.m4a", self->fullName,self->childNames, self->currentMode, [self getDate]];
-
+    
     //set the audio file
     //this is for defining the URL of where the sound file will be saved on the device
     // Currently saving files to Documents directory. Might be better to save to tmp
     pathComponents = [NSArray arrayWithObjects:
-        [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
-        fileName,
+                      [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
+                      fileName,
                       
-        nil];
-
+                      nil];
+    
     outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
 }
 
 //initialize the audio monitor
 -(void) initAudioMonitorAndRecord{
-
+    
     // Set session to play and record
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-
+    
     NSMutableDictionary* recordSetting = [[NSMutableDictionary alloc] init];
     [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
     [recordSetting setValue:[NSNumber numberWithInt: 1] forKey:AVNumberOfChannelsKey];
-
+    
     NSArray* documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* fullFilePath = [[documentPaths objectAtIndex:0] stringByAppendingPathComponent: @"monitor.caf"];
     monitorTmpFile = [NSURL fileURLWithPath:fullFilePath];
-
+    
     audioMonitor = [[ AVAudioRecorder alloc] initWithURL: monitorTmpFile settings:recordSetting error:NULL];
-
+    
     [audioMonitor setMeteringEnabled:YES];
-
+    
     [audioMonitor setDelegate:self];
-
+    
     [audioMonitor record];
     isMonitoring = YES;
-
+    
     // Timer for update of audio level
     audioMonitorTimer = [NSTimer scheduledTimerWithTimeInterval:dt target:self selector:@selector(monitorAudioController) userInfo:nil repeats:YES];
     
@@ -209,30 +209,30 @@
 //initialize the recorder
 -(void) initRecorder{
     /*
-       Initializes the recorder and recorder settings
-       */
-
-
+     Initializes the recorder and recorder settings
+     */
+    
+    
     //set up the audio session
     //this allows for both playing and recording
     //CHANGE THIS LATER ONCE IT WORKS, ONLY NEED RECORDING
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-
+    
     //define the recorder settings
     //the AVAudioRecorder uses dictionary-based settings
     NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
-
+    
     [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
     [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
     [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-
+    
     //initiate and prepare the recorder
     recorder = [[AVAudioRecorder alloc] initWithURL:outputFileURL settings:recordSetting error:NULL];
     recorder.delegate = self;
     recorder.meteringEnabled = YES;
     [recorder prepareToRecord]; //this line initiates the recorder
-
+    
 }
 
 
@@ -246,20 +246,20 @@
      * audio level is not above the AUDIOMONITOR_THRESHOLD value, the recorder
      * stops recording
      */
-
+    
     static double audioMonitorResults = 0;
-    // TODO Check if isPlaying is neccessary 
+    // TODO Check if isPlaying is neccessary
     if(!isPlaying)
-    {   
+    {
         [audioMonitor updateMeters];
-
+        
         // a convenience, it’s converted to a 0-1 scale, where zero is complete quiet and one is full volume
         const double ALPHA = 0.05;
         double peakPowerForChannel = pow(10, (0.05 * [audioMonitor peakPowerForChannel:0]));
         audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
-
+        
         self.audioLevelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
-
+        
         //####################### RECORDER AUDIO CHECKING #####################
         // set status label
         if (isRecording)
@@ -272,11 +272,12 @@
         }
         //check if sound input is above the threshold
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
-        {   
+        {
             self.statusLabel.text = [self.statusLabel.text stringByAppendingString:@" Sound detected."];
             if(!isRecording)
             {
                 // start recording
+                NSLog(@"Starting to record.");
                 [self startRecording];
             }
             silenceTime = 0; // reset silence counter
@@ -288,6 +289,7 @@
                 // if we're recording and above max silence time
                 if(silenceTime > MAX_SILENCETIME){
                     // stop recording
+                    NSLog(@"Silence for %f time. Stopping the recorder.", (silenceTime/60));
                     [self stopRecorder];
                     silenceTime = 0;
                 }
@@ -297,41 +299,42 @@
                 }
             }
         }
-        //##################################################################### 
-
-
+        //#####################################################################
+        
+        
         //####################### MONITOR CHECKING ###########################
         // If monitor time greater than max allowed monitor time, stop monitor
         if([audioMonitor currentTime] > MAX_MONITORTIME){
+            NSLog(@"Monitored for %f time. Stopping the monitor.", [audioMonitor currentTime]/60.0);
             [self stopAudioMonitorAndAudioMonitorTimer];
         }
         //####################################################################
-
+        
     }
-
+    
 }
 
--(void) startRecorder{
-    /*
-     * Sets recorder to start recording and sets isRecording to YES
-     */
-
-    NSLog(@"startRecorder");
-
-    isRecording = YES;
-    //[self setLastRecordingText]; //set the last recording time
-    [recorder record];
-}
+//-(void) startRecorder{
+//    /*
+//     * Sets recorder to start recording and sets isRecording to YES
+//     */
+//    
+//    NSLog(@"startRecorder");
+//    
+//    isRecording = YES;
+//    //[self setLastRecordingText]; //set the last recording time
+//    [recorder record];
+//}
 
 //stop the recording and play it
 -(void) stopRecorderAndPlay{
-
-    NSLog(@"stopRecorder Record time: %f", [recorder currentTime]);
-
+    
+    NSLog(@"stoping the recorder. Recorded time: %f", [recorder currentTime]);
+    
     if([recorder currentTime] > MIN_RECORDTIME)
     {   isRecording = NO;
         [recorder stop];
-
+        
         isPlaying = YES;
         // insert code for playing the audio here
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
@@ -339,12 +342,11 @@
         [player play];
         isPlaying = NO;
         //[self monitorAudioController];
-        NSLog(@"playing");
     }
     else{
         [audioMonitor record];
     }
-
+    
 }
 
 -(void) stopRecorder{
@@ -352,27 +354,29 @@
      * Stops the recorder and sets isRecording to NO. Displays about of time
      * recorded
      */
-
+    
     // Log elapsed record time
     
     if(isRecording){
-    double timeRecorded = [recorder currentTime];
-    NSLog(@"stopRecorder Record time: %f", timeRecorded);
-    totalRecordTime += timeRecorded;
-    
-    unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
-
-    self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
-    
-    [self updateRecordingTime:previousMode :timeRecorded];
-
-    // TODO Check if MIN_RECORDTIME is necessary considering there is a
-    // MAX_SILENCETIME
-    isRecording = NO;
-    [recorder stop];
-    
-    //update metadata file
-    [self updateMetadataFile];
+        double timeRecorded = [recorder currentTime];
+        NSLog(@"Stoping the recorder. Recorded time: %f", timeRecorded);
+        totalRecordTime += timeRecorded;
+        
+        unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
+        
+        self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
+        
+        previousMode = currentMode;
+        
+        [self updateRecordingTime:previousMode :timeRecorded];
+        
+        // TODO Check if MIN_RECORDTIME is necessary considering there is a
+        // MAX_SILENCETIME
+        isRecording = NO;
+        [recorder stop];
+        
+        //update metadata file
+        [self updateMetadataFile];
     }
 }
 
@@ -382,6 +386,7 @@
     [audioMonitor record];
 }
 
+//is called when switching between methods
 -(void) stopAndRecord{
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
@@ -392,32 +397,32 @@
     
     // Update display of the free space on the device
     [self setFreeDiskspace];
-
+    
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
-
+    
     [self startRecording];
 }
 
 //displays the last time a recording was made
--(void) setLastRecordingText{
-
-    NSString* last;
-    NSString* date;
-    last = @"Last recording date: ";
-    date = [self getDate];
-    NSString* str = [NSString stringWithFormat: @"%@ %@", last, date]; //concatenate the strings
-    lastRecordingText.text = str;
-
-    [self saveToUserDefaults:str];
-}
+//-(void) setLastRecordingText{
+//    
+//    NSString* last;
+//    NSString* date;
+//    last = @"Last recording date: ";
+//    date = [self getDate];
+//    NSString* str = [NSString stringWithFormat: @"%@ %@", last, date]; //concatenate the strings
+//    lastRecordingText.text = str;
+//    
+//    [self saveToUserDefaults:str];
+//}
 
 //saves the last recording date to the user defaults
 -(void)saveToUserDefaults:(NSString*)recordingDate
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-
+    
     if (standardUserDefaults) {
         [standardUserDefaults setObject:recordingDate forKey:@"lastRecordingDate"];
         [standardUserDefaults synchronize];
@@ -430,11 +435,11 @@
     //initialize variables
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSString        *dateString;
-
-    [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
-
+    
+    [dateFormatter setDateFormat:@"dd-MM-yyyy HH-mm-ss"]; //format the date string. Keep the '-'s in time, '.' and ':' gives issues when uploading to dropbox
+    
     dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
-
+    
     return dateString; //return the string
 }
 
@@ -444,42 +449,42 @@
     /*
      * Calculates free disk space and sets Label
      */
-
+    
     //uint64 gives better precision
     uint64_t totalSpace = 0;
     uint64_t totalFreeSpace = 0;
-
+    
     __autoreleasing NSError *error = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSDictionary *dictionary = [[NSFileManager defaultManager] attributesOfFileSystemForPath:[paths lastObject] error: &error];
-
+    
     if (dictionary) {
         NSNumber *fileSystemSizeInBytes = [dictionary objectForKey: NSFileSystemSize];
         NSNumber *freeFileSystemSizeInBytes = [dictionary objectForKey:NSFileSystemFreeSize];
-
+        
         //get total space and free space
         totalSpace = [fileSystemSizeInBytes unsignedLongLongValue];
         totalFreeSpace = [freeFileSystemSizeInBytes unsignedLongLongValue];
-
+        
         //print free space to console as a check
         //NSLog(@"Memory Capacity of %llu MiB with %llu MiB Free memory available.", ((totalSpace/1024ll)/1024ll), ((totalFreeSpace/1024ll)/1024ll));
     } else {
         //print an error to the console if not able to get memory
         NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error domain], (long)[error code]);
     }
-
-
+    
+    
     //Make and display a string of the current free space of the device
     //If we want to display minutes remaining, recordings take roughly 2MB/minute
-
-// uint64_t actualFreeSpace = totalFreeSpace/(1024*1024); //convert to megabytes
-//    uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
-
-
+    
+    // uint64_t actualFreeSpace = totalFreeSpace/(1024*1024); //convert to megabytes
+    //    uint64_t freeSpaceMinutes = actualFreeSpace/2; //convert to minutes
+    
+    
     // Remaining memory percentage, amount of minutes remaining,
     uint64_t percentageSpaceRemaining = (totalFreeSpace * 100/totalSpace);
     self.percentageDiskSpaceRemainingLabel.text = [NSString stringWithFormat:@"%llu%%", percentageSpaceRemaining];
-
+    
     
     unsigned int totalTimeInSec = (unsigned int)round(totalRecordTime);
     self.numberOfMinutesRecorded.text =[[NSString alloc] initWithFormat:@"%02u:%02u:%02u", totalTimeInSec/3600, (totalTimeInSec/60)%60, totalTimeInSec%60];
@@ -493,26 +498,26 @@
 
 //record button tapped
 - (IBAction)recordTapped:(id)sender {
-     /*
+    /*
      * When record button is tapped, Audio monitor should be started
      */
     [self startRecording];
-   
+    
 }
 
 //comment added
 - (IBAction)commentEndEditing:(id)sender {
     
     comment = self.textfieldComment.text;
-
+    
 }
 
 -(void)startRecording{
-
+    
     if (!isMonitoring)
     {
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setActive:YES error:nil];
+//        AVAudioSession *session = [AVAudioSession sharedInstance];
+//        [session setActive:YES error:nil];
         
         [self initAudioMonitorAndRecord];
         
@@ -529,7 +534,7 @@
     // Setup Audio Session and Recorder
     [self initRecorder];
     
-         NSLog(@"%@",outputFileURL);
+    NSLog(@"Starting the recorder. File name: %@",outputFileURL);
     // Start recording
     [recorder record];
     isRecording = YES;
@@ -552,47 +557,49 @@
      * setting outputFileUrl, initializing the recorder, starting the recorder,
      * and starting a recordingTimer that updates the elapsed time label
      */
-
+    
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:YES error:nil];
-
+    
     // Recorder needs to be initialized each time due to the file url
     // property being readonly. New file url must be set for each recording
     // Setup audio file
     [self setOutputFileUrl];
-
+    
     // Setup Audio Session and Recorder
     [self initRecorder];
-
+    
     // Start recording
+    NSLog(@"Starting the recorder. File name: %@",outputFileURL);
     [recorder record];
     isRecording = YES;
-
-
+    
+    
     // Set buttons
     [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
     [self.textfieldComment setEnabled:YES];
-
+    
 }
 
 - (void)updateSlider {
     
-  unsigned int elasedTimeinSec = (unsigned int)round(audioMonitor.currentTime);
-    unsigned int elasedRecordedTime = (unsigned int)round(recorder.currentTime);
-  NSString *string = [NSString stringWithFormat:@"%02u:%02u:%02u",
+    unsigned int elasedTimeinSec = (unsigned int)round(audioMonitor.currentTime); // time monitored
+    unsigned int elasedRecordedTime = (unsigned int)round(recorder.currentTime);  //time recorded
+    NSString *string = [NSString stringWithFormat:@"%02u:%02u:%02u",
                         elasedTimeinSec / 3600, (elasedTimeinSec / 60) % 60, elasedTimeinSec % 60];
-
+    
     
     self.timeElapsedLabel.text = string;
-
+    
     // If recording has gone on for more than given time, start new recording
-    // In minutes
+    // In seconds
     double allowedElapsedTime = MAX_RECORDTIME;
-    if ((elasedRecordedTime/60)%60 >= allowedElapsedTime && isRecording)
+    if (elasedRecordedTime >= allowedElapsedTime && isRecording)
     {
         // Stop old recording and start new one to decrease upload file sizes
+        NSLog(@"Maximum recorder time exceeded. Starting a new recording.");
         [self stopRecorder];
         [self startNewRecording];
         [self setNumberOfFilesRemainingForUpload];
@@ -601,13 +608,13 @@
 
 //stops the recorder and deactivates the audio session
 - (IBAction)stopTapped:(id)sender {
-
+    
     previousMode = currentMode;
     [self stopRecorder];
     [self stopAudioMonitorAndAudioMonitorTimer];
     [recordingTimer invalidate];
     [self updateDisplay];
-   
+    
 }
 
 -(void)updateDisplay{
@@ -623,7 +630,7 @@
     
     //hide time
     [self.timeElapsedLabel setHidden:YES];
-
+    
     
 }
 
@@ -632,12 +639,14 @@
     /*
      * Stops audioMonitor and audioMonitorController selector (on a timer)
      */
-
+    
+    NSLog(@"Stopping Audio Monitor. Time monitored: %f ", audioMonitor.currentTime);
+    
     [audioMonitor stop];
     [audioMonitorTimer invalidate];
     isMonitoring = NO;
-    NSLog(@"Audio Monitor stopped");
 
+    
     // Give up audio session
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:NO error:nil];
@@ -648,7 +657,7 @@
     /*
      * Plays back most recent recording
      */
-
+    
     if (!recorder.recording)
     {
         player = [[AVAudioPlayer alloc] initWithContentsOfURL:recorder.url error:nil];
@@ -664,7 +673,7 @@
 }
 
 //for linking to dropbox
-// TODO: Just put this to upload button
+ //TODO: Just put this to upload button
 - (IBAction)uploadFile:(id)sender
 {
 //    if (![[DBSession sharedSession] isLinked]) {
@@ -672,14 +681,14 @@
 //        NSLog(@"linking");
 //    }
 //    NSLog(@"already linked");
-//    
-    
+//
+
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
 //    [self.uploadButton setEnabled:NO];
-    
+
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    
+
 
     indicator.center = CGPointMake(alert.bounds.size.width / 2, alert.bounds.size.height - 50);
     [indicator startAnimating];
@@ -687,7 +696,7 @@
     [alert dismissWithClickedButtonIndex:0 animated:YES];
     [self startUploadProgress:[NSNumber numberWithInt:numberOfRecordingsForUpload]];
     [self uploadFiles]; //upload the test file
-    
+
 }
 
 
@@ -698,95 +707,102 @@
      * "Recording", and uploads files.
      */
     
-    // Dropbox destination path
-    NSString *destDir = @"/";
     
-    // Get file manager
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    // Get directory path
-    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    
-    NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
-    
-    // Iterate through contents, if starts with "Recording", upload
-    NSString *filePath;
-    
-    for (filePath in dirContents)
-    {
-        if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
+    if ([[DBSession sharedSession] isLinked]) {
+        // Dropbox destination path
+        NSString *destDir = @"/";
+        
+        // Get file manager
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        // Get directory path
+        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        
+        NSArray *dirContents = [fileManager contentsOfDirectoryAtPath:documentsDir error:nil];
+        
+        // Iterate through contents, if starts with "Recording", upload
+        NSString *filePath;
+        
+        self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        self.restClient.delegate = self;
+        
+        for (filePath in dirContents)
         {
-            NSLog(@"filePath: %@", filePath);
-            
-            NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
-            
-            [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-
+            if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
+            {
+                
+                NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
+                
+                NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
+                
+                //if file size is > 5 MB upload in chunks
+                if([attrs fileSize] >  5000000){
+                    [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+                }else{
+                    [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+                }
+            }
         }
         
+        if(recordingInfoFile != NULL){
+            [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir withParentRev:nil  fromPath:recordingInfoFile];
+        }
+    }else{
+        NSLog(@"Linking to dropbox.");
+        [[DBSession sharedSession] linkFromController:self];
+        [self resetUploadProgressView];
     }
-    
-    if(recordingInfoFile != NULL){
-        [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir fromPath:recordingInfoFile];
-        
-    }
-    
-//    [self.uploadButton setEnabled:YES];
-    
+
 }
 
 - (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
               from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
-
-                  NSFileManager *fileManager = [NSFileManager defaultManager];
-                  NSLog(@"File uploaded successfully to path: %@ from path: %@", metadata.path, srcPath);
-
-                  // Delete file after upload
-                  //dont delete the <name>-info.csv file
-                  NSError *error;
     
-                if(srcPath != recordingInfoFile){
-                  BOOL success = [fileManager removeItemAtPath:srcPath error:&error];
-                  // Display success message if all recordings successfully uploaded
-                    // Update count of recordings
-                    [self setNumberOfFilesRemainingForUpload];
-                    
-                  // numberOfRecordingsForUpload=1 because we are checking before deleting the file
-                  if (success && numberOfRecordingsForUpload == 0) {
-
-                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                      [alert show];
-
-                  }
-                  else if(!success){
-                      NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
-                      
-                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                      [alert show];
-                  }
-
-                }
-
-              }
-
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-
-    NSString *errorText = error.localizedDescription;
-    NSString *errorDisplaytext;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSLog(@"File uploaded successfully to path: %@ from path: %@", metadata.path, srcPath);
     
+    // Delete file after upload
+    //dont delete the <name>-info.csv file
+    NSError *error;
+    
+    if(srcPath != recordingInfoFile){
+        BOOL success = [fileManager removeItemAtPath:srcPath error:&error];
+        // Display success message if all recordings successfully uploaded
+        // Update count of recordings
+        [self setNumberOfFilesRemainingForUpload];
+        
+        // numberOfRecordingsForUpload=1 because we are checking before deleting the file
+        if (success && numberOfRecordingsForUpload == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        else if(!success){
+            NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    
+}
+
+- (void)fileUploadFailed:(NSString *)errorText error:(NSError *)error {
     //if authentication error
+    NSString *errorDisplaytext;
     if(error.code == 401){
         errorDisplaytext = @"cannot login to the dropbox. Please sign in again";
         [self.restClient cancelAllRequests];
         [self resetUploadProgressView];
         [self didPressLink];
     }else if(error.code == -1009){
-    //not connected to wifi
+        //not connected to wifi
         errorDisplaytext = @"Unable to upload files. Device is not connected to the internet. Please check your internet connection and try again.";
     }else if (error.code == -1005){
-         errorDisplaytext = @"Couldnt upload all the files. Connection to the network was lost. Please check your internet connection and try again later.";
+        errorDisplaytext = @"Couldnt upload all the files. Connection to the network was lost. Please check your internet connection and try again later.";
     }else if(error.code == -1001){
         //timeout
-         errorDisplaytext = @"The file upload cannot be completed due to an operation timeout. Please check your internet connection try again later.";
+        errorDisplaytext = @"The file upload cannot be completed due to an operation timeout. Please check your internet connection try again later.";
     }
     else{
         errorDisplaytext = errorText;
@@ -798,42 +814,89 @@
     [self.restClient cancelAllRequests];
     [self resetUploadProgressView];
     [self.restClient cancelAllRequests];
+}
+
+- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
+    
+    NSString *errorText = error.localizedDescription;
+    NSString *errorDisplaytext;
+    [self fileUploadFailed:errorText error:error];
     NSLog(@"File upload failed with error: %@", error);
 }
 
 - (void)restClient:(DBRestClient *)client uploadedFileChunk:(NSString *)uploadId newOffset:(unsigned long long)offset
           fromFile:(NSString *)localPath expires:(NSDate *)expiresDate {
     
-//    NSLog(@"uploadedFileChunk: %@, newOffset: %llu, fromFile: %@, expires: %@", uploadId, offset, localPath, expiresDate);
+    NSLog(@"uploadedFileChunk: %@, newOffset: %llu, fromFile: %@, expires: %@", uploadId, offset, localPath, expiresDate);
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSDictionary *attrs = [fileManager attributesOfItemAtPath:localPath error: NULL];
     
-    // in real use, there's probably a dangerous race condition here in checking the size each time, but this is just for demonstration purposes
     if (offset >= [attrs fileSize]) {
         // all data has been uploaded
-        NSLog(@"Finishing upload...");
-        [self.restClient uploadFile:localPath toPath:@"/" withParentRev:nil fromUploadId:uploadId];
+        [self.restClient uploadFile:[fileManager displayNameAtPath:localPath] toPath:@"/" withParentRev:nil fromUploadId:uploadId];
+        //chunk file upload create a folder structure according to the local path save the file there, hence moving the file back to root path
+        NSLog(@"File %@ succefully uploaded.", [fileManager displayNameAtPath:localPath] );
+      //  [self.restClient moveFrom:localPath toPath:[NSString stringWithFormat:@"/%@" , [fileManager displayNameAtPath:localPath]]];
+        [self finishChunkUpload:localPath];
     } else {
         // more data to upload
-        NSLog(@"Continuing upload...");
         [self.restClient uploadFileChunk:uploadId offset:offset fromPath:localPath];
     }
     
 }
 
-- (void)restClient:(DBRestClient *)client uploadFileChunkFailedWithError:(NSError *)error {
+- (void)restClient:(DBRestClient *)client uploadFileChunkProgress:(CGFloat)progress {
     
-    NSLog(@"uploadFileChunkFailedWithError: %@", error);
-    // TODO: retry
+    NSLog(@"uploadFileChunkProgress: %f", progress);
     
 }
+
+- (void)restClient:(DBRestClient *)client uploadFileChunkFailedWithError:(NSError *)error {
+    
+    NSLog(@"UploadFileChunkFailedWithError: %@", error);
+    NSString *errorText = error.localizedDescription;
+    NSString *errorDisplaytext;
+    [self fileUploadFailed:errorText error:error];
+    NSLog(@"File upload failed with error: %@", error);
+    // TODO: retry
+}
+
+
+//upload file in chunk callback
+- (void)finishChunkUpload: (NSString*)localPath{
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSLog(@"File uploaded successfully to path: %@", localPath);
+    
+    NSError *error;
+    
+    BOOL success = [fileManager removeItemAtPath:localPath error:&error];
+        // Display success message if all recordings successfully uploaded
+        // Update count of recordings
+        [self setNumberOfFilesRemainingForUpload];
+        
+        // numberOfRecordingsForUpload=1 because we are checking before deleting the file
+        if (success && numberOfRecordingsForUpload == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        else if(!success){
+            NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+}
+
 
 /*
  * Calculates and sets Label of number of files remaining for uplaod
  */
 - (void)setNumberOfFilesRemainingForUpload {
-
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSArray *filePathsArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:documentsDirectory error:nil];
@@ -846,7 +909,7 @@
             numOfRecordings++;
         }
     }
-
+    
     self->numberOfRecordingsForUpload = numOfRecordings;
     self.numberOfRecordingsForUploadLabel.text = [NSString stringWithFormat:@"%i", numOfRecordings];
 }
@@ -861,7 +924,7 @@
     alert.alertViewStyle=UIAlertViewStylePlainTextInput;
     [alert setDelegate:self];
     [alert show];
-   
+    
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -872,6 +935,8 @@
         [self initInfoFile]; // load file to record recording metadata
     }
 }
+
+
 
 -(void)addItemViewController:(DevelopmentInterfaceViewController *)controller passDevelopmentSettings:(DevelopmentSettings *)developmentSettings
 {
@@ -889,20 +954,20 @@
     // Pass the selected object to the new view controller.
     
     if ([[segue identifier] isEqualToString:@"DevelopmentSettings"]){
-    DevelopmentSettings *settings = [DevelopmentSettings new];
-    settings.AUDIOMONITOR_THRESHOLD = AUDIOMONITOR_THRESHOLD;
-    settings.MAX_SILENCETIME = MAX_SILENCETIME;
-    settings.MAX_MONITORTIME = MAX_MONITORTIME;
-    settings.MAX_RECORDTIME = MAX_RECORDTIME;
-    settings.MIN_RECORDTIME = MIN_RECORDTIME;
-    settings.silenceTime = silenceTime;
-    settings.dt = dt;
-
-    DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
-    dvc.settings = settings;
-    dvc.delegate = self;
+        DevelopmentSettings *settings = [DevelopmentSettings new];
+        settings.AUDIOMONITOR_THRESHOLD = AUDIOMONITOR_THRESHOLD;
+        settings.MAX_SILENCETIME = MAX_SILENCETIME;
+        settings.MAX_MONITORTIME = MAX_MONITORTIME;
+        settings.MAX_RECORDTIME = MAX_RECORDTIME;
+        settings.MIN_RECORDTIME = MIN_RECORDTIME;
+        settings.silenceTime = silenceTime;
+        settings.dt = dt;
+        
+        DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
+        dvc.settings = settings;
+        dvc.delegate = self;
     }
-  
+    
     
 }
 
@@ -985,12 +1050,12 @@
         [self.buttonSupOn setHidden:NO];
         [self.buttonCribOn setHidden:NO];
         [self.buttonUnsupOn setHidden:NO];
-        [self.buttonReadingTest setHidden:NO];
+        [self.buttonReadingTest setHidden:YES];
         [self.buttonTrackProgress setHidden:NO];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record Sibling" forState:UIControlStateNormal];
-
+        
         self.buttonRecordSibling.frame = CGRectMake(167,175,140, 40);
         self.buttonReadingTest.frame = CGRectMake(167, 241, 140, 40);
         self.labelComment.frame = CGRectMake(29, 332, 84, 21);
@@ -998,7 +1063,7 @@
         
         
     }else if(userGroup ==2){
-       //only the recodring of sibling is required
+        //only the recodring of sibling is required
         [self.buttonSupOn setHidden:YES];
         [self.buttonCribOn setHidden:YES];
         [self.buttonUnsupOn setHidden:YES];
@@ -1123,7 +1188,6 @@
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
-    NSLog(@"%@",outputFileURL);
 }
 
 -(void)modeChanged:(id)sender{
@@ -1145,7 +1209,7 @@
         [self presentViewController:vc animated:YES completion:nil];
         
     }else{
-       // no need to select the names
+        // no need to select the names
         if([sender tag] == 3){
             if([diagnosedUsers count] ==1) {
                 childNames = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"diagnosedUsers"] objectAtIndex:0];
@@ -1179,7 +1243,7 @@
     
     if(measuresFilePath == nil) {
         NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-
+        
         NSString *file = [NSString stringWithFormat:@"batterylevel.csv"];
         NSString *filePath = [documentsDir stringByAppendingPathComponent:file];
         measuresFilePath = filePath;
@@ -1191,13 +1255,13 @@
         }
         
     }
-
+    
 }
 
 
 - (void)updateBatteryState
 {
-       UIDeviceBatteryState currentState = [UIDevice currentDevice].batteryState;
+    UIDeviceBatteryState currentState = [UIDevice currentDevice].batteryState;
     float batteryLevel = [UIDevice currentDevice].batteryLevel;
     
     NSString *deviceInfo=[NSString stringWithFormat:@"time:, %d, monitor-time:, %f, record:, %f ,deviceBatteryState:, %ld, deviceBatteryLevel:, %f",  (int)[[NSDate date] timeIntervalSince1970], [audioMonitor currentTime], [recorder currentTime], (long)currentState, batteryLevel];
@@ -1229,7 +1293,7 @@
     NSCalendar *cal = [NSCalendar currentCalendar];
     NSDateComponents *components = [cal components:NSCalendarUnitWeekOfYear fromDate:[NSDate date]];
     NSInteger currentWeek = [components weekOfYear];
-    NSLog(@"Week nummer: %d", (int)currentWeek);
+
     
     if (weekNumber == (int)currentWeek + 1 ){
         //start of next week. reset times
@@ -1239,6 +1303,7 @@
         siblingTime = 0;
         weekNumber = currentWeek;
         [self saveWeekOfYear:weekNumber];
+        NSLog(@"Starting the week number %d", (int)currentWeek);
     }
     
     
@@ -1259,7 +1324,7 @@
     //save to user defaults to make persistant
     [self saveRecordedTime];
     
-    NSLog(@"crib: %f, sup: %f, unsup: %f, sibl: %f ", cribTime, supTime, unsupTime, siblingTime);
+    NSLog(@"Updated recording time crib: %f, sup: %f, unsup: %f, sibl: %f ", cribTime, supTime, unsupTime, siblingTime);
 }
 
 
@@ -1270,13 +1335,13 @@
     
     
     //calculate total crib mode recording time
-   
+    
     unsigned int timeInSec = (unsigned int)round(cribTime);
     
-   [message appendString:[NSString stringWithFormat:@"CRIB Mode\t\t\t\t %02u:%02u:%02u",
-                        timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
+    [message appendString:[NSString stringWithFormat:@"CRIB Mode\t\t\t\t %02u:%02u:%02u",
+                           timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
     
-
+    
     
     timeInSec = (unsigned int)round(supTime);
     [message appendString:[NSString stringWithFormat:@"\nSUPERVISED Mode\t\t %02u:%02u:%02u",
@@ -1285,7 +1350,7 @@
     
     timeInSec = (unsigned int)round(unsupTime);
     
-
+    
     
     [message appendString:[NSString stringWithFormat:@"\nUN-SUPERVISED Mode\t %02u:%02u:%02u",
                            timeInSec / 3600, (timeInSec/60)%60, timeInSec % 60]];
@@ -1300,7 +1365,6 @@
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     
-    NSLog(@"%@",[dateFormat stringFromDate:[self getFirstDayofWeek]]);
     NSString *title = [NSString stringWithFormat:@"Hours Recorded During the Week starting from %@", [dateFormat stringFromDate:[self getFirstDayofWeek]]];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: title message:message delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
@@ -1313,37 +1377,41 @@
 
 -(void)initInfoFile{
     
-//    if(recordingInfoFile == nil) {
-        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        
-        NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
-        NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
-        recordingInfoFile = filePath;
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
-            [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
-        }
-//    }
+    //    if(recordingInfoFile == nil) {
+    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
+    NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
+    recordingInfoFile = filePath;
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
+        [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
+    }
+    //    }
 }
 
 -(void)updateMetadataFile{
     
     if (recordingInfoFile == nil) {
-     [self initInfoFile]; // load file to record recording metadata
+        [self initInfoFile]; // load file to record recording metadata
     }
- 
-    NSDate *today = [NSDate date];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"dd/MM/yyyy"];
+    
+//    NSDate *today = [NSDate date];
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateFormat:@"dd/MM/yyyy"];
+    
+    NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                          dateStyle:NSDateFormatterShortStyle
+                                                          timeStyle:NSDateFormatterFullStyle];
     
     
     NSString *info=[NSString stringWithFormat:@"Date:, %@, User:, %@_%@, Mode:, %@, File:, %@, Comments:, %@, Duration:, %f",
-                                                    [dateFormat stringFromDate:today],
-                                                    fullName, childNames,
-                                                    previousMode,
-                                                    fileName,
-                                                    comment,
-                                                    totalRecordTime];
+                    [self getDate],
+                    fullName, childNames,
+                    previousMode,
+                    fileName,
+                    comment,
+                    totalRecordTime];
     
     //clear the comment variable after saving
     comment = nil;
@@ -1354,8 +1422,6 @@
     [fh seekToEndOfFile];
     [fh writeData:csvData];
     [fh closeFile];
-  
-    
 }
 
 
@@ -1376,9 +1442,9 @@
     [UIView setAnimationDuration:0.25];
     
     if(userGroup == 1){
-            self.view.frame = CGRectMake(0,-50,self.view.frame.size.width,self.view.frame.size.height);
+        self.view.frame = CGRectMake(0,-50,self.view.frame.size.width,self.view.frame.size.height);
     }else if (userGroup==2) {
-            self.view.frame = CGRectMake(0,-70,self.view.frame.size.width,self.view.frame.size.height);
+        self.view.frame = CGRectMake(0,-70,self.view.frame.size.width,self.view.frame.size.height);
     }
     [UIView commitAnimations];
     
@@ -1391,7 +1457,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-       return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 
@@ -1418,11 +1484,9 @@
             interval:&interval
              forDate:now];
     //startOfWeek holds now the first day of the week, according to locale (monday vs. sunday)
-
+    
     NSDateFormatter *dateFormat_first = [[NSDateFormatter alloc] init];
     [dateFormat_first setDateFormat:@"yyyy-MM-dd"];
-  
-    NSLog(@"%@",[dateFormat_first stringFromDate:startOfTheWeek]);
     return startOfTheWeek;
 }
 
@@ -1481,7 +1545,6 @@
     // data will come here from NamePickerController
     [self start:selectedSender];
     childNames = [[names allObjects] componentsJoinedByString:@"_"];
-    NSLog(@"child : %@",childNames);
 }
 
 

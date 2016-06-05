@@ -86,7 +86,7 @@
     [self.maxMonitorTimeTextField setEnabled:YES];
     [self.minRecordTimeTextField setEnabled:YES];
     // Do any additional setup after loading the view.
-    self.audioMonitorThresholdTextField.text = [NSString stringWithFormat:@"%.02lf", self.settings.AUDIOMONITOR_THRESHOLD];
+    self.audioMonitorThresholdTextField.text = [NSString stringWithFormat:@"%.04lf", self.settings.AUDIOMONITOR_THRESHOLD];
     self.maxSilenceTimeTextField.text = [NSString stringWithFormat:@"%.02lf", self.settings.MAX_SILENCETIME];
     self.maxMonitorTimeTextField.text = [NSString stringWithFormat:@"%.02lf", self.settings.MAX_MONITORTIME];
     self.maxRecordTimeTextField.text = [NSString stringWithFormat:@"%.02lf", self.settings.MAX_RECORDTIME];

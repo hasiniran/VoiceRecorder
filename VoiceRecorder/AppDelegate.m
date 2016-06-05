@@ -20,11 +20,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     DBSession* dbSession = [[DBSession alloc]
-                            initWithAppKey:@""
-                            appSecret:@""
+                            initWithAppKey:@"8sctgk4f1a8pp16"
+                            appSecret:@"dn1gpc9oqla9hf9"
                             root:kDBRootAppFolder]; //remove autorealese if using ARC.
     
     [DBSession setSharedSession:dbSession];
+    
+    //initiate a log file
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    NSString *fileName =[NSString stringWithFormat:@"%@.log",[NSDate date]];
+//    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+//    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 
     return YES;
 }
