@@ -93,7 +93,7 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .08;
+    AUDIOMONITOR_THRESHOLD = .01;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
     MIN_RECORDTIME = 60.0; // seconds ( 1 min)
@@ -277,6 +277,7 @@
         audioMonitorResults = ALPHA * peakPowerForChannel + (1.0 - ALPHA) * audioMonitorResults;
         
         self.audioLevelLabel.text = [NSString stringWithFormat:@"Level: %f", audioMonitorResults];
+      //  NSLog(@"%f", audioMonitorResults);
         
         //####################### RECORDER AUDIO CHECKING #####################
         // set status label
@@ -784,7 +785,7 @@
         if([[filemanager attributesOfItemAtPath:logFilePath error:NULL] fileSize] >= MAX_FILE_SIZE){
             [self.restClient uploadFileChunk:nil offset:0 fromPath:logFilePath];
         }else{
-            [self.restClient uploadFile:logfileName toPath:@"/" withParentRev:nil fromPath:logFilePath];
+            [self.restClient uploadFile:logfileName toPath:@"/logs" withParentRev:nil fromPath:logFilePath];
         }
     }
 }
