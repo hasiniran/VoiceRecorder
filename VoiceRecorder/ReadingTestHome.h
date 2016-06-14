@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ReadingTest1Controller.h"
+#import "ReadingTest2Controller.h"
 
-@interface ReadingTestHome : UIViewController
+@interface ReadingTestHome : UIViewController<ReadingTest1Delegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *textboxName;
 @property (weak, nonatomic) IBOutlet UITextField *textfieldName;

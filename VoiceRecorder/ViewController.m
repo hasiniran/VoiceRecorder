@@ -93,11 +93,11 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .08;
+    AUDIOMONITOR_THRESHOLD = .001;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
     MIN_RECORDTIME = 60.0; // seconds ( 1 min)
-    MAX_RECORDTIME = 900;  // seconds ( 15 min)
+    MAX_RECORDTIME = 600;  // seconds ( 10 min)
     dt = 1;
     silenceTime = 0;
     
@@ -105,7 +105,7 @@
     uploadAttemptsForFile=0;
     totalFailedAttempts=0;
     ALLOWED_UPLOAD_FAILS = 100;
-    MAX_FILE_SIZE = 5000000; // 5 MB
+    MAX_FILE_SIZE = 2000000; // 5 MB
     
     // Set Bools
     isPlaying = NO;
@@ -289,9 +289,11 @@
             self.statusLabel.text = @"Not recording.";
         }
         //check if sound input is above the threshold
+                    NSLog(@"%f", audioMonitorResults);
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
         {
             self.statusLabel.text = [self.statusLabel.text stringByAppendingString:@" Sound detected."];
+
             if(!isRecording)
             {
                 // start recording
@@ -757,7 +759,7 @@
                 NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
                 
                 //if file size is > 5 MB upload in chunks
-                if([attrs fileSize] >  5000000){
+                if([attrs fileSize] >  MAX_FILE_SIZE){
                     [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
                 }else{
                     [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
@@ -1632,7 +1634,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+      //  freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 @end

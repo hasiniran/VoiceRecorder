@@ -38,7 +38,9 @@
 //
     siblingName = [siblingNames objectAtIndex:0]; //default
     self.textfieldName.delegate =self;
-    
+    [[NSUserDefaults standardUserDefaults] setValue:siblingName forKey:@"siblingname"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     
     // set last taken timstamps
     
@@ -58,15 +60,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
+#pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
+ 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+//     Get the new view controller using [segue destinationViewController].
+//     Pass the selected object to the new view controller.
+    
+    
+    if ([[segue identifier] isEqualToString:@"ReadingTest1"]){
+
+        ReadingTest1Controller *view = [segue destinationViewController];
+        view.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ReadingTest2"]){
+        ReadingTest2Controller *view =[segue destinationViewController];
+        view.delegate = self;
+    }
 }
-*/
+
 - (IBAction)nameEntered:(id)sender {
 //    if(self.textfieldName.text != NULL && ![self.textfieldName.text  isEqual: @""]){
 //        //save the name to ns defaults to populate the field later
@@ -147,6 +159,15 @@
     tView.text = [siblingNames objectAtIndex:row];
     
     return tView;
+}
+
+-(void)setLastTakenDate:(NSString *)date:(NSString *)test{
+    
+    if([test  isEqualToString:@"Test1"]){
+        self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }else if ([test isEqualToString:@"Test2"]){
+       self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }
 }
 
 

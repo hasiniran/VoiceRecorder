@@ -85,7 +85,7 @@
         recorder.meteringEnabled = YES;
         [recorder prepareToRecord];
         
-        NSLog(@"file :%@", fileName);
+        NSLog(@"Starting the reading test :%@", fileName);
         
     }
     
@@ -134,4 +134,10 @@
     return UIInterfaceOrientationMaskLandscape;
 }
 
+@synthesize delegate;
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [delegate setLastTakenDate:dateString:@"Test1"];
+    
+}
 @end

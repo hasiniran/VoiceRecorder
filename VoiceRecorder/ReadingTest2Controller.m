@@ -137,5 +137,11 @@
     return UIInterfaceOrientationMaskLandscape;
 }
 
+@synthesize delegate;
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [delegate setLastTakenDate:dateString:@"Test2"];
+    
+}
 
 @end

@@ -277,7 +277,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="4Vq-zS-rLn" kind="modal" id="Szp-Hs-XVg"/>
+                                    <segue destination="4Vq-zS-rLn" kind="modal" identifier="ReadingTest1" id="Szp-Hs-XVg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Kmz-Cc-DRH">
@@ -288,7 +288,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="t7o-Wz-eQw" kind="modal" id="8CJ-fg-yRj"/>
+                                    <segue destination="t7o-Wz-eQw" kind="modal" identifier="ReadingTest2" id="8CJ-fg-yRj"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last taken on" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" id="q3G-55-hd3">
@@ -379,7 +379,7 @@
         <!--Reading Test 1-->
         <scene sceneID="XER-nj-55D">
             <objects>
-                <viewController title="Reading Test 1" id="4Vq-zS-rLn" customClass="ReadingTest1Controller" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReadingTest1Controller" title="Reading Test 1" id="4Vq-zS-rLn" customClass="ReadingTest1Controller" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sao-1D-0fr">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
