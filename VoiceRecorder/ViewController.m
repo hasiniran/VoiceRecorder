@@ -93,9 +93,10 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .001;
+    AUDIOMONITOR_THRESHOLD = .005;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
+  //  MAX_MONITORTIME = 60.0; // seconds (1 min)
     MIN_RECORDTIME = 60.0; // seconds ( 1 min)
     MAX_RECORDTIME = 600;  // seconds ( 10 min)
     dt = 1;
@@ -105,7 +106,7 @@
     uploadAttemptsForFile=0;
     totalFailedAttempts=0;
     ALLOWED_UPLOAD_FAILS = 100;
-    MAX_FILE_SIZE = 2000000; // 5 MB
+    MAX_FILE_SIZE = 2000000; // 2 MB
     
     // Set Bools
     isPlaying = NO;
@@ -289,7 +290,7 @@
             self.statusLabel.text = @"Not recording.";
         }
         //check if sound input is above the threshold
-                    NSLog(@"%f", audioMonitorResults);
+         //           NSLog(@"%f", audioMonitorResults);
         if (audioMonitorResults > AUDIOMONITOR_THRESHOLD)
         {
             self.statusLabel.text = [self.statusLabel.text stringByAppendingString:@" Sound detected."];
@@ -326,6 +327,7 @@
         // If monitor time greater than max allowed monitor time, stop monitor
         if([audioMonitor currentTime] > MAX_MONITORTIME){
             NSLog(@"Monitored for %f time. Stopping the monitor.", [audioMonitor currentTime]/60.0);
+            [self stopRecorder];
             [self stopAudioMonitorAndAudioMonitorTimer];
         }
         //####################################################################
@@ -1183,7 +1185,7 @@
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
     [self.buttonUnsupOn setEnabled:YES];
-    [self.buttonRecordSibling setEnabled:YES];
+    [self.buttonRecordSibling setEnabled:NO];
     [self.buttonCribOn setSelected:NO];
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
@@ -1634,7 +1636,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-      //  freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 @end
