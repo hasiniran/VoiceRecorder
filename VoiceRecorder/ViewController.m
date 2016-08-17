@@ -74,6 +74,10 @@
     NSInteger totalFailedAttempts;
     NSInteger ALLOWED_UPLOAD_FAILS;
     NSInteger MAX_FILE_SIZE; // if file size exceeds this limit, use chunked file upload
+    
+    NSMutableArray *filesToUpload; // path of files remaining in the device to upload
+    NSInteger nextFile; //index of the next file
+    
 }
 
 @property (nonatomic, strong) DBRestClient *restClient;
@@ -164,7 +168,6 @@
     [self loadRecordedTime];
     
     [self getFirstDayofWeek];
-    
     
 }
 
@@ -724,7 +727,6 @@
      * "Recording", and uploads files.
      */
     
-    
     if ([[DBSession sharedSession] isLinked]) {
         // Dropbox destination path
         NSString *destDir = @"/";
@@ -751,8 +753,11 @@
         //upload log file
         [self uploadLogFile];
         
+        filesToUpload = [[NSMutableArray alloc] initWithCapacity:0];
+        
         for (filePath in dirContents)
         {
+
             if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
             {
                 
@@ -760,21 +765,33 @@
                 
                 NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
                 
+                [filesToUpload addObject:filePath];
+                
                 //if file size is > 5 MB upload in chunks
-                if([attrs fileSize] >  MAX_FILE_SIZE){
-                    [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
-                }else{
-                    [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-                }
+//                if([attrs fileSize] >  MAX_FILE_SIZE){
+//                    [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+//                }else{
+//                    [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
+//                }
+
             }
+
         }
         
-
+        //call file upload for the first file
+        if([filesToUpload count] > 0){
+            nextFile = 0;
+            [self uploadRecordingFile:nextFile];
+        }else{
+            //no files to upload
+            [self resetUploadProgressView];
+        }
     }else{
         NSLog(@"Linking to dropbox.");
         [[DBSession sharedSession] linkFromController:self];
         [self resetUploadProgressView];
     }
+
 
 }
 
@@ -790,6 +807,46 @@
         }else{
             [self.restClient uploadFile:logfileName toPath:@"/logs/" withParentRev:nil fromPath:logFilePath];
         }
+    }
+}
+
+
+-(void)uploadRecordingFile:(NSInteger)index{
+    
+    NSString* path = [filesToUpload objectAtIndex:index];
+    
+    if(path !=NULL && ![path  isEqual: @""]){
+        NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSString *localPath = [documentsDir stringByAppendingPathComponent:path];
+        NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
+        //if file size is > 5 MB upload in chunks
+        if([attrs fileSize] >  MAX_FILE_SIZE){
+            [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+        }else{
+            [self.restClient uploadFile:path toPath:@"/" withParentRev:nil fromPath:localPath];
+        }
+    }else if ([filesToUpload count] > nextFile){
+        [self uploadNextFile];
+    }
+    else{
+        [self resetUploadProgressView];
+    }
+}
+
+-(void)removeFileFromArray{
+    [filesToUpload removeObjectAtIndex:nextFile];
+    nextFile++;
+}
+
+
+- (void)uploadNextFile
+{
+    // if more files are there to upload
+    nextFile++;
+    if(numberOfRecordingsForUpload!=0 && [filesToUpload count] > nextFile ){
+        [self uploadRecordingFile:nextFile];
+    }else{
+        [self resetUploadProgressView];
     }
 }
 
@@ -822,6 +879,8 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
+        //upload next file
+        [self uploadNextFile];
     }
     
 }
@@ -854,14 +913,15 @@
     [self.restClient  cancelAllRequests];
     uploadAttemptsForFile = 0;
     totalFailedAttempts = 0;
+    nextFile = 0;
+    [filesToUpload removeAllObjects];
     [self resetUploadProgressView];
 }
 
 - (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-    
     totalFailedAttempts ++;
     // if the error is a timeout, retry
-    if(error.code == -1001 && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
+    if( (error.code == -1001 || error.code == -1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
 
         if (uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
         {
@@ -870,7 +930,8 @@
         }else{
             uploadAttemptsForFile = 0;
             [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"sourcePath"]];
-            NSLog(@"Cancel file upload for %@ due to upload failures of several chunks.",[error.userInfo valueForKey:@"sourcePath"]);
+            NSLog(@"Cancel file upload for %@ due to upload failures of several attempts.",[error.userInfo valueForKey:@"sourcePath"]);
+            [self uploadNextFile];
         }
     }else{
         //display the error and cancel requests.
@@ -885,7 +946,7 @@
     totalFailedAttempts ++;
     
     //if 10 chunks fails cancel the file
-    if( error.code == -1001 && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
+    if( (error.code == -1001 || error.code==-1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
         
         //re attempt each chunk for 10 times
         if(uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
@@ -898,6 +959,7 @@
             uploadAttemptsForFile = 0;
             [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"fromPath"]];
              NSLog(@"Cancel file upload for %@ due to failures of several chunks.",[error.userInfo valueForKey:@"fromPath"]);
+            [self uploadNextFile];
         }
     }else{
         //display the error and cancel requests
@@ -965,6 +1027,9 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
+        
+        // upload the next file
+        [self uploadNextFile];
     }
 }
 
@@ -1185,7 +1250,7 @@
     [self.buttonCribOff setEnabled:NO];
     [self.buttonSupOn setEnabled:YES];
     [self.buttonUnsupOn setEnabled:YES];
-    [self.buttonRecordSibling setEnabled:NO];
+    [self.buttonRecordSibling setEnabled:YES];
     [self.buttonCribOn setSelected:NO];
     [self.buttonSupOn setSelected:NO];
     [self.buttonUnsupOn setSelected:NO];
