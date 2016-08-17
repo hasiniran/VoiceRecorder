@@ -41,6 +41,7 @@
 		25CC4A091ACB2ACE00F0BDF6 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */; };
 		25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */; };
 		25DB59BE1BFA33A9009B1337 /* readingtestButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DB59BD1BFA33A9009B1337 /* readingtestButton.png */; };
+		25E41E221D5EC73100CF7258 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25E41E211D5EC73100CF7258 /* DropboxSDK.framework */; };
 		25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B51AC06DCA00167320 /* Play_Black.tif */; };
 		25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B61AC06DCA00167320 /* Play_Red.tif */; };
 		25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B71AC06DCA00167320 /* Record_Black.tif */; };
@@ -57,7 +58,6 @@
 		E84927B819DB5C35005ACA9B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E84927B719DB5C35005ACA9B /* Images.xcassets */; };
 		E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E84927B919DB5C35005ACA9B /* LaunchScreen.xib */; };
 		E84927C719DB5C35005ACA9B /* VoiceRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927C619DB5C35005ACA9B /* VoiceRecorderTests.m */; };
-		E88889601A377F520092B5B4 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E888895F1A377F520092B5B4 /* DropboxSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889611A3782490092B5B4 /* QuartzCore.framework */; };
 		E88889641A37824E0092B5B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E88889631A37824E0092B5B4 /* Security.framework */; };
 		E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93774A51A79682E00FEA9C4 /* AVFoundation.framework */; };
@@ -116,6 +116,7 @@
 		25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
 		25DB59BD1BFA33A9009B1337 /* readingtestButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readingtestButton.png; sourceTree = "<group>"; };
+		25E41E211D5EC73100CF7258 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = VoiceRecorder/DropboxSDK.framework; sourceTree = "<group>"; };
 		25F770B51AC06DCA00167320 /* Play_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Black.tif; sourceTree = "<group>"; };
 		25F770B61AC06DCA00167320 /* Play_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Red.tif; sourceTree = "<group>"; };
 		25F770B71AC06DCA00167320 /* Record_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Black.tif; sourceTree = "<group>"; };
@@ -138,7 +139,6 @@
 		E84927C019DB5C35005ACA9B /* VoiceRecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceRecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84927C519DB5C35005ACA9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84927C619DB5C35005ACA9B /* VoiceRecorderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoiceRecorderTests.m; sourceTree = "<group>"; };
-		E888895F1A377F520092B5B4 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		E88889611A3782490092B5B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E88889631A37824E0092B5B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E93774A51A79682E00FEA9C4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -153,10 +153,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E41E221D5EC73100CF7258 /* DropboxSDK.framework in Frameworks */,
 				E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */,
 				E88889641A37824E0092B5B4 /* Security.framework in Frameworks */,
 				E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */,
-				E88889601A377F520092B5B4 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,10 +174,10 @@
 			isa = PBXGroup;
 			children = (
 				2502D9671B261AC4005D7C45 /* Main.storyboard */,
+				25E41E211D5EC73100CF7258 /* DropboxSDK.framework */,
 				E93774A51A79682E00FEA9C4 /* AVFoundation.framework */,
 				E88889631A37824E0092B5B4 /* Security.framework */,
 				E88889611A3782490092B5B4 /* QuartzCore.framework */,
-				E888895F1A377F520092B5B4 /* DropboxSDK.framework */,
 				E84927A919DB5C35005ACA9B /* VoiceRecorder */,
 				E84927C319DB5C35005ACA9B /* VoiceRecorderTests */,
 				E84927A819DB5C35005ACA9B /* Products */,
@@ -330,7 +330,7 @@
 		E849279F19DB5C35005ACA9B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "University of Notre Dame";
 				TargetAttributes = {
 					E84927A619DB5C35005ACA9B = {
@@ -493,9 +493,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -510,9 +512,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "ed3aa985-1360-4631-b624-54d7bf7bd2d7";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -534,6 +537,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -545,8 +549,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "ed3aa985-1360-4631-b624-54d7bf7bd2d7";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -562,10 +567,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/VoiceRecorder",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.apps.mobicom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -582,10 +589,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/VoiceRecorder",
 				);
 				INFOPLIST_FILE = VoiceRecorder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.apps.mobicom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -606,6 +615,7 @@
 				);
 				INFOPLIST_FILE = VoiceRecorderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UND.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoiceRecorder.app/VoiceRecorder";
 			};
@@ -621,6 +631,7 @@
 				);
 				INFOPLIST_FILE = VoiceRecorderTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UND.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoiceRecorder.app/VoiceRecorder";
 			};
