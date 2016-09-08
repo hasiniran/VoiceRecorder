@@ -77,6 +77,7 @@
     
     NSMutableArray *filesToUpload; // path of files remaining in the device to upload
     NSInteger nextFile; //index of the next file
+    AVAudioPlayer *backgroundPlayer;
     
 }
 
@@ -97,7 +98,7 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .005;
+    AUDIOMONITOR_THRESHOLD = .001;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
   //  MAX_MONITORTIME = 60.0; // seconds (1 min)
@@ -169,7 +170,10 @@
     
     [self getFirstDayofWeek];
     
+   
+    
 }
+
 
 
 //set up the filename
@@ -674,6 +678,16 @@
 
     
     // Give up audio session
+    
+    //if any I/O is running first stop them
+    if([recorder isRecording]){
+        [recorder stop];
+    }
+    
+    if([backgroundPlayer isPlaying]){
+        [backgroundPlayer stop];
+    }
+    
     AVAudioSession *session = [AVAudioSession sharedInstance];
     [session setActive:NO error:nil];
 }
@@ -699,7 +713,6 @@
 }
 
 //for linking to dropbox
- //TODO: Just put this to upload button
 - (IBAction)uploadFile:(id)sender
 {
 
@@ -761,18 +774,8 @@
             if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
             {
                 
-                NSString *localPath = [documentsDir stringByAppendingPathComponent:filePath];
-                
-                NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
-                
+            
                 [filesToUpload addObject:filePath];
-                
-                //if file size is > 5 MB upload in chunks
-//                if([attrs fileSize] >  MAX_FILE_SIZE){
-//                    [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
-//                }else{
-//                    [self.restClient uploadFile:filePath toPath:destDir withParentRev:nil fromPath:localPath];
-//                }
 
             }
 
@@ -786,6 +789,8 @@
             //no files to upload
             [self resetUploadProgressView];
         }
+
+        
     }else{
         NSLog(@"Linking to dropbox.");
         [[DBSession sharedSession] linkFromController:self];
@@ -1256,6 +1261,7 @@
     [self.buttonUnsupOn setSelected:NO];
     [self.buttonRecordSibling setSelected:NO];
     
+    
     //clear comment field
     self.textfieldComment.text =@"";
     [self.textfieldComment setEnabled:NO];
@@ -1615,9 +1621,6 @@
 }
 
 
-
-
-
 -(NSDate*)getFirstDayofWeek{
     
     NSCalendar *cal = [NSCalendar currentCalendar];
@@ -1644,6 +1647,9 @@
     [self.uploadButton setEnabled:NO];
     [self increaseUploadProgress:numberOfFiles];
     
+    //start to play silent background audio to keep on uploading
+    [self startSilentAudioFile];
+    
 }
 -(void)increaseUploadProgress:(NSNumber*)numberOfFiles{
     
@@ -1651,9 +1657,12 @@
         uploadProgressValue = ([numberOfFiles integerValue]-numberOfRecordingsForUpload)/(float)[numberOfFiles integerValue];
         self.progressViewUpload.progress = uploadProgressValue;
         [self performSelector:@selector(increaseUploadProgress:) withObject:numberOfFiles  afterDelay:0.1];
+        
     }else if (uploadProgressValue == 1 || numberOfRecordingsForUpload ==0 ){
         [self resetUploadProgressView];
     }
+    
+
 }
 -(void)resetUploadProgressView{
     uploadProgressValue = 0;
@@ -1661,6 +1670,7 @@
     [self.progressViewUpload setHidden:YES];
     [self.labelUploadProgress setHidden:YES];
     [self.uploadButton setEnabled:YES];
+    [self stopSilentAudioFile];
 }
 
 -(IBAction)readingTestTapped:(id)sender{
@@ -1702,6 +1712,40 @@
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
         freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+}
+
+
+/**play silent audio in background to keep the upload running
+ **/
+-(void)startSilentAudioFile
+{
+    
+    if(![backgroundPlayer isPlaying]){
+        
+        NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"silence" ofType:@"mp3"]];
+        
+        //set audio session for background audio
+        NSError *sessionError = nil;
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&sessionError];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        backgroundPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+        backgroundPlayer.numberOfLoops = -1;
+        [backgroundPlayer play];
+        
+        NSLog(@"Silent audio started");
+    }
+}
+
+-(void)stopSilentAudioFile
+{
+
+    if([backgroundPlayer isPlaying] && ![recorder isRecording]){
+        // Give up audio session
+        [backgroundPlayer stop];
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:NO error:nil];
+         NSLog(@"Silent audio stopped");
+    }
 }
 
 @end

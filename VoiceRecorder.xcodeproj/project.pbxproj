@@ -27,6 +27,7 @@
 		250FBB621C83D19700B10E89 /* readingtest_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB591C83D19700B10E89 /* readingtest_3.jpg */; };
 		250FBB631C83D19700B10E89 /* readingtest_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB5A1C83D19700B10E89 /* readingtest_2.jpg */; };
 		250FBB651C84099500B10E89 /* readingtest_0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB641C84099500B10E89 /* readingtest_0.jpg */; };
+		251BB7411D6D13E000A06E39 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251BB7401D6D13E000A06E39 /* silence.mp3 */; };
 		2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */; };
 		2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2587FEB21BF27D9700383823 /* cookieTheft.jpg */; };
 		2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEB71BF3C63300383823 /* ReadingTestHome.m */; };
@@ -98,6 +99,7 @@
 		250FBB591C83D19700B10E89 /* readingtest_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = readingtest_3.jpg; sourceTree = "<group>"; };
 		250FBB5A1C83D19700B10E89 /* readingtest_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = readingtest_2.jpg; sourceTree = "<group>"; };
 		250FBB641C84099500B10E89 /* readingtest_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = readingtest_0.jpg; sourceTree = "<group>"; };
+		251BB7401D6D13E000A06E39 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = silence.mp3; path = ../silence.mp3; sourceTree = "<group>"; };
 		2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest2Controller.h; sourceTree = "<group>"; };
 		2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest2Controller.m; sourceTree = "<group>"; };
 		2587FEB21BF27D9700383823 /* cookieTheft.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cookieTheft.jpg; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				251BB7401D6D13E000A06E39 /* silence.mp3 */,
 				250FBB641C84099500B10E89 /* readingtest_0.jpg */,
 				250FBB531C83D19700B10E89 /* readingtest_1.jpg */,
 				250FBB541C83D19700B10E89 /* readingtest_8.jpg */,
@@ -393,6 +396,7 @@
 				250FBB5E1C83D19700B10E89 /* readingtest_7.jpg in Resources */,
 				2502D9751B264F26005D7C45 /* button-15.png in Resources */,
 				25F770CB1AC8DE7A00167320 /* icon.png in Resources */,
+				251BB7411D6D13E000A06E39 /* silence.mp3 in Resources */,
 				E84927BB19DB5C35005ACA9B /* LaunchScreen.xib in Resources */,
 				250FBB631C83D19700B10E89 /* readingtest_2.jpg in Resources */,
 				250FBB611C83D19700B10E89 /* readingtest_4.jpg in Resources */,
