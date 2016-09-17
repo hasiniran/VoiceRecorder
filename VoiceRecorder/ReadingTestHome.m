@@ -76,6 +76,9 @@
     }else if ([[segue identifier] isEqualToString:@"ReadingTest2"]){
         ReadingTest2Controller *view =[segue destinationViewController];
         view.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ReadingTest3"]){
+        ReadingTest3Controller *view = [segue destinationViewController];
+        view.delegate = self;
     }
 }
 
@@ -169,7 +172,6 @@
        self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }
 }
-
 
 
 @end

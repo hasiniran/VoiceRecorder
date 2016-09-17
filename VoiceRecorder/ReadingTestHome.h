@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ReadingTest1Controller.h"
 #import "ReadingTest2Controller.h"
+#import "ReadingTest3Controller.h"
 
 @interface ReadingTestHome : UIViewController<ReadingTest1Delegate>
 

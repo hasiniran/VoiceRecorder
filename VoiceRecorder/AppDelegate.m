@@ -32,6 +32,10 @@
 //    NSString *fileName =[NSString stringWithFormat:@"%@.log",[NSDate date]];
 //    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
 //    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor whiteColor];
 
     return YES;
 }

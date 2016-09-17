@@ -35,6 +35,11 @@
 		25A5B99D1BBC478A00F45A73 /* button_reading.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B99C1BBC478A00F45A73 /* button_reading.png */; };
 		25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */; };
 		25A5B9AE1BC153A200F45A73 /* ReadingTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */; };
+		25B8A26D1D834C4D00C4EF07 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A26C1D834C4D00C4EF07 /* StoryViewController.m */; };
+		25B8A26F1D84458200C4EF07 /* StoryPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A26E1D84458200C4EF07 /* StoryPageViewController.m */; };
+		25B8A2751D8611D300C4EF07 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A2741D8611D300C4EF07 /* PageContentViewController.m */; };
+		25B8A2781D87307E00C4EF07 /* ReadingTest3Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A2771D87307E00C4EF07 /* ReadingTest3Controller.m */; };
+		25B8A27B1D88749800C4EF07 /* ReadingTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A27A1D88749800C4EF07 /* ReadingTestController.m */; };
 		25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */; };
 		25CC4A021AC9D51000F0BDF6 /* Record_unsupervised.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */; };
 		25CC4A071ACB2ACE00F0BDF6 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A031ACB2ACE00F0BDF6 /* checked.png */; };
@@ -111,6 +116,16 @@
 		25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadingTestViewController.h; path = ../ReadingTestViewController.h; sourceTree = "<group>"; };
 		25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadingTestViewController.m; path = ../ReadingTestViewController.m; sourceTree = "<group>"; };
 		25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReadingTestViewController.xib; path = ../ReadingTestViewController.xib; sourceTree = "<group>"; };
+		25B8A2651D833B9E00C4EF07 /* StoryPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryPageViewController.h; sourceTree = "<group>"; };
+		25B8A26B1D834C4D00C4EF07 /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
+		25B8A26C1D834C4D00C4EF07 /* StoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
+		25B8A26E1D84458200C4EF07 /* StoryPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryPageViewController.m; sourceTree = "<group>"; };
+		25B8A2731D8611D300C4EF07 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
+		25B8A2741D8611D300C4EF07 /* PageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContentViewController.m; sourceTree = "<group>"; };
+		25B8A2761D87307E00C4EF07 /* ReadingTest3Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest3Controller.h; sourceTree = "<group>"; };
+		25B8A2771D87307E00C4EF07 /* ReadingTest3Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest3Controller.m; sourceTree = "<group>"; };
+		25B8A2791D88749800C4EF07 /* ReadingTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTestController.h; sourceTree = "<group>"; };
+		25B8A27A1D88749800C4EF07 /* ReadingTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTestController.m; sourceTree = "<group>"; };
 		25CC49FF1AC9D51000F0BDF6 /* Record_supervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_supervised.tif; sourceTree = "<group>"; };
 		25CC4A001AC9D51000F0BDF6 /* Record_unsupervised.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_unsupervised.tif; sourceTree = "<group>"; };
 		25CC4A031ACB2ACE00F0BDF6 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
@@ -172,6 +187,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25B8A27C1D8891E700C4EF07 /* story1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = story1;
+			sourceTree = "<group>";
+		};
+		25B8A27D1D8891F400C4EF07 /* story2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = story2;
+			sourceTree = "<group>";
+		};
+		25B8A27E1D8891FE00C4EF07 /* words */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = words;
+			sourceTree = "<group>";
+		};
+		25BBD2381D81F236008D908F /* ReadingTests */ = {
+			isa = PBXGroup;
+			children = (
+				2587FEB61BF3C63300383823 /* ReadingTestHome.h */,
+				2587FEB71BF3C63300383823 /* ReadingTestHome.m */,
+				2587FEB91BF51B2A00383823 /* ReadingTest1Controller.h */,
+				2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */,
+				2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */,
+				2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */,
+				25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */,
+				25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */,
+				25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */,
+				25B8A2651D833B9E00C4EF07 /* StoryPageViewController.h */,
+				25B8A26B1D834C4D00C4EF07 /* StoryViewController.h */,
+				25B8A26C1D834C4D00C4EF07 /* StoryViewController.m */,
+				25B8A26E1D84458200C4EF07 /* StoryPageViewController.m */,
+				25B8A2731D8611D300C4EF07 /* PageContentViewController.h */,
+				25B8A2741D8611D300C4EF07 /* PageContentViewController.m */,
+				25B8A2761D87307E00C4EF07 /* ReadingTest3Controller.h */,
+				25B8A2771D87307E00C4EF07 /* ReadingTest3Controller.m */,
+				25B8A2791D88749800C4EF07 /* ReadingTestController.h */,
+				25B8A27A1D88749800C4EF07 /* ReadingTestController.m */,
+			);
+			name = ReadingTests;
+			sourceTree = "<group>";
+		};
+		25BBD2391D81F26B008D908F /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				250FBB4F1C824D9700B10E89 /* AddUsersViewController.h */,
+				250FBB501C824D9700B10E89 /* AddUsersViewController.m */,
+				E937C5141A917852006CE41E /* DevelopmentInterfaceViewController.h */,
+				E937C5151A917852006CE41E /* DevelopmentInterfaceViewController.m */,
+				E937C5131A91675F006CE41E /* DevelopmentSettings.h */,
+				E937C5181A917B68006CE41E /* DevelopmentSettings.m */,
+			);
+			name = settings;
+			sourceTree = "<group>";
+		};
 		E849279E19DB5C35005ACA9B = {
 			isa = PBXGroup;
 			children = (
@@ -198,30 +273,17 @@
 		E84927A919DB5C35005ACA9B /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				25BBD2391D81F26B008D908F /* settings */,
+				25BBD2381D81F236008D908F /* ReadingTests */,
 				250FBB4A1C80E86D00B10E89 /* NamePickerController.h */,
 				250FBB4B1C80E86D00B10E89 /* NamePickerController.m */,
-				25A5B9AA1BC153A200F45A73 /* ReadingTestViewController.h */,
-				25A5B9AB1BC153A200F45A73 /* ReadingTestViewController.m */,
-				25A5B9AC1BC153A200F45A73 /* ReadingTestViewController.xib */,
 				E84927AE19DB5C35005ACA9B /* AppDelegate.h */,
 				E84927AF19DB5C35005ACA9B /* AppDelegate.m */,
 				E84927B119DB5C35005ACA9B /* ViewController.h */,
 				E84927B219DB5C35005ACA9B /* ViewController.m */,
-				E937C5141A917852006CE41E /* DevelopmentInterfaceViewController.h */,
-				E937C5151A917852006CE41E /* DevelopmentInterfaceViewController.m */,
-				E937C5131A91675F006CE41E /* DevelopmentSettings.h */,
-				E937C5181A917B68006CE41E /* DevelopmentSettings.m */,
 				E84927B719DB5C35005ACA9B /* Images.xcassets */,
 				E84927B919DB5C35005ACA9B /* LaunchScreen.xib */,
 				E84927AA19DB5C35005ACA9B /* Supporting Files */,
-				2587FEB61BF3C63300383823 /* ReadingTestHome.h */,
-				2587FEB71BF3C63300383823 /* ReadingTestHome.m */,
-				2587FEB91BF51B2A00383823 /* ReadingTest1Controller.h */,
-				2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */,
-				2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */,
-				2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */,
-				250FBB4F1C824D9700B10E89 /* AddUsersViewController.h */,
-				250FBB501C824D9700B10E89 /* AddUsersViewController.m */,
 			);
 			path = VoiceRecorder;
 			sourceTree = "<group>";
@@ -229,6 +291,9 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25B8A27E1D8891FE00C4EF07 /* words */,
+				25B8A27D1D8891F400C4EF07 /* story2 */,
+				25B8A27C1D8891E700C4EF07 /* story1 */,
 				251BB7401D6D13E000A06E39 /* silence.mp3 */,
 				250FBB641C84099500B10E89 /* readingtest_0.jpg */,
 				250FBB531C83D19700B10E89 /* readingtest_1.jpg */,
@@ -433,11 +498,16 @@
 				250FBB511C824D9700B10E89 /* AddUsersViewController.m in Sources */,
 				25A5B9AD1BC153A200F45A73 /* ReadingTestViewController.m in Sources */,
 				2587FEBB1BF51B2A00383823 /* ReadingTest1Controller.m in Sources */,
+				25B8A26D1D834C4D00C4EF07 /* StoryViewController.m in Sources */,
 				E84927B319DB5C35005ACA9B /* ViewController.m in Sources */,
 				E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */,
+				25B8A2751D8611D300C4EF07 /* PageContentViewController.m in Sources */,
+				25B8A27B1D88749800C4EF07 /* ReadingTestController.m in Sources */,
 				E937C5191A917B68006CE41E /* DevelopmentSettings.m in Sources */,
+				25B8A26F1D84458200C4EF07 /* StoryPageViewController.m in Sources */,
 				2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */,
 				250FBB4C1C80E86D00B10E89 /* NamePickerController.m in Sources */,
+				25B8A2781D87307E00C4EF07 /* ReadingTest3Controller.m in Sources */,
 				E84927AD19DB5C35005ACA9B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,7 +586,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "ed3aa985-1360-4631-b624-54d7bf7bd2d7";
@@ -553,8 +623,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "ed3aa985-1360-4631-b624-54d7bf7bd2d7";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
