@@ -15,8 +15,8 @@
     
     // create the data model
     
-    self.pageTitles = @[@"Over 200 Tips and Tricks", @"Discover Hidden Features", @"Bookmark Favorite Tip", @"Free Regular Update"];
-    self.pageImages = @[@"readingtest_0.jpg", @"readingtest_0.jpg", @"readingtest_0.jpg", @"readingtest_0.jpg"];
+    self.pageTitles = @[@"Balloons", @"Watch", @"Fish"];
+    self.pageImages = @[@"balloon.png", @"watch.gif", @"fish.jpeg"];
     [super viewDidLoad];
 }
 

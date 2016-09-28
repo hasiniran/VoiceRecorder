@@ -58,6 +58,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonReadingTest;
 @property (weak, nonatomic) IBOutlet UILabel *labelComment;
 @property (weak, nonatomic) IBOutlet UILabel *labelTimeRecorded;
+@property (weak, nonatomic) IBOutlet UIPickerView *namesUIPickerView;
 
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;

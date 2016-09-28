@@ -157,7 +157,7 @@
     if (!tView)
     {
         tView = [[UILabel alloc] init];
-        [tView setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+        [tView setFont:[UIFont fontWithName:@"Helvetica" size:20]];
     }
     tView.text = [siblingNames objectAtIndex:row];
     

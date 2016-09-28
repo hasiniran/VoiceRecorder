@@ -15,7 +15,7 @@
     AVAudioSession *session;
     BOOL isRecording;
     NSUserDefaults *defaults;
-    NSString        *dateString;
+    NSString  *dateString;
     NSString* fileName;
 }
 
@@ -35,14 +35,17 @@
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     // Change the size of page view controller
-    self.pageViewController.view.frame = CGRectMake(100,100, 500,800);
+    self.pageViewController.view.frame = CGRectMake(0,0, self.view.frame.size.width/2+100,self.view.frame.size.height/2+100);
     self.pageViewController.view.backgroundColor=[UIColor blueColor];
-    
+    self.pageViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
+
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
+     self.pageViewController.view.center = self.view.center;
     [self.pageViewController didMoveToParentViewController:self];
     
     //start recording
+    //[self record];
     
 }
 
@@ -120,7 +123,31 @@
     
 }
 - (IBAction)cancelTapped:(id)sender {
+    
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Are you sure you want to cancel the current test?" message:@" If you select YES, ongoing recording will be stopped and the recorded test will be deleted. If you want to stop the recorder without deleting the record click STOP instead. " delegate:nil cancelButtonTitle:Nil otherButtonTitles:@"YES", @"NO" , nil];
+    alert.cancelButtonIndex=1;
+    [alert setDelegate:self];
+    [alert show];
+    
 }
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if( buttonIndex ==0){
+        [recorder stop];
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:NO error:nil];
+        isRecording = NO;
+    
+        [self dismissViewControllerAnimated:NO completion:nil];
+    
+         //TODO: remove the file
+    }
+}
+
+
+    
+
 - (IBAction)stopTapped:(id)sender {
     //stop recording
     
@@ -171,7 +198,6 @@
         [recorder prepareToRecord];
         NSLog(@"Starting the reading test :%@", fileName);
 
-        
     }
     
     //start recording
@@ -186,7 +212,7 @@
         // Pause recording
         [recorder pause];
         [self.recordButton setTitle:@"Record" forState:UIControlStateNormal];
-        self.recorderStatusLabel.text =@"Recorder is paused.";
+        self.recorderStatusLabel.text =@"Click RECORD to continue recording.";
     }
     
     [self.stopButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -203,5 +229,9 @@
 //- (NSUInteger)supportedInterfaceOrientations {
 //    return UIInterfaceOrientationMaskLandscape;
 //}
+- (IBAction)previousButtonTapped:(id)sender {
+}
+- (IBAction)nextButtonTapped:(id)sender {
+}
 
 @end

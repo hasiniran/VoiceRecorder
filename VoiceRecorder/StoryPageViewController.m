@@ -1,18 +1,38 @@
 //
-//  UIViewController_StoryViewController.h
+//  UIViewController+StoryPageViewController.m
 //  VoiceRecorder
 //
-//  Created by Hasini Yatawatte on 9/9/16.
+//  Created by Randy on 9/20/16.
 //  Copyright © 2016 University of Notre Dame. All rights reserved.
 //
 
 #import "StoryPageViewController.h"
 
 @implementation StoryPageViewController
-
--(void)viewDidLoad{
-    [super viewDidLoad];
-    self.storyText = [NSString stringWithFormat:@"Screen %ld", (long)self.pageNumber];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
 }
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    
+    self.pageText.text = self.titleText;
+    
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 
 @end

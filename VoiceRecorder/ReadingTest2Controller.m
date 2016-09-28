@@ -29,7 +29,7 @@
     isRecording = false;
     defaults = [NSUserDefaults standardUserDefaults];
     
-    imageNumber = arc4random_uniform(8);
+    imageNumber = 1+arc4random_uniform(8);
     NSString *imageFileName = [@"readingtest_" stringByAppendingString:[NSString stringWithFormat:@"%d.jpg",imageNumber ]];
     self.imageview.image = [UIImage imageNamed:imageFileName];
     NSLog(@"image : %d", imageNumber);
@@ -129,13 +129,13 @@
     [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
     [self.buttonStop setEnabled:NO];
 }
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationLandscapeLeft; // or Right of course
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
-}
+//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+//    return UIInterfaceOrientationLandscapeLeft; // or Right of course
+//}
+//
+//- (NSUInteger)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskLandscape;
+//}
 
 @synthesize delegate;
 -(void)viewWillDisappear:(BOOL)animated
