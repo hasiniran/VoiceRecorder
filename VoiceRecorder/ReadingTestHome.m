@@ -46,12 +46,19 @@
     
     NSString *lastTaken1 = [defaults objectForKey:@"Test1LastTaken"];
     NSString *lastTaken2 = [defaults objectForKey:@"Test2LastTaken"];
+    NSString *lastTaken3 = [defaults objectForKey:@"Test3LastTaken"];
+    NSString *lastTaken4 = [defaults objectForKey:@"Test4LastTaken"];
+                            
     
     if(lastTaken1 == NULL) lastTaken1 = @"Never";
     if (lastTaken2== NULL) lastTaken2 = @"Never";
+    if (lastTaken3== NULL) lastTaken2 = @"Never";
+    if (lastTaken3== NULL) lastTaken2 = @"Never";
 
     self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken1];
     self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken2];
+    self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken3];
+    self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken4];
     
 }
 
@@ -78,6 +85,9 @@
         view.delegate = self;
     }else if ([[segue identifier] isEqualToString:@"ReadingTest3"]){
         ReadingTest3Controller *view = [segue destinationViewController];
+        view.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ReadingTest4"]){
+        ReadingTest4Controller *view = [segue destinationViewController];
         view.delegate = self;
     }
 }
@@ -157,7 +167,7 @@
     if (!tView)
     {
         tView = [[UILabel alloc] init];
-        [tView setFont:[UIFont fontWithName:@"Helvetica" size:20]];
+        [tView setFont:[UIFont fontWithName:@"Helvetica" size:30]];
     }
     tView.text = [siblingNames objectAtIndex:row];
     
@@ -170,7 +180,12 @@
         self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }else if ([test isEqualToString:@"Test2"]){
        self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }else if ([test isEqualToString:@"Test3"]){
+        self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }else if ([test isEqualToString:@"Test4"]){
+        self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }
+
 }
 
 

@@ -33,6 +33,7 @@
     
     if(self.imageFile != Nil){
         self.backgroundImageView.image = [UIImage imageNamed:self.imageFile];
+        [self.imageButton setBackgroundImage:[UIImage imageNamed:self.imageFile] forState:UIControlStateNormal];
     }
     //self.titleLabel.text = self.titleText;
     self.pageText.text = self.titleText;

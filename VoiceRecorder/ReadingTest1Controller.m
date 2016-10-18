@@ -126,12 +126,10 @@
     [self.buttonRecord setTitle:@"Record" forState:UIControlStateNormal];
     [self.buttonStop setEnabled:NO];
 }
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return UIInterfaceOrientationLandscapeLeft; // or Right of course
-}
+
 
 - (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @synthesize delegate;

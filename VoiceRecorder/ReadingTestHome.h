@@ -10,6 +10,7 @@
 #import "ReadingTest1Controller.h"
 #import "ReadingTest2Controller.h"
 #import "ReadingTest3Controller.h"
+#import "ReadingTest4Controller.h"
 
 @interface ReadingTestHome : UIViewController<ReadingTest1Delegate>
 
@@ -19,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonTest2;
 @property (weak, nonatomic) IBOutlet UILabel *labelTest1LastTaken;
 @property (weak, nonatomic) IBOutlet UILabel *labelTest2LastTaken;
+@property (weak, nonatomic) IBOutlet UILabel *labelTest3LastTaken;
+@property (weak, nonatomic) IBOutlet UILabel *labelTest4LastTaken;
 @property (weak, nonatomic) IBOutlet UIPickerView *uipickerNames;
 
 @end

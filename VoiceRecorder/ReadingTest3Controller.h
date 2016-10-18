@@ -18,6 +18,7 @@
 //@property (strong, nonatomic) NSArray *pageTitles;
 //@property (strong, nonatomic) NSArray *pageImages;
 //@property (weak, nonatomic) id delegate;
+@property (weak, nonatomic) IBOutlet UIButton *helpButton;
 
 
 @end

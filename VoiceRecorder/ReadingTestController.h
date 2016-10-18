@@ -10,8 +10,13 @@
 
 #import "PageContentViewController.h"
 
+@protocol ReadingTest3Delegate <NSObject>
+@required
+-(void)setLastTakenDate:(NSString *)date:(NSString *)test;
+@end
 
 @interface ReadingTestController:UIViewController <UIPageViewControllerDataSource>
+
 
 - (IBAction)startWalkthrough:(id)sender;
 @property (strong, nonatomic) UIPageViewController *pageViewController;

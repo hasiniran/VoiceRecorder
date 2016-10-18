@@ -11,6 +11,7 @@
 
 @interface PageContentViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *pageText;
 @property NSUInteger pageIndex;

@@ -35,7 +35,7 @@
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     // Change the size of page view controller
-    self.pageViewController.view.frame = CGRectMake(0,0, self.view.frame.size.width/2+100,self.view.frame.size.height/2+100);
+    self.pageViewController.view.frame = CGRectMake(0,0, self.view.frame.size.width/2+100,self.view.frame.size.height/2+200);
     self.pageViewController.view.backgroundColor=[UIColor blueColor];
     self.pageViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
 
@@ -46,6 +46,7 @@
     
     //start recording
     //[self record];
+    defaults = [NSUserDefaults standardUserDefaults];
     
 }
 
@@ -158,6 +159,7 @@
         [audioSession setActive:NO error:nil];
         isRecording = NO;
     }
+    [defaults setObject:dateString  forKey:@"Test3LastTaken"];
     [self dismissViewControllerAnimated:NO completion:nil];
 
 }
@@ -172,7 +174,7 @@
         [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
-        fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ test1 %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
+        fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ words %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
         
         //set the audio file
         //this is for defining the URL of where the sound file will be saved on the device
@@ -229,9 +231,25 @@
 //- (NSUInteger)supportedInterfaceOrientations {
 //    return UIInterfaceOrientationMaskLandscape;
 //}
-- (IBAction)previousButtonTapped:(id)sender {
-}
-- (IBAction)nextButtonTapped:(id)sender {
+//- (IBAction)previousButtonTapped:(id)sender {
+//    
+//    
+//    NSUInteger index = ((PageContentViewController*) self.pageViewController).pageIndex;
+//    
+//    if ((index != 0) || (index != NSNotFound)) {
+//    index--;
+//    [self viewControllerAtIndex:index];
+//    }
+//}
+//
+//- (IBAction)nextButtonTapped:(id)sender {
+//}
+
+@synthesize delegate;
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [delegate setLastTakenDate:dateString:@"Test3"];
+    
 }
 
 @end

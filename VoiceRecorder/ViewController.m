@@ -1711,7 +1711,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+      //  freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 

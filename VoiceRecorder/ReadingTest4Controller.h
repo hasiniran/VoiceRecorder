@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "StoryPageViewController.h"
 
+@protocol ReadingTest4Delegate <NSObject>
+@required
+-(void)setLastTakenDate:(NSString *)date:(NSString *)test;
+@end
+
 @interface ReadingTest4Controller:UIViewController <UIPageViewControllerDataSource>
 
 
@@ -25,5 +30,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *pageText;
 @property (weak, nonatomic) IBOutlet UIButton *nextPageButton;
+@property (weak, nonatomic) IBOutlet UIButton *previousPageButton;
 
 @end
