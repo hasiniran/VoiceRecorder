@@ -101,7 +101,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fs-hf-3o1">
-                                <rect key="frame" x="99" y="905" width="90" height="2"/>
+                                <rect key="frame" x="99" y="905" width="127" height="2"/>
                                 <color key="progressTintColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                             </progressView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Upload in progress" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bF6-MX-9hs">
@@ -128,7 +128,7 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f38-cR-xo4">
-                                <rect key="frame" x="182" y="108" width="412" height="459"/>
+                                <rect key="frame" x="178" y="108" width="412" height="620"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kb6-ka-zad">
                                         <rect key="frame" x="10" y="93" width="392" height="52"/>
@@ -145,27 +145,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9z-vc-9Pm" userLabel="UNSUP_ON">
-                                        <rect key="frame" x="47" y="285" width="170" height="40"/>
+                                        <rect key="frame" x="28" y="285" width="170" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="UN-SUPERVISED" backgroundImage="button-12.png">
                                             <color key="titleShadowColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                                         </state>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" fixedFrame="YES" text="Comments: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSp-xF-7d7">
-                                        <rect key="frame" x="47" y="393" width="157" height="21"/>
+                                        <rect key="frame" x="28" y="393" width="157" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RCd-QT-59O">
-                                        <rect key="frame" x="232" y="213" width="170" height="117"/>
+                                        <rect key="frame" x="213" y="213" width="170" height="117"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="STOP" backgroundImage="stop-enabled.png">
                                             <color key="titleShadowColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                                         </state>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f7e-Rx-GNR" userLabel="Comment_Field">
-                                        <rect key="frame" x="234" y="384" width="168" height="30"/>
+                                        <rect key="frame" x="215" y="384" width="168" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
@@ -173,18 +173,24 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCg-7H-KI3" userLabel="SUP_ON">
-                                        <rect key="frame" x="47" y="213" width="170" height="40"/>
+                                        <rect key="frame" x="28" y="213" width="170" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="SUPERVISED" backgroundImage="button-12.png">
                                             <color key="titleShadowColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                                         </state>
                                     </button>
+                                    <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yJs-Po-eoE">
+                                        <rect key="frame" x="2" y="471" width="409" height="132"/>
+                                        <connections>
+                                            <segue destination="b3L-Ki-YwU" kind="embed" id="JFT-9N-Am2"/>
+                                        </connections>
+                                    </containerView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.88461061507936511" green="0.88461061507936511" blue="0.88461061507936511" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j81-wu-UkL">
-                                <rect key="frame" x="182" y="603" width="412" height="95"/>
+                                <rect key="frame" x="182" y="745" width="412" height="95"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Reading Tests" backgroundImage="readingtestButton.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1148,6 +1154,81 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jrl-yV-jHi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1587" y="3712"/>
+        </scene>
+        <!--Emotion View Controller-->
+        <scene sceneID="OI3-ru-H2t">
+            <objects>
+                <viewController storyboardIdentifier="EmotionView" id="b3L-Ki-YwU" customClass="EmotionViewController" sceneMemberID="viewController">
+                    <view key="view" userInteractionEnabled="NO" contentMode="scaleToFill" id="J1W-wk-0nm">
+                        <rect key="frame" x="0.0" y="0.0" width="409" height="132"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Emotions:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OpL-Hx-CKy">
+                                <rect key="frame" x="7" y="15" width="106" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Start the recorder. Tap an emotion to select. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cs6-qi-NXx">
+                                <rect key="frame" x="12" y="17" width="390" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5JK-sp-X87">
+                                <rect key="frame" x="88" y="56" width="73" height="56"/>
+                                <color key="backgroundColor" red="0.46986464919999998" green="0.72733480530000005" blue="0.94830587639999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Sad"/>
+                                <connections>
+                                    <action selector="emotion2Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="IJB-Cu-Ph9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SkN-Qd-c16">
+                                <rect key="frame" x="7" y="56" width="73" height="56"/>
+                                <color key="backgroundColor" red="0.94830587639999997" green="0.3280702989" blue="0.33050001089999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Angry"/>
+                                <connections>
+                                    <action selector="emotion1Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="KsW-t1-zwu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zc-x0-lQE">
+                                <rect key="frame" x="248" y="55" width="73" height="57"/>
+                                <color key="backgroundColor" red="0.94830587639999997" green="0.90572461429999995" blue="0.25081978830000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Happy"/>
+                                <connections>
+                                    <action selector="emotion4Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="8hs-70-lZ0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BsS-3F-8ph">
+                                <rect key="frame" x="329" y="56" width="73" height="56"/>
+                                <color key="backgroundColor" red="0.4414746698" green="0.73627645500000005" blue="0.42694166290000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Neutral"/>
+                                <connections>
+                                    <action selector="emotion5Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="sPJ-wA-tHU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mn6-It-JzT">
+                                <rect key="frame" x="167" y="55" width="73" height="57"/>
+                                <color key="backgroundColor" red="0.94830587639999997" green="0.55263157370000004" blue="0.79640876910000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Anxious"/>
+                                <connections>
+                                    <action selector="emotion3Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="1ue-4t-GTl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="LabelSelectedEmotion" destination="cs6-qi-NXx" id="v1J-bC-YtU"/>
+                        <outlet property="buttonEmotion1" destination="SkN-Qd-c16" id="Kth-gQ-cXd"/>
+                        <outlet property="buttonEmotion2" destination="5JK-sp-X87" id="ueq-Z2-QPB"/>
+                        <outlet property="buttonEmotion3" destination="mn6-It-JzT" id="Kmv-3a-wJ3"/>
+                        <outlet property="buttonEmotion4" destination="7Zc-x0-lQE" id="lCb-Fh-dat"/>
+                        <outlet property="buttonEmotion5" destination="BsS-3F-8ph" id="jQy-PI-q1X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WQm-NU-K0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-460.5" y="663"/>
         </scene>
     </scenes>
     <resources>

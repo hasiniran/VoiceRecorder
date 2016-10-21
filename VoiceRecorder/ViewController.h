@@ -12,6 +12,7 @@
 #import "DevelopmentInterfaceViewController.h"
 #import "DevelopmentSettings.h"
 #import "NamePickerController.h"
+#import "EmotionViewController.h"
 
 @interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 
@@ -60,12 +61,16 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelTimeRecorded;
 @property (weak, nonatomic) IBOutlet UIPickerView *namesUIPickerView;
 
+
 - (IBAction)recordTapped:(id)sender;
 - (IBAction)stopTapped:(id)sender;
 - (IBAction)playTapped:(id)sender;
 - (IBAction)uploadFile:(id)sender;
 - (void)setNumberOfFilesRemainingForUpload;
 - (void)askForUserInfo;
+-(NSString*)getRecordingFileName;
+- (NSString*)getDate;
+-(NSString*)getUsername;
 
 @end
 

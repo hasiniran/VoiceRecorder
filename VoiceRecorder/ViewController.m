@@ -200,6 +200,18 @@
     outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
 }
 
+
+
+
+//getter method to return recording file name
+-(NSString*)getRecordingFileName{
+    
+    return fileName;
+    
+}
+
+
+
 //initialize the audio monitor
 -(void) initAudioMonitorAndRecord{
     
@@ -1114,6 +1126,9 @@
         DevelopmentInterfaceViewController *dvc = [segue destinationViewController];
         dvc.settings = settings;
         dvc.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"EmotionView"]){
+        EmotionViewController* evc = (EmotionViewController*)[segue destinationViewController];
+        evc.delegate = self;
     }
     
     
@@ -1137,9 +1152,10 @@
     [defaults synchronize];
 }
 
-- (IBAction)getUsername{
+- (NSString*)getUsername{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     fullName = [defaults objectForKey:@"username"];
+    return fullName;
 }
 
 -(void)loadRecordedTime{
@@ -1265,6 +1281,9 @@
     //clear comment field
     self.textfieldComment.text =@"";
     [self.textfieldComment setEnabled:NO];
+    
+    //diable emotions view
+    [self disableEmotionView];
 }
 
 - (void)start:(id)sender {
@@ -1338,6 +1357,9 @@
     //show time
     self.timeElapsedLabel.text = @"00:00:00";
     [self.timeElapsedLabel setHidden:NO];
+    
+    
+     [self.childViewControllers[0].view setUserInteractionEnabled:YES];
 }
 
 -(void)modeChanged:(id)sender{
@@ -1711,7 +1733,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-      //  freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+       // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 
@@ -1748,6 +1770,11 @@
     }
 }
 
+//disable this only if the recording is in progress
+-(void)disableEmotionView{
+    [(EmotionViewController*)self.childViewControllers[0] resetEmotionButtons];
+    [self.childViewControllers[0].view setUserInteractionEnabled:NO];
+}
 
 
 @end

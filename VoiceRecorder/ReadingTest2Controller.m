@@ -133,9 +133,9 @@
 //    return UIInterfaceOrientationLandscapeLeft; // or Right of course
 //}
 //
-//- (NSUInteger)supportedInterfaceOrientations {
-//    return UIInterfaceOrientationMaskLandscape;
-//}
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @synthesize delegate;
 -(void)viewWillDisappear:(BOOL)animated

@@ -86,6 +86,7 @@
 		25B645E11DB6BD9500AE6458 /* window.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B645CD1DB6BD9500AE6458 /* window.png */; };
 		25B645E31DB6BD9500AE6458 /* quack.png in Resources */ = {isa = PBXBuildFile; fileRef = 25B645CF1DB6BD9500AE6458 /* quack.png */; };
 		25B645E51DB6BF3B00AE6458 /* green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 25B645E41DB6BF3B00AE6458 /* green.jpg */; };
+		25B645E81DB6C87200AE6458 /* EmotionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B645E71DB6C87200AE6458 /* EmotionViewController.m */; };
 		25B8A26D1D834C4D00C4EF07 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A26C1D834C4D00C4EF07 /* StoryViewController.m */; };
 		25B8A2751D8611D300C4EF07 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A2741D8611D300C4EF07 /* PageContentViewController.m */; };
 		25B8A2781D87307E00C4EF07 /* ReadingTest3Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B8A2771D87307E00C4EF07 /* ReadingTest3Controller.m */; };
@@ -220,6 +221,8 @@
 		25B645CD1DB6BD9500AE6458 /* window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = window.png; path = images/window.png; sourceTree = "<group>"; };
 		25B645CF1DB6BD9500AE6458 /* quack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = quack.png; path = images/quack.png; sourceTree = "<group>"; };
 		25B645E41DB6BF3B00AE6458 /* green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = green.jpg; path = images/green.jpg; sourceTree = "<group>"; };
+		25B645E61DB6C87200AE6458 /* EmotionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmotionViewController.h; sourceTree = "<group>"; };
+		25B645E71DB6C87200AE6458 /* EmotionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmotionViewController.m; sourceTree = "<group>"; };
 		25B8A26B1D834C4D00C4EF07 /* StoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		25B8A26C1D834C4D00C4EF07 /* StoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
 		25B8A2731D8611D300C4EF07 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
@@ -444,6 +447,8 @@
 				E84927B719DB5C35005ACA9B /* Images.xcassets */,
 				E84927B919DB5C35005ACA9B /* LaunchScreen.xib */,
 				E84927AA19DB5C35005ACA9B /* Supporting Files */,
+				25B645E61DB6C87200AE6458 /* EmotionViewController.h */,
+				25B645E71DB6C87200AE6458 /* EmotionViewController.m */,
 			);
 			path = VoiceRecorder;
 			sourceTree = "<group>";
@@ -713,6 +718,7 @@
 				25B8A2751D8611D300C4EF07 /* PageContentViewController.m in Sources */,
 				251E5DA61D8F9F3300B84B54 /* ReadingTest4Controller.m in Sources */,
 				25B8A27B1D88749800C4EF07 /* ReadingTestController.m in Sources */,
+				25B645E81DB6C87200AE6458 /* EmotionViewController.m in Sources */,
 				E937C5191A917B68006CE41E /* DevelopmentSettings.m in Sources */,
 				25DA26EB1D9228F6006802C8 /* StoryPageViewController.m in Sources */,
 				2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */,
