@@ -176,16 +176,17 @@
 
 -(void)setLastTakenDate:(NSString *)date:(NSString *)test{
     
-    if([test  isEqualToString:@"Test1"]){
-        self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
-    }else if ([test isEqualToString:@"Test2"]){
-       self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
-    }else if ([test isEqualToString:@"Test3"]){
-        self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
-    }else if ([test isEqualToString:@"Test4"]){
-        self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    if(date != NULL){
+        if([test  isEqualToString:@"Test1"]){
+            self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+        }else if ([test isEqualToString:@"Test2"]){
+            self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+        }else if ([test isEqualToString:@"Test3"]){
+            self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+        }else if ([test isEqualToString:@"Test4"]){
+            self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+        }
     }
-
 }
 
 
