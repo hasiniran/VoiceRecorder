@@ -176,6 +176,7 @@
 
 -(void)setLastTakenDate:(NSString *)date:(NSString *)test{
     
+    if(date != NULL){
     if([test  isEqualToString:@"Test1"]){
         self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }else if ([test isEqualToString:@"Test2"]){
@@ -185,7 +186,7 @@
     }else if ([test isEqualToString:@"Test4"]){
         self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }
-    
+    }
 }
 
 
