@@ -29,7 +29,7 @@
     isRecording = false;
     defaults = [NSUserDefaults standardUserDefaults];
     
-    imageNumber = arc4random_uniform(8);
+    imageNumber = 1+arc4random_uniform(8);
     NSString *imageFileName = [@"readingtest_" stringByAppendingString:[NSString stringWithFormat:@"%d.jpg",imageNumber ]];
     self.imageview.image = [UIImage imageNamed:imageFileName];
     NSLog(@"image : %d", imageNumber);

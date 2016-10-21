@@ -12,6 +12,7 @@
 #import "DevelopmentInterfaceViewController.h"
 #import "DevelopmentSettings.h"
 #import "NamePickerController.h"
+#import "EmotionViewController.h"
 
 @interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 
@@ -65,6 +66,9 @@
 - (IBAction)uploadFile:(id)sender;
 - (void)setNumberOfFilesRemainingForUpload;
 - (void)askForUserInfo;
+-(NSString*)getRecordingFileName;
+- (NSString*)getDate;
+-(NSString*)getUsername;
 
 @end
 

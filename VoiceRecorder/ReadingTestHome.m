@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     
     // set the child name
     
@@ -28,30 +28,37 @@
     
     siblingNames =[defaults arrayForKey:@"diagnosedUsers"];
     
-//    
-//    if(siblingName !=NULL){
-//       self.textfieldName.text = siblingName;
-//    }else{
-//        [self.buttonTest1 setEnabled:NO];
-//        [self.buttonTest2 setEnabled:NO];
-//    }
-//
+    //
+    //    if(siblingName !=NULL){
+    //       self.textfieldName.text = siblingName;
+    //    }else{
+    //        [self.buttonTest1 setEnabled:NO];
+    //        [self.buttonTest2 setEnabled:NO];
+    //    }
+    //
     siblingName = [siblingNames objectAtIndex:0]; //default
     self.textfieldName.delegate =self;
     [[NSUserDefaults standardUserDefaults] setValue:siblingName forKey:@"siblingname"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
     
     // set last taken timstamps
     
     NSString *lastTaken1 = [defaults objectForKey:@"Test1LastTaken"];
     NSString *lastTaken2 = [defaults objectForKey:@"Test2LastTaken"];
+    NSString *lastTaken3 = [defaults objectForKey:@"Test3LastTaken"];
+    NSString *lastTaken4 = [defaults objectForKey:@"Test4LastTaken"];
+    
     
     if(lastTaken1 == NULL) lastTaken1 = @"Never";
     if (lastTaken2== NULL) lastTaken2 = @"Never";
-
+    if (lastTaken3== NULL) lastTaken2 = @"Never";
+    if (lastTaken3== NULL) lastTaken2 = @"Never";
+    
     self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken1];
     self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken2];
+    self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken3];
+    self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken4];
     
 }
 
@@ -63,35 +70,41 @@
 
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
- 
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//     Get the new view controller using [segue destinationViewController].
-//     Pass the selected object to the new view controller.
+    //     Get the new view controller using [segue destinationViewController].
+    //     Pass the selected object to the new view controller.
     
     
     if ([[segue identifier] isEqualToString:@"ReadingTest1"]){
-
+        
         ReadingTest1Controller *view = [segue destinationViewController];
         view.delegate = self;
     }else if ([[segue identifier] isEqualToString:@"ReadingTest2"]){
         ReadingTest2Controller *view =[segue destinationViewController];
         view.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ReadingTest3"]){
+        ReadingTest3Controller *view = [segue destinationViewController];
+        view.delegate = self;
+    }else if ([[segue identifier] isEqualToString:@"ReadingTest4"]){
+        ReadingTest4Controller *view = [segue destinationViewController];
+        view.delegate = self;
     }
 }
 
 - (IBAction)nameEntered:(id)sender {
-//    if(self.textfieldName.text != NULL && ![self.textfieldName.text  isEqual: @""]){
-//        //save the name to ns defaults to populate the field later
-//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//        [defaults setValue:self.textfieldName.text forKey:@"siblingname"];
-//        [defaults synchronize];
-//        [self.buttonTest1 setEnabled:YES];
-//        [self.buttonTest2 setEnabled:YES];
-//
-//    }else{
-//        [self.buttonTest1 setEnabled:NO];
-//        [self.buttonTest2 setEnabled:NO];
-//    }
+    //    if(self.textfieldName.text != NULL && ![self.textfieldName.text  isEqual: @""]){
+    //        //save the name to ns defaults to populate the field later
+    //        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    //        [defaults setValue:self.textfieldName.text forKey:@"siblingname"];
+    //        [defaults synchronize];
+    //        [self.buttonTest1 setEnabled:YES];
+    //        [self.buttonTest2 setEnabled:YES];
+    //
+    //    }else{
+    //        [self.buttonTest1 setEnabled:NO];
+    //        [self.buttonTest2 setEnabled:NO];
+    //    }
     //NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"siblingname"]);
 }
 
@@ -106,7 +119,7 @@
 //to dismiss the keyboard when tapped anywhere
 //-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 //{
-//    
+//
 //    [self.textfieldName endEditing:YES];
 //    [self textFieldShouldReturn:self.textfieldName];
 //}
@@ -119,7 +132,7 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     
-        return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 
@@ -141,7 +154,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-
+    
     siblingName = [siblingNames objectAtIndex:row];
     [[NSUserDefaults standardUserDefaults] setValue:siblingName forKey:@"siblingname"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -154,7 +167,7 @@
     if (!tView)
     {
         tView = [[UILabel alloc] init];
-        [tView setFont:[UIFont fontWithName:@"Helvetica" size:13]];
+        [tView setFont:[UIFont fontWithName:@"Helvetica" size:20]];
     }
     tView.text = [siblingNames objectAtIndex:row];
     
@@ -166,8 +179,13 @@
     if([test  isEqualToString:@"Test1"]){
         self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }else if ([test isEqualToString:@"Test2"]){
-       self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+        self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }else if ([test isEqualToString:@"Test3"]){
+        self.labelTest3LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
+    }else if ([test isEqualToString:@"Test4"]){
+        self.labelTest4LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", date];
     }
+    
 }
 
 
