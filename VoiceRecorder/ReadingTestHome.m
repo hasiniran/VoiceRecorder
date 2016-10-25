@@ -52,8 +52,8 @@
     
     if(lastTaken1 == NULL) lastTaken1 = @"Never";
     if (lastTaken2== NULL) lastTaken2 = @"Never";
-    if (lastTaken3== NULL) lastTaken2 = @"Never";
-    if (lastTaken3== NULL) lastTaken2 = @"Never";
+    if (lastTaken3== NULL) lastTaken3 = @"Never";
+    if (lastTaken4== NULL) lastTaken4 = @"Never";
     
     self.labelTest1LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken1];
     self.labelTest2LastTaken.text = [NSString stringWithFormat:@"Last taken : %@", lastTaken2];
