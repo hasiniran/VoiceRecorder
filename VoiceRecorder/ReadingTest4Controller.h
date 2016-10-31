@@ -11,13 +11,13 @@
 
 @protocol ReadingTest4Delegate <NSObject>
 @required
--(void)setLastTakenDate:(NSString *)date:(NSString *)test;
+-(void)setLastTakenDate : (NSString *)date : (NSString *)test;
 @end
 
-@interface ReadingTest4Controller:UIViewController <UIPageViewControllerDataSource>
+@interface ReadingTest4Controller:UIViewController
 
 
-@property (strong, nonatomic) UIPageViewController *pageViewController;
+
 @property (strong, nonatomic) NSArray *pageTitles;
 @property (strong, nonatomic) NSArray *pageImages;
 @property (weak, nonatomic) id delegate;
@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *recorderStatusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *pageText;
+@property (weak, nonatomic) IBOutlet UIImageView *pageImage;
 @property (weak, nonatomic) IBOutlet UIButton *nextPageButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousPageButton;
 

@@ -36,7 +36,7 @@
     
     // Change the size of page view controller
     self.pageViewController.view.frame = CGRectMake(0,0, self.view.frame.size.width/2+100,self.view.frame.size.height/2+200);
-    self.pageViewController.view.backgroundColor=[UIColor blueColor];
+    //self.pageViewController.view.backgroundColor=[UIColor blueColor];
     self.pageViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin);
 
     [self addChildViewController:_pageViewController];
@@ -171,7 +171,7 @@
         
         //set the output file url
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd-MM-yyyy HH:mm:ss"]; //format the date string
+        [dateFormatter setDateFormat:@"MM/dd/YYYY hh:mm a"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
         fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ words %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
@@ -224,26 +224,7 @@
     [self.recordButton setTitle:@"Record" forState:UIControlStateNormal];
     [self.stopButton setEnabled:NO];
 }
-//- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-//    return UIInterfaceOrientationLandscapeLeft; // or Right of course
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations {
-//    return UIInterfaceOrientationMaskLandscape;
-//}
-//- (IBAction)previousButtonTapped:(id)sender {
-//    
-//    
-//    NSUInteger index = ((PageContentViewController*) self.pageViewController).pageIndex;
-//    
-//    if ((index != 0) || (index != NSNotFound)) {
-//    index--;
-//    [self viewControllerAtIndex:index];
-//    }
-//}
-//
-//- (IBAction)nextButtonTapped:(id)sender {
-//}
+
 
 @synthesize delegate;
 -(void)viewWillDisappear:(BOOL)animated

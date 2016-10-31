@@ -11,14 +11,28 @@
 #import "ReadingTestController.h"
 
 
-@interface ReadingTest3Controller:ReadingTestController
+@interface ReadingTest3Controller:UIViewController
 
-//- (IBAction)startWalkthrough:(id)sender;
-//@property (strong, nonatomic) UIPageViewController *pageViewController;
-//@property (strong, nonatomic) NSArray *pageTitles;
-//@property (strong, nonatomic) NSArray *pageImages;
-//@property (weak, nonatomic) id delegate;
+
 @property (weak, nonatomic) IBOutlet UIButton *helpButton;
 
+@property (weak,nonatomic) NSArray *words1;
+
+@property (strong, nonatomic) NSArray *pageTitles;
+@property (strong, nonatomic) NSArray *pageImages;
+
+@property (strong, nonatomic) NSArray *wordList;
+@property (strong, nonatomic) NSArray *imagesList;
+
+@property (weak, nonatomic) id delegate;
+
+@property (weak, nonatomic) IBOutlet UIButton *recordButton;
+@property (weak, nonatomic) IBOutlet UIButton *stopButton;
+@property (weak, nonatomic) IBOutlet UILabel *recorderStatusLabel;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UILabel *WordLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *wordImage;
 
 @end
+
+
