@@ -136,8 +136,7 @@
         [self askForUserInfo];
     }else{
         
-        [self initLogFile:fullName];
-        [self initInfoFile];
+        [self initinfoFiles:fullName];
     }
     
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
@@ -1091,8 +1090,7 @@
     [self saveUsername:fullName];
     self.labelUsername.text = [NSString stringWithFormat:@"User: %@", fullName];
     if (recordingInfoFile == nil) {
-        [self initInfoFile]; // load file to record recording metadata
-        [self initLogFile:fullName];
+        [self initinfoFiles:fullName];
     }
 }
 
@@ -1222,10 +1220,9 @@
         
         self.buttonRecordSibling.frame = CGRectMake(167,175,140, 40);
         self.buttonReadingTest.frame = CGRectMake(167, 241, 140, 40);
-        self.labelComment.frame = CGRectMake(23, 307, 84, 21);
-        self.textfieldComment.frame = CGRectMake(167,298 , 140, 30);
-        UIViewController* emotionsViewContainer =self.childViewControllers[0];
-        emotionsViewContainer.view.frame = CGRectMake(emotionsViewContainer.view.frame.origin.x, emotionsViewContainer.view.frame.origin.y, emotionsViewContainer.view.frame.size.width, emotionsViewContainer.view.frame.size.height);
+        self.labelComment.frame = CGRectMake(29, 332, 84, 21);
+        self.textfieldComment.frame = CGRectMake(167,323 , 140, 30);
+        
         
     }else if(userGroup ==2){
         //only the recodring of sibling is required
@@ -1242,8 +1239,6 @@
         self.buttonReadingTest.frame = CGRectMake(23, 175, 140, 40);
         self.labelComment.frame = CGRectMake(23, 241, 84, 21);
         self.textfieldComment.frame = CGRectMake(167,241 , 140, 30);
-        UIViewController* emotionsViewContainer =self.childViewControllers[0];
-        emotionsViewContainer.view.frame = CGRectMake(emotionsViewContainer.view.frame.origin.x, emotionsViewContainer.view.frame.origin.y, emotionsViewContainer.view.frame.size.width, emotionsViewContainer.view.frame.size.height);
     }
     
     //load names of children saved in the system
@@ -1551,25 +1546,25 @@
 }
 
 
--(void)initInfoFile{
-    
-    //    if(recordingInfoFile == nil) {
-    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    
-    NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
-    NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
-    recordingInfoFile = filePath;
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
-        [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
-    }
-    //    }
-}
+//-(void)initInfoFile{
+//
+//    //    if(recordingInfoFile == nil) {
+//    NSString *documentsDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+//
+//    NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",fullName];
+//    NSString *filePath = [documentsDir stringByAppendingPathComponent:infoFileName];
+//    recordingInfoFile = filePath;
+//
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
+//        [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
+//    }
+//    //    }
+//}
 
 -(void)updateMetadataFile{
     
     if (recordingInfoFile == nil) {
-        [self initInfoFile]; // load file to record recording metadata
+        [self initinfoFiles:fullName]; // load file to record recording metadata
     }
     
     //    NSDate *today = [NSDate date];
@@ -1730,13 +1725,65 @@
 
 
 
--(void)initLogFile:(NSString*)deviceName{
+//-(void)initLogFile:(NSString*)deviceName{
+//
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
+//        logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
+//       // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+//}
+
+
+-(void)initinfoFiles:(NSString*)deviceName{
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
-    logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-    // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+    if(deviceName !=NULL && [deviceName isEqualToString:@""]){
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        
+        //init log file
+        
+        NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
+        logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
+        // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+        
+        
+        
+        
+        //init metadata file
+        
+        NSString *infoFileName = [NSString stringWithFormat:@"%@-info.csv",deviceName];
+        recordingInfoFile = [documentsDirectory stringByAppendingPathComponent:infoFileName];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:recordingInfoFile]) {
+            [[NSFileManager defaultManager] createFileAtPath:recordingInfoFile contents:nil attributes:nil];
+        }
+        
+        
+        
+        //init emotions file
+        
+        
+        NSString *emotionsFileName = [NSString stringWithFormat:@"%@-emotions.csv",deviceName];
+        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:emotionsFileName];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+        }
+        
+        
+        
+        //init reading test info file
+        
+        
+        NSString * readingTestInfoFile = [NSString stringWithFormat:@"%@-wordsTest.csv", deviceName];
+        filePath = [documentsDirectory stringByAppendingPathComponent:readingTestInfoFile];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+        }
+        
+    }
+    
 }
 
 
@@ -1778,8 +1825,6 @@
     [(EmotionViewController*)self.childViewControllers[0] resetEmotionButtons];
     [self.childViewControllers[0].view setUserInteractionEnabled:NO];
 }
-
-
 
 
 @end
