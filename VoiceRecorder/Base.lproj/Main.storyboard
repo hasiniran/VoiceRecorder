@@ -905,41 +905,46 @@
             <objects>
                 <viewController storyboardIdentifier="ReadingTest4" id="O36-hJ-Pwr" customClass="ReadingTest4Controller" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bqi-Xp-eRB">
-                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="19q-5I-NgY" userLabel="stopButton">
-                                <rect key="frame" x="275" y="273" width="151" height="41"/>
+                                <rect key="frame" x="172" y="519" width="110" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.96759777729999996" green="0.24144513989999999" blue="0.1542988216" alpha="1" colorSpace="calibratedRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Cancel">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                                 <connections>
                                     <action selector="stopTapped:" destination="O36-hJ-Pwr" eventType="touchUpInside" id="tbw-BP-n9d"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="S9U-Dr-oA7" userLabel="recordButton">
-                                <rect key="frame" x="91" y="273" width="167" height="41"/>
+                                <rect key="frame" x="44" y="519" width="110" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.3986366321" green="0.80000001190000003" blue="0.39135552369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                                <state key="normal" title="Record"/>
+                                <state key="normal" title="Record">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="recordTapped:" destination="O36-hJ-Pwr" eventType="touchUpInside" id="By8-gF-9t0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9M0-bi-b9a">
-                                <rect key="frame" x="405" y="220" width="143" height="29"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9M0-bi-b9a">
+                                <rect key="frame" x="101" y="476" width="110" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Next Page"/>
+                                <color key="backgroundColor" red="0.99863243059999995" green="0.98080595079999999" blue="0.50071557960000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Next Page">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="nextPageTapped:" destination="O36-hJ-Pwr" eventType="touchUpInside" id="eZ7-gj-V7X"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bbW-Xa-noM">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bbW-Xa-noM">
                                 <rect key="frame" x="8" y="221" width="109" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -948,31 +953,31 @@
                                     <action selector="previousPageTapped:" destination="O36-hJ-Pwr" eventType="touchUpInside" id="TLh-J3-aJt"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" id="NeS-5M-oNz">
+                                <rect key="frame" x="20" y="205" width="280" height="257"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5w7-7O-AjW">
+                                <rect key="frame" x="70" y="89" width="173" height="108"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yzp-9w-bfG">
-                                <rect key="frame" x="115" y="5" width="311" height="31"/>
+                                <rect key="frame" x="20" y="36" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" id="NeS-5M-oNz">
-                                <rect key="frame" x="14" y="136" width="540" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5w7-7O-AjW">
-                                <rect key="frame" x="193" y="13" width="181" height="115"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="nextPageButton" destination="9M0-bi-b9a" id="GJa-by-8rk"/>
+                        <outlet property="pageImage" destination="5w7-7O-AjW" id="ttu-oN-WZ1"/>
                         <outlet property="pageText" destination="NeS-5M-oNz" id="ENw-St-uoA"/>
                         <outlet property="previousPageButton" destination="bbW-Xa-noM" id="joj-Ad-PaI"/>
                         <outlet property="recordButton" destination="S9U-Dr-oA7" id="3PZ-2U-3bY"/>
@@ -982,7 +987,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u0J-ah-ct3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-271" y="1385"/>
+            <point key="canvasLocation" x="-277" y="1385"/>
         </scene>
         <!--Reading Test3 Controller-->
         <scene sceneID="gdT-lH-euZ">
@@ -992,17 +997,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZqY-M8-xFl" userLabel="CancelButton">
-                                <rect key="frame" x="239" y="531" width="81" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.94830587639999997" green="0.90572461429999995" blue="0.25081978830000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Cancel Test"/>
-                                <connections>
-                                    <action selector="cancelTapped:" destination="kDL-lX-uUO" eventType="touchUpInside" id="KjP-WZ-vCG"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="FMy-Lp-Tp4" userLabel="stopButton">
-                                <rect key="frame" x="167" y="513" width="110" height="35"/>
+                                <rect key="frame" x="170" y="513" width="110" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.96759777729999996" green="0.24144513989999999" blue="0.1542988216" alpha="1" colorSpace="calibratedRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
@@ -1015,7 +1011,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cIt-VN-Q4v" userLabel="recordButton">
-                                <rect key="frame" x="37" y="513.5" width="116" height="36.5"/>
+                                <rect key="frame" x="40" y="513" width="116" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.3986366321" green="0.80000001190000003" blue="0.39135552369999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
@@ -1042,12 +1038,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hwI-NV-HVK">
-                                <rect key="frame" x="40" y="161" width="240" height="261"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zgo-RE-9F3">
-                                <rect key="frame" x="97" y="443" width="126" height="34"/>
+                                <rect key="frame" x="97" y="430" width="126" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.99863243059999995" green="0.98080595079999999" blue="0.50071557960000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -1061,6 +1053,10 @@
                                     <action selector="nextButtonTapped:" destination="kDL-lX-uUO" eventType="touchUpInside" id="fXE-fA-b8c"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hwI-NV-HVK">
+                                <rect key="frame" x="40" y="148" width="240" height="261"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1068,7 +1064,6 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="WordLabel" destination="pRz-r1-GvZ" id="AgH-aq-zBt"/>
-                        <outlet property="cancelButton" destination="ZqY-M8-xFl" id="K9Y-Au-ubF"/>
                         <outlet property="helpButton" destination="ygz-JL-70S" id="W97-Ou-fZF"/>
                         <outlet property="nextButton" destination="zgo-RE-9F3" id="Nzu-e5-GHl"/>
                         <outlet property="recordButton" destination="cIt-VN-Q4v" id="pJg-Mf-hFL"/>
