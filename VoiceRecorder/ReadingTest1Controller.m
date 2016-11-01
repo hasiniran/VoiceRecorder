@@ -57,7 +57,7 @@
 
         //set the output file url
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/YYYY hh:mm a"]; //format the date string
+        [dateFormatter setDateFormat:@"MM-dd-YYYY hh:mm a"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
         NSString* fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ test1 %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];

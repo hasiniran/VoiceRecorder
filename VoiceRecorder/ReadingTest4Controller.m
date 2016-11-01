@@ -124,7 +124,7 @@
         
         //set the output file url
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/YYYY hh:mm a"]; //format the date string
+        [dateFormatter setDateFormat:@"MM-dd-YYYY hh:mm a"]; //format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
         fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ story_%d %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],storyNumber,dateString];
@@ -135,7 +135,6 @@
         NSArray *pathComponents = [NSArray arrayWithObjects:
                                    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                                    fileName,
-                                   
                                    nil];
         
         NSURL *filepath = [NSURL fileURLWithPathComponents:pathComponents];
@@ -157,17 +156,22 @@
     
     //start recording
     
-    if (!recorder.recording) {
+    if (!recorder.isRecording) {
         // Start recording
         [recorder record];
         [self.recordButton setTitle:@"Pause" forState:UIControlStateNormal];
         self.recorderStatusLabel.text =@"Recording...";
+        
+        if(currentPage < self.pageTitles.count-1){
+            [self.nextPageButton setEnabled:YES];
+        }
         
     } else {
         // Pause recording
         [recorder pause];
         [self.recordButton setTitle:@"Record" forState:UIControlStateNormal];
         self.recorderStatusLabel.text =@"Recorder is paused.";
+        [self.nextPageButton setEnabled:NO];
     }
     
     [self.stopButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -195,9 +199,15 @@
     }
 }
 - (IBAction)nextPageTapped:(id)sender {
-    if(currentPage < self.pageTitles.count){
+    if(currentPage < self.pageTitles.count-1){
        currentPage++;
        [self showPage:currentPage];
+    }
+    
+    //last word displayed
+    if (currentPage == self.pageTitles.count-1) {
+        [self.nextPageButton setEnabled:NO];
+        self.recorderStatusLabel.text =@"End of the test. Click stop to go to the main screen.";
     }
 }
 - (IBAction)previousPageTapped:(id)sender {

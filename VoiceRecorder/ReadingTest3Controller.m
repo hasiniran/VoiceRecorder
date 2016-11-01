@@ -34,7 +34,7 @@
     // create the data model
     
     self.wordList = @[@"House", @"Tree", @"Window", @"Telephone", @"Cup", @"Knife", @"Spoon", @"Girl", @"Ball",@"Wagon",@"Shovel",
-                        @"Monkey", @"Zipper", @"Scissors", @"Duck",@"Quack", @"Yellow", @"Vacuum",@"Watch", @"Plane", @"Swimming",
+                     @"Monkey", @"Zipper", @"Scissors", @"Duck",@"Quack", @"Yellow", @"Vacuum",@"Watch", @"Plane", @"Swimming",
                       @"Watches", @"Lamp",@"Car",@"Blue", @"Rabbit", @"Carrot", @"Orange",@"Fishing", @"Chair", @"Feather",
                       @"Pencil", @"Bathtub",@"Bath", @"Ring",@"Finger",@"Thumb", @"Jumping", @"Pajamas", @"Flowers", @"Brush",
                       @"Drum", @"Frog", @"Green",@"Clown", @"Balloons", @"Crying", @"Glasses", @"Slide", @"Stars",@"Five"];
@@ -153,7 +153,7 @@
         
         //set the output file url
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/YYYY hh:mm a"];//format the date string
+        [dateFormatter setDateFormat:@"MM-dd-YYYY hh:mm a"];//format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
         fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ words %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
@@ -170,8 +170,7 @@
         NSURL *filepath = [NSURL fileURLWithPathComponents:pathComponents];
         
         //initialize audio session
-        session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+     
         NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
         [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
         [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
@@ -180,13 +179,15 @@
         recorder.delegate = self;
         recorder.meteringEnabled = YES;
         [recorder prepareToRecord];
+        session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         NSLog(@"Starting the reading test :%@", fileName);
         
     }
     
     //start recording
     
-    if (!recorder.recording) {
+    if (!recorder.isRecording) {
         // Start recording
         [recorder record];
         [self.recordButton setTitle:@"Pause" forState:UIControlStateNormal];
@@ -296,6 +297,12 @@
 }
 
 
+@synthesize delegate;
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [delegate setLastTakenDate:dateString:@"Test3"];
+    
+}
 @end
 
 

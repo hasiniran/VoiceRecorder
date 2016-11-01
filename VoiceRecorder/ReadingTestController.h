@@ -10,10 +10,10 @@
 
 #import "PageContentViewController.h"
 
-@protocol ReadingTest3Delegate <NSObject>
-@required
--(void)setLastTakenDate:(NSString *)date:(NSString *)test;
-@end
+//@protocol ReadingTest3Delegate <NSObject>
+//@required
+//-(void)setLastTakenDate:(NSString *)date:(NSString *)test;
+//@end
 
 @interface ReadingTestController:UIViewController <UIPageViewControllerDataSource>
 
