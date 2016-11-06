@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
+#import "CustomIOSAlertView.h"
+
+#import "ASValueTrackingSlider.h"
 
 /**
  
@@ -19,7 +22,7 @@
  **/
 
 
-@interface EmotionViewController:UIViewController
+@interface EmotionViewController:UIViewController <ASValueTrackingSliderDataSource>
 
 @property (weak, nonatomic) id delegate;
 @property (weak, nonatomic) IBOutlet UILabel *LabelSelectedEmotion;
