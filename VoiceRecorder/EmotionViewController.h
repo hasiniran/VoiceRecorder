@@ -14,11 +14,9 @@
 
 /**
  
- emotion 1: Angry
- emotion 2: Sad
- emotion 3: Anxious
- emotion 4: happy
- emotion 5: neutral
+ emotion 1: Negative
+ emotion 2: Neutral
+ emotion 3: Positive
  **/
 
 
@@ -29,8 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonEmotion1;
 @property (weak, nonatomic) IBOutlet UIButton *buttonEmotion2;
 @property (weak, nonatomic) IBOutlet UIButton *buttonEmotion3;
-@property (weak, nonatomic) IBOutlet UIButton *buttonEmotion4;
-@property (weak, nonatomic) IBOutlet UIButton *buttonEmotion5;
+
 
 -(void)resetEmotionButtons;
 @end

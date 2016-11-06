@@ -1212,40 +1212,40 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5JK-sp-X87">
+                                <rect key="frame" x="154" y="56" width="100" height="56"/>
+                                <color key="backgroundColor" red="0.46986464919999998" green="0.72733480530000005" blue="0.94830587639999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Neutral">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="emotion2Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="IJB-Cu-Ph9"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SkN-Qd-c16">
-                                <rect key="frame" x="20" y="56" width="100" height="56"/>
-                                <color key="backgroundColor" red="0.94830587639999997" green="0.3280702989" blue="0.33050001089999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Negative">
+                                <rect key="frame" x="46" y="56" width="100" height="56"/>
+                                <color key="backgroundColor" red="0.94830587639999997" green="0.90572461429999995" blue="0.25081978830000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Positve">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="emotion1Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="KsW-t1-zwu"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BsS-3F-8ph">
-                                <rect key="frame" x="289" y="55" width="100" height="56"/>
-                                <color key="backgroundColor" red="0.4414746698" green="0.73627645500000005" blue="0.42694166290000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Positive">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="emotion5Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="sPJ-wA-tHU"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Start the recorder. Select the emotional status of the child. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cs6-qi-NXx">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Start the recorder and select the emotional status of the child." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cs6-qi-NXx">
                                 <rect key="frame" x="7" y="15" width="397" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Zc-x0-lQE">
-                                <rect key="frame" x="154" y="55" width="100" height="57"/>
-                                <color key="backgroundColor" red="0.94830587639999997" green="0.90572461429999995" blue="0.25081978830000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Happy">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mn6-It-JzT">
+                                <rect key="frame" x="262" y="56" width="100" height="57"/>
+                                <color key="backgroundColor" red="0.94830587639999997" green="0.3280702989" blue="0.33050001089999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Negative">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="emotion4Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="8hs-70-lZ0"/>
+                                    <action selector="emotion3Tapped:" destination="b3L-Ki-YwU" eventType="touchUpInside" id="1ue-4t-GTl"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1253,8 +1253,8 @@
                     <connections>
                         <outlet property="LabelSelectedEmotion" destination="cs6-qi-NXx" id="v1J-bC-YtU"/>
                         <outlet property="buttonEmotion1" destination="SkN-Qd-c16" id="Kth-gQ-cXd"/>
-                        <outlet property="buttonEmotion4" destination="7Zc-x0-lQE" id="lCb-Fh-dat"/>
-                        <outlet property="buttonEmotion5" destination="BsS-3F-8ph" id="jQy-PI-q1X"/>
+                        <outlet property="buttonEmotion2" destination="5JK-sp-X87" id="ueq-Z2-QPB"/>
+                        <outlet property="buttonEmotion3" destination="mn6-It-JzT" id="Kmv-3a-wJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WQm-NU-K0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
