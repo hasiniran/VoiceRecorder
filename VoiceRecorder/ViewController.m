@@ -1287,6 +1287,7 @@
 - (void)start:(id)sender {
     previousMode = currentMode;
     [self resetModeButtons];
+    [self resetEmotionViewController];
     switch ([sender tag]) {
         case 0:
             currentMode = @"CRIB";
@@ -1826,7 +1827,9 @@
     [self.childViewControllers[0].view setUserInteractionEnabled:NO];
 }
 
-
+-(void)resetEmotionViewController{
+    [(EmotionViewController*)self.childViewControllers[0] recordingModeSwitched];
+}
 
 
 @end

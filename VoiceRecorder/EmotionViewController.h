@@ -30,4 +30,5 @@
 
 
 -(void)resetEmotionButtons;
+-(void)recordingModeSwitched;
 @end
