@@ -1,0 +1,1937 @@
+From cb527eee5c7297c51e7e6a58ae16434ae55b3570 Mon Sep 17 00:00:00 2001
+From: hasiniran <Randy@hasinis-air.dhcp.nd.edu>
+Date: Sat, 5 Nov 2016 22:37:06 -0400
+Subject: [PATCH] adding intensity slider
+
+---
+ VoiceRecorder.xcodeproj/project.pbxproj |  32 +++
+ VoiceRecorder/ASValuePopUpView.h        |  50 ++++
+ VoiceRecorder/ASValuePopUpView.m        | 342 +++++++++++++++++++++++
+ VoiceRecorder/ASValueTrackingSlider.h   | 104 +++++++
+ VoiceRecorder/ASValueTrackingSlider.m   | 410 ++++++++++++++++++++++++++++
+ VoiceRecorder/CustomIOSAlertView.h      |  49 ++++
+ VoiceRecorder/CustomIOSAlertView.m      | 461 ++++++++++++++++++++++++++++++++
+ VoiceRecorder/EmotionViewController.h   |   5 +-
+ VoiceRecorder/EmotionViewController.m   | 159 +++++++++++
+ VoiceRecorder/JMMarkSlider.h            |  19 ++
+ VoiceRecorder/JMMarkSlider.m            | 106 ++++++++
+ 11 files changed, 1736 insertions(+), 1 deletion(-)
+ create mode 100644 VoiceRecorder/ASValuePopUpView.h
+ create mode 100644 VoiceRecorder/ASValuePopUpView.m
+ create mode 100644 VoiceRecorder/ASValueTrackingSlider.h
+ create mode 100644 VoiceRecorder/ASValueTrackingSlider.m
+ create mode 100644 VoiceRecorder/CustomIOSAlertView.h
+ create mode 100644 VoiceRecorder/CustomIOSAlertView.m
+ create mode 100644 VoiceRecorder/JMMarkSlider.h
+ create mode 100644 VoiceRecorder/JMMarkSlider.m
+
+diff --git a/VoiceRecorder.xcodeproj/project.pbxproj b/VoiceRecorder.xcodeproj/project.pbxproj
+index 0f30e31..9fb8ff3 100755
+--- a/VoiceRecorder.xcodeproj/project.pbxproj
++++ b/VoiceRecorder.xcodeproj/project.pbxproj
+@@ -27,6 +27,8 @@
+ 		250FBB621C83D19700B10E89 /* readingtest_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB591C83D19700B10E89 /* readingtest_3.jpg */; };
+ 		250FBB631C83D19700B10E89 /* readingtest_2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB5A1C83D19700B10E89 /* readingtest_2.jpg */; };
+ 		251BB7411D6D13E000A06E39 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251BB7401D6D13E000A06E39 /* silence.mp3 */; };
++		255544D71DCEB04F00441B9C /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 255544D61DCEB04F00441B9C /* ASValueTrackingSlider.m */; };
++		255544DA1DCEB16100441B9C /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255544D91DCEB16100441B9C /* ASValuePopUpView.m */; };
+ 		2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */; };
+ 		2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2587FEB21BF27D9700383823 /* cookieTheft.jpg */; };
+ 		2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEB71BF3C63300383823 /* ReadingTestHome.m */; };
+@@ -41,6 +43,7 @@
+ 		259D4AF21DC6F8FB00473E92 /* story2_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 259D4AE81DC6F8FB00473E92 /* story2_3.png */; };
+ 		259D4AF31DC6F8FB00473E92 /* story2_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 259D4AE91DC6F8FB00473E92 /* story2_4.png */; };
+ 		259D4AF41DC6F8FB00473E92 /* story2_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 259D4AEA1DC6F8FB00473E92 /* story2_5.png */; };
++		259D4AF71DC977D100473E92 /* CustomIOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 259D4AF61DC977D100473E92 /* CustomIOSAlertView.m */; };
+ 		25A5B99D1BBC478A00F45A73 /* button_reading.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A5B99C1BBC478A00F45A73 /* button_reading.png */; };
+ 		25B645F31DBA7DE100AE6458 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B645EB1DBA7DE100AE6458 /* PageContentViewController.m */; };
+ 		25B645F41DBA7DE100AE6458 /* ReadingTest3Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B645ED1DBA7DE100AE6458 /* ReadingTest3Controller.m */; };
+@@ -119,6 +122,7 @@
+ 		25F770C61AC06DCA00167320 /* Upload_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BC1AC06DCA00167320 /* Upload_Black.tif */; };
+ 		25F770C71AC06DCA00167320 /* Upload_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770BD1AC06DCA00167320 /* Upload_Red.tif */; };
+ 		25F770CB1AC8DE7A00167320 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 25F770CA1AC8DE7A00167320 /* icon.png */; };
++		25FABC7F1DCA6CB00075561E /* JMMarkSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 25FABC7E1DCA6CB00075561E /* JMMarkSlider.m */; };
+ 		E84927AD19DB5C35005ACA9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927AC19DB5C35005ACA9B /* main.m */; };
+ 		E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927AF19DB5C35005ACA9B /* AppDelegate.m */; };
+ 		E84927B319DB5C35005ACA9B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E84927B219DB5C35005ACA9B /* ViewController.m */; };
+@@ -165,6 +169,10 @@
+ 		250FBB591C83D19700B10E89 /* readingtest_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = readingtest_3.jpg; sourceTree = "<group>"; };
+ 		250FBB5A1C83D19700B10E89 /* readingtest_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = readingtest_2.jpg; sourceTree = "<group>"; };
+ 		251BB7401D6D13E000A06E39 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = silence.mp3; path = ../silence.mp3; sourceTree = "<group>"; };
++		255544D51DCEB04F00441B9C /* ASValueTrackingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValueTrackingSlider.h; sourceTree = "<group>"; };
++		255544D61DCEB04F00441B9C /* ASValueTrackingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValueTrackingSlider.m; sourceTree = "<group>"; };
++		255544D81DCEB16100441B9C /* ASValuePopUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASValuePopUpView.h; sourceTree = "<group>"; };
++		255544D91DCEB16100441B9C /* ASValuePopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValuePopUpView.m; sourceTree = "<group>"; };
+ 		2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest2Controller.h; sourceTree = "<group>"; };
+ 		2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest2Controller.m; sourceTree = "<group>"; };
+ 		2587FEB21BF27D9700383823 /* cookieTheft.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cookieTheft.jpg; sourceTree = "<group>"; };
+@@ -182,6 +190,8 @@
+ 		259D4AE81DC6F8FB00473E92 /* story2_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = story2_3.png; path = images/story2_3.png; sourceTree = "<group>"; };
+ 		259D4AE91DC6F8FB00473E92 /* story2_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = story2_4.png; path = images/story2_4.png; sourceTree = "<group>"; };
+ 		259D4AEA1DC6F8FB00473E92 /* story2_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = story2_5.png; path = images/story2_5.png; sourceTree = "<group>"; };
++		259D4AF51DC977D100473E92 /* CustomIOSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOSAlertView.h; sourceTree = "<group>"; };
++		259D4AF61DC977D100473E92 /* CustomIOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOSAlertView.m; sourceTree = "<group>"; };
+ 		25A5B99C1BBC478A00F45A73 /* button_reading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_reading.png; sourceTree = "<group>"; };
+ 		25B645EA1DBA7DE100AE6458 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
+ 		25B645EB1DBA7DE100AE6458 /* PageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContentViewController.m; sourceTree = "<group>"; };
+@@ -265,6 +275,8 @@
+ 		25F770BC1AC06DCA00167320 /* Upload_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Upload_Black.tif; sourceTree = "<group>"; };
+ 		25F770BD1AC06DCA00167320 /* Upload_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Upload_Red.tif; sourceTree = "<group>"; };
+ 		25F770CA1AC8DE7A00167320 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
++		25FABC7D1DCA6CB00075561E /* JMMarkSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMarkSlider.h; sourceTree = "<group>"; };
++		25FABC7E1DCA6CB00075561E /* JMMarkSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMarkSlider.m; sourceTree = "<group>"; };
+ 		E84927A719DB5C35005ACA9B /* VoiceRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		E84927AB19DB5C35005ACA9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+ 		E84927AC19DB5C35005ACA9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+@@ -325,6 +337,21 @@
+ 			name = story;
+ 			sourceTree = "<group>";
+ 		};
++		259D4AF81DC977D900473E92 /* thirdparty */ = {
++			isa = PBXGroup;
++			children = (
++				255544D81DCEB16100441B9C /* ASValuePopUpView.h */,
++				255544D91DCEB16100441B9C /* ASValuePopUpView.m */,
++				255544D51DCEB04F00441B9C /* ASValueTrackingSlider.h */,
++				255544D61DCEB04F00441B9C /* ASValueTrackingSlider.m */,
++				25FABC7D1DCA6CB00075561E /* JMMarkSlider.h */,
++				25FABC7E1DCA6CB00075561E /* JMMarkSlider.m */,
++				259D4AF61DC977D100473E92 /* CustomIOSAlertView.m */,
++				259D4AF51DC977D100473E92 /* CustomIOSAlertView.h */,
++			);
++			name = thirdparty;
++			sourceTree = "<group>";
++		};
+ 		25B645E91DBA7CB600AE6458 /* ReadingTests */ = {
+ 			isa = PBXGroup;
+ 			children = (
+@@ -444,6 +471,7 @@
+ 		E84927A919DB5C35005ACA9B /* VoiceRecorder */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				259D4AF81DC977D900473E92 /* thirdparty */,
+ 				25B646691DBAB87100AE6458 /* settings */,
+ 				25B646671DBAB84D00AE6458 /* EmotionViewController.m */,
+ 				25B645F71DBA7DED00AE6458 /* ReadingTestViewController.m */,
+@@ -728,6 +756,9 @@
+ 			buildActionMask = 2147483647;
+ 			files = (
+ 				E937C5171A917B16006CE41E /* DevelopmentInterfaceViewController.m in Sources */,
++				255544DA1DCEB16100441B9C /* ASValuePopUpView.m in Sources */,
++				259D4AF71DC977D100473E92 /* CustomIOSAlertView.m in Sources */,
++				25FABC7F1DCA6CB00075561E /* JMMarkSlider.m in Sources */,
+ 				2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */,
+ 				25B645F61DBA7DE100AE6458 /* ReadingTestController.m in Sources */,
+ 				250FBB511C824D9700B10E89 /* AddUsersViewController.m in Sources */,
+@@ -743,6 +774,7 @@
+ 				250FBB4C1C80E86D00B10E89 /* NamePickerController.m in Sources */,
+ 				E84927AD19DB5C35005ACA9B /* main.m in Sources */,
+ 				25B645F81DBA7DED00AE6458 /* ReadingTestViewController.m in Sources */,
++				255544D71DCEB04F00441B9C /* ASValueTrackingSlider.m in Sources */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+diff --git a/VoiceRecorder/ASValuePopUpView.h b/VoiceRecorder/ASValuePopUpView.h
+new file mode 100644
+index 0000000..fa31193
+--- /dev/null
++++ b/VoiceRecorder/ASValuePopUpView.h
+@@ -0,0 +1,50 @@
++//
++//  ASValuePopUpView.h
++//  ValueTrackingSlider
++//
++//  Created by Alan Skipp on 27/03/2014.
++//  Copyright (c) 2014 Alan Skipp. All rights reserved.
++//
++
++// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++// This UIView subclass is used internally by ASValueTrackingSlider
++// The public API is declared in ASValueTrackingSlider.h
++// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++
++#import <UIKit/UIKit.h>
++
++@protocol ASValuePopUpViewDelegate <NSObject>
++- (CGFloat)currentValueOffset; //expects value in the range 0.0 - 1.0
++- (void)colorDidUpdate:(UIColor *)opaqueColor;
++@end
++
++@interface ASValuePopUpView : UIView
++
++@property (weak, nonatomic) id <ASValuePopUpViewDelegate> delegate;
++@property (nonatomic) CGFloat cornerRadius;
++@property (nonatomic) CGFloat arrowLength;
++@property (nonatomic) CGFloat widthPaddingFactor;
++@property (nonatomic) CGFloat heightPaddingFactor;
++
++- (UIColor *)color;
++- (void)setColor:(UIColor *)color;
++- (UIColor *)opaqueColor;
++
++- (void)setTextColor:(UIColor *)textColor;
++- (void)setFont:(UIFont *)font;
++- (void)setText:(NSString *)text;
++
++- (void)setAnimatedColors:(NSArray *)animatedColors withKeyTimes:(NSArray *)keyTimes;
++
++- (void)setAnimationOffset:(CGFloat)animOffset returnColor:(void (^)(UIColor *opaqueReturnColor))block;
++
++- (void)setFrame:(CGRect)frame arrowOffset:(CGFloat)arrowOffset text:(NSString *)text;
++
++- (void)animateBlock:(void (^)(CFTimeInterval duration))block;
++
++- (CGSize)popUpSizeForString:(NSString *)string;
++
++- (void)showAnimated:(BOOL)animated;
++- (void)hideAnimated:(BOOL)animated completionBlock:(void (^)())block;
++
++@end
+diff --git a/VoiceRecorder/ASValuePopUpView.m b/VoiceRecorder/ASValuePopUpView.m
+new file mode 100644
+index 0000000..f8617cc
+--- /dev/null
++++ b/VoiceRecorder/ASValuePopUpView.m
+@@ -0,0 +1,342 @@
++//
++//  ASValuePopUpView.m
++//  ValueTrackingSlider
++//
++//  Created by Alan Skipp on 27/03/2014.
++//  Copyright (c) 2014 Alan Skipp. All rights reserved.
++//
++
++// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++// This UIView subclass is used internally by ASValueTrackingSlider
++// The public API is declared in ASValueTrackingSlider.h
++// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++
++#import "ASValuePopUpView.h"
++
++@implementation CALayer (ASAnimationAdditions)
++
++- (void)animateKey:(NSString *)animationName fromValue:(id)fromValue toValue:(id)toValue
++         customize:(void (^)(CABasicAnimation *animation))block
++{
++    [self setValue:toValue forKey:animationName];
++    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:animationName];
++    anim.fromValue = fromValue ?: [self.presentationLayer valueForKey:animationName];
++    anim.toValue = toValue;
++    if (block) block(anim);
++    [self addAnimation:anim forKey:animationName];
++}
++@end
++
++NSString *const SliderFillColorAnim = @"fillColor";
++
++#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
++@interface ASValuePopUpView () <CAAnimationDelegate>
++@end
++#endif
++
++
++@implementation ASValuePopUpView
++{
++    BOOL _shouldAnimate;
++    CFTimeInterval _animDuration;
++    
++    NSMutableAttributedString *_attributedString;
++    CAShapeLayer *_pathLayer;
++    
++    CATextLayer *_textLayer;
++    CGFloat _arrowCenterOffset;
++    
++    // never actually visible, its purpose is to interpolate color values for the popUpView color animation
++    // using shape layer because it has a 'fillColor' property which is consistent with _backgroundLayer
++    CAShapeLayer *_colorAnimLayer;
++}
++
+++ (Class)layerClass {
++    return [CAShapeLayer class];
++}
++
++// if ivar _shouldAnimate) is YES then return an animation
++// otherwise return NSNull (no animation)
++- (id <CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)key
++{
++    if (_shouldAnimate) {
++        CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
++        anim.beginTime = CACurrentMediaTime();
++        anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
++        anim.fromValue = [layer.presentationLayer valueForKey:key];
++        anim.duration = _animDuration;
++        return anim;
++    } else return (id <CAAction>)[NSNull null];
++}
++
++#pragma mark - public
++
++- (id)initWithFrame:(CGRect)frame
++{
++    self = [super initWithFrame:frame];
++    if (self) {
++        _shouldAnimate = NO;
++        self.layer.anchorPoint = CGPointMake(0.5, 1);
++        
++        self.userInteractionEnabled = NO;
++        _pathLayer = (CAShapeLayer *)self.layer; // ivar can now be accessed without casting to CAShapeLayer every time
++        
++        _cornerRadius = 4.0;
++        _arrowLength = 13.0;
++        _widthPaddingFactor = 1.15;
++        _heightPaddingFactor = 1.1;
++        
++        _textLayer = [CATextLayer layer];
++        _textLayer.alignmentMode = kCAAlignmentCenter;
++        _textLayer.anchorPoint = CGPointMake(0, 0);
++        _textLayer.contentsScale = [UIScreen mainScreen].scale;
++        _textLayer.actions = @{@"contents" : [NSNull null]};
++        
++        _colorAnimLayer = [CAShapeLayer layer];
++        
++        [self.layer addSublayer:_colorAnimLayer];
++        [self.layer addSublayer:_textLayer];
++        
++        _attributedString = [[NSMutableAttributedString alloc] initWithString:@" " attributes:nil];
++    }
++    return self;
++}
++
++- (void)setCornerRadius:(CGFloat)radius
++{
++    if (_cornerRadius == radius) return;
++    _cornerRadius = radius;
++    _pathLayer.path = [self pathForRect:self.bounds withArrowOffset:_arrowCenterOffset].CGPath;
++}
++
++- (UIColor *)color
++{
++    return [UIColor colorWithCGColor:[_pathLayer.presentationLayer fillColor]];
++}
++
++- (void)setColor:(UIColor *)color
++{
++    _pathLayer.fillColor = color.CGColor;
++    [_colorAnimLayer removeAnimationForKey:SliderFillColorAnim]; // single color, no animation required
++}
++
++- (UIColor *)opaqueColor
++{
++    return opaqueUIColorFromCGColor([_colorAnimLayer.presentationLayer fillColor] ?: _pathLayer.fillColor);
++}
++
++- (void)setTextColor:(UIColor *)color
++{
++    _textLayer.foregroundColor = color.CGColor;
++}
++
++- (void)setFont:(UIFont *)font
++{
++    [_attributedString addAttribute:NSFontAttributeName
++                              value:font
++                              range:NSMakeRange(0, [_attributedString length])];
++    
++    _textLayer.font = (__bridge CFTypeRef)(font.fontName);
++    _textLayer.fontSize = font.pointSize;
++}
++
++- (void)setText:(NSString *)string
++{
++    [[_attributedString mutableString] setString:string];
++    _textLayer.string = string;
++}
++
++// set up an animation, but prevent it from running automatically
++// the animation progress will be adjusted manually
++- (void)setAnimatedColors:(NSArray *)animatedColors withKeyTimes:(NSArray *)keyTimes
++{
++    NSMutableArray *cgColors = [NSMutableArray array];
++    for (UIColor *col in animatedColors) {
++        [cgColors addObject:(id)col.CGColor];
++    }
++    
++    CAKeyframeAnimation *colorAnim = [CAKeyframeAnimation animationWithKeyPath:SliderFillColorAnim];
++    colorAnim.keyTimes = keyTimes;
++    colorAnim.values = cgColors;
++    colorAnim.fillMode = kCAFillModeBoth;
++    colorAnim.duration = 1.0;
++    colorAnim.delegate = self;
++    
++    // As the interpolated color values from the presentationLayer are needed immediately
++    // the animation must be allowed to start to initialize _colorAnimLayer's presentationLayer
++    // hence the speed is set to min value - then set to zero in 'animationDidStart:' delegate method
++    _colorAnimLayer.speed = FLT_MIN;
++    _colorAnimLayer.timeOffset = 0.0;
++    
++    [_colorAnimLayer addAnimation:colorAnim forKey:SliderFillColorAnim];
++}
++
++- (void)setAnimationOffset:(CGFloat)animOffset returnColor:(void (^)(UIColor *opaqueReturnColor))block
++{
++    if ([_colorAnimLayer animationForKey:SliderFillColorAnim]) {
++        _colorAnimLayer.timeOffset = animOffset;
++        _pathLayer.fillColor = [_colorAnimLayer.presentationLayer fillColor];
++        block([self opaqueColor]);
++    }
++}
++
++- (void)setFrame:(CGRect)frame arrowOffset:(CGFloat)arrowOffset text:(NSString *)text
++{
++    // only redraw path if either the arrowOffset or popUpView size has changed
++    if (arrowOffset != _arrowCenterOffset || !CGSizeEqualToSize(frame.size, self.frame.size)) {
++        _pathLayer.path = [self pathForRect:frame withArrowOffset:arrowOffset].CGPath;
++    }
++    _arrowCenterOffset = arrowOffset;
++    
++    CGFloat anchorX = 0.5+(arrowOffset/CGRectGetWidth(frame));
++    self.layer.anchorPoint = CGPointMake(anchorX, 1);
++    self.layer.position = CGPointMake(CGRectGetMinX(frame) + CGRectGetWidth(frame)*anchorX, 0);
++    self.layer.bounds = (CGRect){CGPointZero, frame.size};
++    
++    [self setText:text];
++}
++
++// _shouldAnimate = YES; causes 'actionForLayer:' to return an animation for layer property changes
++// call the supplied block, then set _shouldAnimate back to NO
++- (void)animateBlock:(void (^)(CFTimeInterval duration))block
++{
++    _shouldAnimate = YES;
++    _animDuration = 0.5;
++    
++    CAAnimation *anim = [self.layer animationForKey:@"position"];
++    if ((anim)) { // if previous animation hasn't finished reduce the time of new animation
++        CFTimeInterval elapsedTime = MIN(CACurrentMediaTime() - anim.beginTime, anim.duration);
++        _animDuration = _animDuration * elapsedTime / anim.duration;
++    }
++    
++    block(_animDuration);
++    _shouldAnimate = NO;
++}
++
++- (CGSize)popUpSizeForString:(NSString *)string
++{
++    [[_attributedString mutableString] setString:string];
++    CGFloat w, h;
++    w = ceilf([_attributedString size].width * _widthPaddingFactor);
++    h = ceilf(([_attributedString size].height * _heightPaddingFactor) + _arrowLength);
++    return CGSizeMake(w, h);
++}
++
++- (void)showAnimated:(BOOL)animated
++{
++    if (!animated) {
++        self.layer.opacity = 1.0;
++        return;
++    }
++    
++    [CATransaction begin]; {
++        // start the transform animation from scale 0.5, or its current value if it's already running
++        NSValue *fromValue = [self.layer animationForKey:@"transform"] ? [self.layer.presentationLayer valueForKey:@"transform"] : [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.5, 0.5, 1)];
++        
++        [self.layer animateKey:@"transform" fromValue:fromValue toValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]
++                     customize:^(CABasicAnimation *animation) {
++                         animation.duration = 0.4;
++                         animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.8 :2.5 :0.35 :0.5];
++         }];
++        
++        [self.layer animateKey:@"opacity" fromValue:nil toValue:@1.0 customize:^(CABasicAnimation *animation) {
++            animation.duration = 0.1;
++        }];
++    } [CATransaction commit];
++}
++
++- (void)hideAnimated:(BOOL)animated completionBlock:(void (^)())block
++{
++    [CATransaction begin]; {
++        [CATransaction setCompletionBlock:^{
++            block();
++            self.layer.transform = CATransform3DIdentity;
++        }];
++        if (animated) {
++            [self.layer animateKey:@"transform" fromValue:nil
++                           toValue:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.5, 0.5, 1)]
++                         customize:^(CABasicAnimation *animation) {
++                             animation.duration = 0.55;
++                             animation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.1 :-2 :0.3 :3];
++                         }];
++            
++            [self.layer animateKey:@"opacity" fromValue:nil toValue:@0.0 customize:^(CABasicAnimation *animation) {
++                animation.duration = 0.75;
++            }];
++        } else { // not animated - just set opacity to 0.0
++            self.layer.opacity = 0.0;
++        }
++    } [CATransaction commit];
++}
++
++#pragma mark - CAAnimation delegate
++
++// set the speed to zero to freeze the animation and set the offset to the correct value
++// the animation can now be updated manually by explicity setting its 'timeOffset'
++- (void)animationDidStart:(CAAnimation *)animation
++{
++    _colorAnimLayer.speed = 0.0;
++    _colorAnimLayer.timeOffset = [self.delegate currentValueOffset];
++    
++    _pathLayer.fillColor = [_colorAnimLayer.presentationLayer fillColor];
++    [self.delegate colorDidUpdate:[self opaqueColor]];
++}
++
++#pragma mark - private
++
++- (UIBezierPath *)pathForRect:(CGRect)rect withArrowOffset:(CGFloat)arrowOffset;
++{
++    if (CGRectEqualToRect(rect, CGRectZero)) return nil;
++    
++    rect = (CGRect){CGPointZero, rect.size}; // ensure origin is CGPointZero
++    
++    // Create rounded rect
++    CGRect roundedRect = rect;
++    roundedRect.size.height -= _arrowLength;
++    UIBezierPath *popUpPath = [UIBezierPath bezierPathWithRoundedRect:roundedRect cornerRadius:_cornerRadius];
++    
++    // Create arrow path
++    CGFloat maxX = CGRectGetMaxX(roundedRect); // prevent arrow from extending beyond this point
++    CGFloat arrowTipX = CGRectGetMidX(rect) + arrowOffset;
++    CGPoint tip = CGPointMake(arrowTipX, CGRectGetMaxY(rect));
++    
++    CGFloat arrowLength = CGRectGetHeight(roundedRect)/2.0;
++    CGFloat x = arrowLength * tan(45.0 * M_PI/180); // x = half the length of the base of the arrow
++    
++    UIBezierPath *arrowPath = [UIBezierPath bezierPath];
++    [arrowPath moveToPoint:tip];
++    [arrowPath addLineToPoint:CGPointMake(MAX(arrowTipX - x, 0), CGRectGetMaxY(roundedRect) - arrowLength)];
++    [arrowPath addLineToPoint:CGPointMake(MIN(arrowTipX + x, maxX), CGRectGetMaxY(roundedRect) - arrowLength)];
++    [arrowPath closePath];
++    
++    [popUpPath appendPath:arrowPath];
++    
++    return popUpPath;
++}
++
++- (void)layoutSubviews
++{
++    [super layoutSubviews];
++    
++    CGFloat textHeight = [_attributedString size].height;
++    CGRect textRect = CGRectMake(self.bounds.origin.x,
++                                 (self.bounds.size.height-_arrowLength-textHeight)/2,
++                                 self.bounds.size.width, textHeight);
++    _textLayer.frame = CGRectIntegral(textRect);
++}
++
++static UIColor* opaqueUIColorFromCGColor(CGColorRef col)
++{
++    if (col == NULL) return nil;
++    
++    const CGFloat *components = CGColorGetComponents(col);
++    UIColor *color;
++    if (CGColorGetNumberOfComponents(col) == 2) {
++        color = [UIColor colorWithWhite:components[0] alpha:1.0];
++    } else {
++        color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:1.0];
++    }
++    return color;
++}
++
++@end
+diff --git a/VoiceRecorder/ASValueTrackingSlider.h b/VoiceRecorder/ASValueTrackingSlider.h
+new file mode 100644
+index 0000000..66d37a0
+--- /dev/null
++++ b/VoiceRecorder/ASValueTrackingSlider.h
+@@ -0,0 +1,104 @@
++//
++//  ASValueTrackingSlider.h
++//  ValueTrackingSlider
++//
++//  Created by Alan Skipp on 19/10/2013.
++//  Copyright (c) 2013 Alan Skipp. All rights reserved.
++//
++
++#import <UIKit/UIKit.h>
++@protocol ASValueTrackingSliderDelegate;
++@protocol ASValueTrackingSliderDataSource;
++
++@interface ASValueTrackingSlider : UISlider
++
++// present the popUpView manually, without touch event.
++- (void)showPopUpViewAnimated:(BOOL)animated;
++// the popUpView will not hide again until you call 'hidePopUpViewAnimated:'
++- (void)hidePopUpViewAnimated:(BOOL)animated;
++
++@property (strong, nonatomic) UIColor *textColor;
++
++// font can not be nil, it must be a valid UIFont
++// default is ‘boldSystemFontOfSize:22.0’
++@property (strong, nonatomic) UIFont *font;
++
++// setting the value of 'popUpViewColor' overrides 'popUpViewAnimatedColors' and vice versa
++// the return value of 'popUpViewColor' is the currently displayed value
++// this will vary if 'popUpViewAnimatedColors' is set (see below)
++@property (strong, nonatomic) UIColor *popUpViewColor;
++
++// pass an array of 2 or more UIColors to animate the color change as the slider moves
++@property (strong, nonatomic) NSArray *popUpViewAnimatedColors;
++
++// the above @property distributes the colors evenly across the slider
++// to specify the exact position of colors on the slider scale, pass an NSArray of NSNumbers
++- (void)setPopUpViewAnimatedColors:(NSArray *)popUpViewAnimatedColors withPositions:(NSArray *)positions;
++
++// cornerRadius of the popUpView, default is 4.0
++@property (nonatomic) CGFloat popUpViewCornerRadius;
++
++// arrow height of the popUpView, default is 13.0
++@property (nonatomic) CGFloat popUpViewArrowLength;
++// width padding factor of the popUpView, default is 1.15
++@property (nonatomic) CGFloat popUpViewWidthPaddingFactor;
++// height padding factor of the popUpView, default is 1.1
++@property (nonatomic) CGFloat popUpViewHeightPaddingFactor;
++
++// changes the left handside of the UISlider track to match current popUpView color
++// the track color alpha is always set to 1.0, even if popUpView color is less than 1.0
++@property (nonatomic) BOOL autoAdjustTrackColor; // (default is YES)
++
++// when setting max FractionDigits the min value is automatically set to the same value
++// this ensures that the PopUpView frame maintains a consistent width
++- (void)setMaxFractionDigitsDisplayed:(NSUInteger)maxDigits;
++
++// take full control of the format dispayed with a custom NSNumberFormatter
++@property (copy, nonatomic) NSNumberFormatter *numberFormatter;
++
++// supply entirely customized strings for slider values using the datasource protocol - see below
++@property (weak, nonatomic) id<ASValueTrackingSliderDataSource> dataSource;
++
++// delegate is only needed when used with a TableView or CollectionView - see below
++@property (weak, nonatomic) id<ASValueTrackingSliderDelegate> delegate;
++@end
++
++
++
++// to supply custom text to the popUpView label, implement <ASValueTrackingSliderDataSource>
++// the dataSource will be messaged each time the slider value changes
++@protocol ASValueTrackingSliderDataSource <NSObject>
++- (NSString *)slider:(ASValueTrackingSlider *)slider stringForValue:(float)value;
++@end
++
++// when embedding an ASValueTrackingSlider inside a TableView or CollectionView
++// you need to ensure that the cell it resides in is brought to the front of the view hierarchy
++// to prevent the popUpView from being obscured
++@protocol ASValueTrackingSliderDelegate <NSObject>
++- (void)sliderWillDisplayPopUpView:(ASValueTrackingSlider *)slider;
++
++@optional
++- (void)sliderWillHidePopUpView:(ASValueTrackingSlider *)slider;
++- (void)sliderDidHidePopUpView:(ASValueTrackingSlider *)slider;
++@end
++
++/*
++// the recommended technique for use with a tableView is to create a UITableViewCell subclass ↓
++ 
++ @interface SliderCell : UITableViewCell <ASValueTrackingSliderDelegate>
++ @property (weak, nonatomic) IBOutlet ASValueTrackingSlider *slider;
++ @end
++ 
++ @implementation SliderCell
++ - (void)awakeFromNib
++ {
++    [super awakeFromNib];
++    self.slider.delegate = self;
++ }
++ 
++ - (void)sliderWillDisplayPopUpView:(ASValueTrackingSlider *)slider;
++ {
++    [self.superview bringSubviewToFront:self];
++ }
++ @end
++ */
+diff --git a/VoiceRecorder/ASValueTrackingSlider.m b/VoiceRecorder/ASValueTrackingSlider.m
+new file mode 100644
+index 0000000..591514f
+--- /dev/null
++++ b/VoiceRecorder/ASValueTrackingSlider.m
+@@ -0,0 +1,410 @@
++//
++//  ASValueTrackingSlider.m
++//  ValueTrackingSlider
++//
++//  Created by Alan Skipp on 19/10/2013.
++//  Copyright (c) 2013 Alan Skipp. All rights reserved.
++//
++
++#import "ASValueTrackingSlider.h"
++#import "ASValuePopUpView.h"
++
++@interface ASValueTrackingSlider() <ASValuePopUpViewDelegate>
++@property (strong, nonatomic) ASValuePopUpView *popUpView;
++@property (nonatomic) BOOL popUpViewAlwaysOn; // default is NO
++@end
++
++@implementation ASValueTrackingSlider
++{
++    NSNumberFormatter *_numberFormatter;
++    UIColor *_popUpViewColor;
++    NSArray *_keyTimes;
++    CGFloat _valueRange;
++}
++
++#pragma mark - initialization
++
++- (instancetype)initWithFrame:(CGRect)frame
++{
++    self = [super initWithFrame:frame];
++    if (self) {
++        [self setup];
++    }
++    return self;
++}
++
++- (instancetype)initWithCoder:(NSCoder *)coder
++{
++    self = [super initWithCoder:coder];
++    if (self) {
++        [self setup];
++    }
++    return self;
++}
++
++#pragma mark - public
++
++- (void)setAutoAdjustTrackColor:(BOOL)autoAdjust
++{
++    if (_autoAdjustTrackColor == autoAdjust) return;
++    
++    _autoAdjustTrackColor = autoAdjust;
++    
++    // setMinimumTrackTintColor has been overridden to also set autoAdjustTrackColor to NO
++    // therefore super's implementation must be called to set minimumTrackTintColor
++    if (autoAdjust == NO) {
++        super.minimumTrackTintColor = nil; // sets track to default blue color
++    } else {
++        super.minimumTrackTintColor = [self.popUpView opaqueColor];
++    }
++}
++
++- (void)setTextColor:(UIColor *)color
++{
++    _textColor = color;
++    [self.popUpView setTextColor:color];
++}
++
++- (void)setFont:(UIFont *)font
++{
++    NSAssert(font, @"font can not be nil, it must be a valid UIFont");
++    _font = font;
++    [self.popUpView setFont:font];
++}
++
++// return the currently displayed color if possible, otherwise return _popUpViewColor
++// if animated colors are set, the color will change each time the slider value changes
++- (UIColor *)popUpViewColor
++{
++    return self.popUpView.color ?: _popUpViewColor;
++}
++
++- (void)setPopUpViewColor:(UIColor *)color
++{
++    _popUpViewColor = color;
++    _popUpViewAnimatedColors = nil; // animated colors should be discarded
++    [self.popUpView setColor:color];
++
++    if (_autoAdjustTrackColor) {
++        super.minimumTrackTintColor = [self.popUpView opaqueColor];
++    }
++}
++
++- (void)setPopUpViewAnimatedColors:(NSArray *)colors
++{
++    [self setPopUpViewAnimatedColors:colors withPositions:nil];
++}
++
++// if 2 or more colors are present, set animated colors
++// if only 1 color is present then call 'setPopUpViewColor:'
++// if arg is nil then restore previous _popUpViewColor
++- (void)setPopUpViewAnimatedColors:(NSArray *)colors withPositions:(NSArray *)positions
++{
++    if (positions) {
++        NSAssert([colors count] == [positions count], @"popUpViewAnimatedColors and locations should contain the same number of items");
++    }
++    
++    _popUpViewAnimatedColors = colors;
++    _keyTimes = [self keyTimesFromSliderPositions:positions];
++    
++    if ([colors count] >= 2) {
++        [self.popUpView setAnimatedColors:colors withKeyTimes:_keyTimes];
++    } else {
++        [self setPopUpViewColor:[colors lastObject] ?: _popUpViewColor];
++    }
++}
++
++- (void)setPopUpViewCornerRadius:(CGFloat)radius
++{
++    self.popUpView.cornerRadius = radius;
++}
++
++- (CGFloat)popUpViewCornerRadius
++{
++    return self.popUpView.cornerRadius;
++}
++
++- (void)setPopUpViewArrowLength:(CGFloat)length
++{
++    self.popUpView.arrowLength = length;
++}
++
++- (CGFloat)popUpViewArrowLength
++{
++    return self.popUpView.arrowLength;
++}
++
++- (void)setPopUpViewWidthPaddingFactor:(CGFloat)factor
++{
++    self.popUpView.widthPaddingFactor = factor;
++}
++
++- (CGFloat)popUpViewWidthPaddingFactor
++{
++    return self.popUpView.widthPaddingFactor;
++}
++
++- (void)setPopUpViewHeightPaddingFactor:(CGFloat)factor
++{
++    self.popUpView.heightPaddingFactor = factor;
++}
++
++- (CGFloat)popUpViewHeightPaddingFactor
++{
++    return self.popUpView.heightPaddingFactor;
++}
++
++// when either the min/max value or number formatter changes, recalculate the popUpView width
++- (void)setMaximumValue:(float)maximumValue
++{
++    [super setMaximumValue:maximumValue];
++    _valueRange = self.maximumValue - self.minimumValue;
++}
++
++- (void)setMinimumValue:(float)minimumValue
++{
++    [super setMinimumValue:minimumValue];
++    _valueRange = self.maximumValue - self.minimumValue;
++}
++
++// set max and min digits to same value to keep string length consistent
++- (void)setMaxFractionDigitsDisplayed:(NSUInteger)maxDigits
++{
++    [_numberFormatter setMaximumFractionDigits:maxDigits];
++    [_numberFormatter setMinimumFractionDigits:maxDigits];
++}
++
++- (void)setNumberFormatter:(NSNumberFormatter *)numberFormatter
++{
++    _numberFormatter = [numberFormatter copy];
++}
++
++- (NSNumberFormatter *)numberFormatter
++{
++    return [_numberFormatter copy]; // return a copy to prevent formatter properties changing and causing mayhem
++}
++
++- (void)showPopUpViewAnimated:(BOOL)animated
++{
++    self.popUpViewAlwaysOn = YES;
++    [self _showPopUpViewAnimated:animated];
++}
++
++- (void)hidePopUpViewAnimated:(BOOL)animated
++{
++    self.popUpViewAlwaysOn = NO;
++    [self _hidePopUpViewAnimated:animated];
++}
++
++#pragma mark - ASValuePopUpViewDelegate
++
++- (void)colorDidUpdate:(UIColor *)opaqueColor
++{
++    super.minimumTrackTintColor = opaqueColor;
++}
++
++// returns the current offset of UISlider value in the range 0.0 – 1.0
++- (CGFloat)currentValueOffset
++{
++    return (self.value - self.minimumValue) / _valueRange;
++}
++
++#pragma mark - private
++
++- (void)setup
++{
++    _autoAdjustTrackColor = YES;
++    _valueRange = self.maximumValue - self.minimumValue;
++    _popUpViewAlwaysOn = NO;
++
++    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
++    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
++    [formatter setRoundingMode:NSNumberFormatterRoundHalfUp];
++    [formatter setMaximumFractionDigits:2];
++    [formatter setMinimumFractionDigits:2];
++    _numberFormatter = formatter;
++
++    self.popUpView = [[ASValuePopUpView alloc] initWithFrame:CGRectZero];
++    self.popUpViewColor = [UIColor colorWithHue:0.6 saturation:0.6 brightness:0.5 alpha:0.8];
++
++    self.popUpView.alpha = 0.0;
++    self.popUpView.delegate = self;
++    [self addSubview:self.popUpView];
++
++    self.textColor = [UIColor whiteColor];
++    self.font = [UIFont boldSystemFontOfSize:22.0f];
++}
++
++// ensure animation restarts if app is closed then becomes active again
++- (void)didBecomeActiveNotification:(NSNotification *)note
++{
++    if (self.popUpViewAnimatedColors) {
++        [self.popUpView setAnimatedColors:_popUpViewAnimatedColors withKeyTimes:_keyTimes];
++    }
++}
++
++- (void)updatePopUpView
++{
++    NSString *valueString; // ask dataSource for string, if nil or blank, get string from _numberFormatter
++    CGSize popUpViewSize;
++    if ((valueString = [self.dataSource slider:self stringForValue:self.value]) && valueString.length != 0) {
++        popUpViewSize = [self.popUpView popUpSizeForString:valueString];
++    } else {
++        valueString = [_numberFormatter stringFromNumber:@(self.value)];
++        popUpViewSize = [self calculatePopUpViewSize];
++    }
++    
++    // calculate the popUpView frame
++    CGRect thumbRect = [self thumbRect];
++    CGFloat thumbW = thumbRect.size.width;
++    CGFloat thumbH = thumbRect.size.height;
++    
++    CGRect popUpRect = CGRectInset(thumbRect, (thumbW - popUpViewSize.width)/2, (thumbH - popUpViewSize.height)/2);
++    popUpRect.origin.y = thumbRect.origin.y - popUpViewSize.height;
++    
++    // determine if popUpRect extends beyond the frame of the progress view
++    // if so adjust frame and set the center offset of the PopUpView's arrow
++    CGFloat minOffsetX = CGRectGetMinX(popUpRect);
++    CGFloat maxOffsetX = CGRectGetMaxX(popUpRect) - CGRectGetWidth(self.bounds);
++    
++    CGFloat offset = minOffsetX < 0.0 ? minOffsetX : (maxOffsetX > 0.0 ? maxOffsetX : 0.0);
++    popUpRect.origin.x -= offset;
++    
++    [self.popUpView setFrame:popUpRect arrowOffset:offset text:valueString];
++}
++
++- (CGSize)calculatePopUpViewSize
++{
++    // negative values need more width than positive values
++    CGSize minValSize = [self.popUpView popUpSizeForString:[_numberFormatter stringFromNumber:@(self.minimumValue)]];
++    CGSize maxValSize = [self.popUpView popUpSizeForString:[_numberFormatter stringFromNumber:@(self.maximumValue)]];
++
++    return (minValSize.width >= maxValSize.width) ? minValSize : maxValSize;
++}
++
++// takes an array of NSNumbers in the range self.minimumValue - self.maximumValue
++// returns an array of NSNumbers in the range 0.0 - 1.0
++- (NSArray *)keyTimesFromSliderPositions:(NSArray *)positions
++{
++    if (!positions) return nil;
++    
++    NSMutableArray *keyTimes = [NSMutableArray array];
++    for (NSNumber *num in [positions sortedArrayUsingSelector:@selector(compare:)]) {
++        [keyTimes addObject:@((num.floatValue - self.minimumValue) / _valueRange)];
++    }
++    return keyTimes;
++}
++
++- (CGRect)thumbRect
++{
++    return [self thumbRectForBounds:self.bounds
++                          trackRect:[self trackRectForBounds:self.bounds]
++                              value:self.value];
++}
++
++- (void)_showPopUpViewAnimated:(BOOL)animated
++{
++    if (self.delegate) [self.delegate sliderWillDisplayPopUpView:self];
++    [self.popUpView showAnimated:animated];
++}
++
++- (void)_hidePopUpViewAnimated:(BOOL)animated
++{
++    if ([self.delegate respondsToSelector:@selector(sliderWillHidePopUpView:)]) {
++        [self.delegate sliderWillHidePopUpView:self];
++    }
++    [self.popUpView hideAnimated:animated completionBlock:^{
++        if ([self.delegate respondsToSelector:@selector(sliderDidHidePopUpView:)]) {
++            [self.delegate sliderDidHidePopUpView:self];
++        }
++    }];
++}
++
++#pragma mark - subclassed
++
++-(void)layoutSubviews
++{
++    [super layoutSubviews];
++    [self updatePopUpView];
++}
++
++- (void)didMoveToWindow
++{
++    if (!self.window) { // removed from window - cancel notifications
++        [[NSNotificationCenter defaultCenter] removeObserver:self];
++    }
++    else { // added to window - register notifications
++        
++        if (self.popUpViewAnimatedColors) { // restart color animation if needed
++            [self.popUpView setAnimatedColors:_popUpViewAnimatedColors withKeyTimes:_keyTimes];
++        }
++        
++        [[NSNotificationCenter defaultCenter] addObserver:self
++                                                 selector:@selector(didBecomeActiveNotification:)
++                                                     name:UIApplicationDidBecomeActiveNotification
++                                                   object:nil];
++    }
++}
++
++- (void)setValue:(float)value
++{
++    [super setValue:value];
++    [self.popUpView setAnimationOffset:[self currentValueOffset] returnColor:^(UIColor *opaqueReturnColor) {
++        super.minimumTrackTintColor = opaqueReturnColor;
++    }];
++}
++
++- (void)setValue:(float)value animated:(BOOL)animated
++{
++    if (animated) {
++        [self.popUpView animateBlock:^(CFTimeInterval duration) {
++            [UIView animateWithDuration:duration animations:^{
++                [super setValue:value animated:animated];
++                [self.popUpView setAnimationOffset:[self currentValueOffset] returnColor:^(UIColor *opaqueReturnColor) {
++                    super.minimumTrackTintColor = opaqueReturnColor;
++                }];
++                [self layoutIfNeeded];
++            }];
++        }];
++    } else {
++        [super setValue:value animated:animated];
++    }
++}
++
++- (void)setMinimumTrackTintColor:(UIColor *)color
++{
++    self.autoAdjustTrackColor = NO; // if a custom value is set then prevent auto coloring
++    [super setMinimumTrackTintColor:color];
++}
++
++- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
++{
++    BOOL begin = [super beginTrackingWithTouch:touch withEvent:event];
++    if (begin && !self.popUpViewAlwaysOn) [self _showPopUpViewAnimated:YES];
++    return begin;
++}
++
++- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
++{
++    BOOL continueTrack = [super continueTrackingWithTouch:touch withEvent:event];
++    if (continueTrack) {
++        [self.popUpView setAnimationOffset:[self currentValueOffset] returnColor:^(UIColor *opaqueReturnColor) {
++            super.minimumTrackTintColor = opaqueReturnColor;
++        }];
++    }
++    return continueTrack;
++}
++
++- (void)cancelTrackingWithEvent:(UIEvent *)event
++{
++    [super cancelTrackingWithEvent:event];
++    if (self.popUpViewAlwaysOn == NO) [self _hidePopUpViewAnimated:YES];
++}
++
++- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
++{
++    [super endTrackingWithTouch:touch withEvent:event];
++    if (self.popUpViewAlwaysOn == NO) [self _hidePopUpViewAnimated:YES];
++}
++
++@end
+diff --git a/VoiceRecorder/CustomIOSAlertView.h b/VoiceRecorder/CustomIOSAlertView.h
+new file mode 100644
+index 0000000..5bbbc36
+--- /dev/null
++++ b/VoiceRecorder/CustomIOSAlertView.h
+@@ -0,0 +1,49 @@
++//
++//  CustomIOSAlertView.h
++//  CustomIOSAlertView
++//
++//  Created by Richard on 20/09/2013.
++//  Copyright (c) 2013-2015 Wimagguc.
++//
++//  Lincesed under The MIT License (MIT)
++//  http://opensource.org/licenses/MIT
++//
++
++#import <UIKit/UIKit.h>
++
++@protocol CustomIOSAlertViewDelegate
++
++- (void)customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
++
++@end
++
++@interface CustomIOSAlertView : UIView<CustomIOSAlertViewDelegate>
++
++@property (nonatomic, retain) UIView *parentView;    // The parent view this 'dialog' is attached to
++@property (nonatomic, retain) UIView *dialogView;    // Dialog's container view
++@property (nonatomic, retain) UIView *containerView; // Container within the dialog (place your ui elements here)
++
++@property (nonatomic, assign) id<CustomIOSAlertViewDelegate> delegate;
++@property (nonatomic, retain) NSArray *buttonTitles;
++@property (nonatomic, assign) BOOL useMotionEffects;
++@property (nonatomic, assign) BOOL closeOnTouchUpOutside;       // Closes the AlertView when finger is lifted outside the bounds.
++
++@property (copy) void (^onButtonTouchUpInside)(CustomIOSAlertView *alertView, int buttonIndex) ;
++
++- (id)init;
++
++/*!
++ DEPRECATED: Use the [CustomIOSAlertView init] method without passing a parent view.
++ */
++- (id)initWithParentView: (UIView *)_parentView __attribute__ ((deprecated));
++
++- (void)show;
++- (void)close;
++
++- (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender;
++- (void)setOnButtonTouchUpInside:(void (^)(CustomIOSAlertView *alertView, int buttonIndex))onButtonTouchUpInside;
++
++- (void)deviceOrientationDidChange: (NSNotification *)notification;
++- (void)dealloc;
++
++@end
+diff --git a/VoiceRecorder/CustomIOSAlertView.m b/VoiceRecorder/CustomIOSAlertView.m
+new file mode 100644
+index 0000000..58102c1
+--- /dev/null
++++ b/VoiceRecorder/CustomIOSAlertView.m
+@@ -0,0 +1,461 @@
++//
++//  CustomIOSAlertView.m
++//  CustomIOSAlertView
++//
++//  Created by Richard on 20/09/2013.
++//  Copyright (c) 2013-2015 Wimagguc.
++//
++//  Lincesed under The MIT License (MIT)
++//  http://opensource.org/licenses/MIT
++//
++
++#import "CustomIOSAlertView.h"
++#import <QuartzCore/QuartzCore.h>
++
++const static CGFloat kCustomIOSAlertViewDefaultButtonHeight       = 50;
++const static CGFloat kCustomIOSAlertViewDefaultButtonSpacerHeight = 1;
++const static CGFloat kCustomIOSAlertViewCornerRadius              = 7;
++const static CGFloat kCustomIOS7MotionEffectExtent                = 10.0;
++
++@implementation CustomIOSAlertView
++
++CGFloat buttonHeight = 0;
++CGFloat buttonSpacerHeight = 0;
++
++@synthesize parentView, containerView, dialogView, onButtonTouchUpInside;
++@synthesize delegate;
++@synthesize buttonTitles;
++@synthesize useMotionEffects;
++@synthesize closeOnTouchUpOutside;
++
++- (id)initWithParentView: (UIView *)_parentView
++{
++    self = [self init];
++    if (_parentView) {
++        self.frame = _parentView.frame;
++        self.parentView = _parentView;
++    }
++    return self;
++}
++
++- (id)init
++{
++    self = [super init];
++    if (self) {
++        self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
++
++        delegate = self;
++        useMotionEffects = false;
++        closeOnTouchUpOutside = false;
++        buttonTitles = @[@"Ok"];
++        
++        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
++
++        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
++        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
++        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
++    }
++    return self;
++}
++
++// Create the dialog view, and animate opening the dialog
++- (void)show
++{
++    dialogView = [self createContainerView];
++  
++    dialogView.layer.shouldRasterize = YES;
++    dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
++  
++    self.layer.shouldRasterize = YES;
++    self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
++
++#if (defined(__IPHONE_7_0))
++    if (useMotionEffects) {
++        [self applyMotionEffects];
++    }
++#endif
++
++    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
++
++    [self addSubview:dialogView];
++
++    // Can be attached to a view or to the top most window
++    // Attached to a view:
++    if (parentView != NULL) {
++        [parentView addSubview:self];
++
++    // Attached to the top most window
++    } else {
++
++        // On iOS7, calculate with orientation
++        if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
++            
++            UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
++            switch (interfaceOrientation) {
++                case UIInterfaceOrientationLandscapeLeft:
++                    self.transform = CGAffineTransformMakeRotation(M_PI * 270.0 / 180.0);
++                    break;
++                    
++                case UIInterfaceOrientationLandscapeRight:
++                    self.transform = CGAffineTransformMakeRotation(M_PI * 90.0 / 180.0);
++                    break;
++                    
++                case UIInterfaceOrientationPortraitUpsideDown:
++                    self.transform = CGAffineTransformMakeRotation(M_PI * 180.0 / 180.0);
++                    break;
++                    
++                default:
++                    break;
++            }
++            
++            [self setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
++
++        // On iOS8, just place the dialog in the middle
++        } else {
++
++            CGSize screenSize = [self countScreenSize];
++            CGSize dialogSize = [self countDialogSize];
++            CGSize keyboardSize = CGSizeMake(0, 0);
++
++            dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
++
++        }
++
++        [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
++    }
++
++    dialogView.layer.opacity = 0.5f;
++    dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
++					 animations:^{
++						 self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4f];
++                         dialogView.layer.opacity = 1.0f;
++                         dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
++					 }
++					 completion:NULL
++     ];
++
++}
++
++// Button has been touched
++- (IBAction)customIOS7dialogButtonTouchUpInside:(id)sender
++{
++    if (delegate != NULL) {
++        [delegate customIOS7dialogButtonTouchUpInside:self clickedButtonAtIndex:[sender tag]];
++    }
++
++    if (onButtonTouchUpInside != NULL) {
++        onButtonTouchUpInside(self, (int)[sender tag]);
++    }
++}
++
++// Default button behaviour
++- (void)customIOS7dialogButtonTouchUpInside: (CustomIOSAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
++{
++    NSLog(@"Button Clicked! %d, %d", (int)buttonIndex, (int)[alertView tag]);
++    [self close];
++}
++
++// Dialog close animation then cleaning and removing the view from the parent
++- (void)close
++{
++    CATransform3D currentTransform = dialogView.layer.transform;
++
++    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
++        CGFloat startRotation = [[dialogView valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
++        CATransform3D rotation = CATransform3DMakeRotation(-startRotation + M_PI * 270.0 / 180.0, 0.0f, 0.0f, 0.0f);
++
++        dialogView.layer.transform = CATransform3DConcat(rotation, CATransform3DMakeScale(1, 1, 1));
++    }
++
++    dialogView.layer.opacity = 1.0f;
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
++					 animations:^{
++						 self.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.0f];
++                         dialogView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
++                         dialogView.layer.opacity = 0.0f;
++					 }
++					 completion:^(BOOL finished) {
++                         for (UIView *v in [self subviews]) {
++                             [v removeFromSuperview];
++                         }
++                         [self removeFromSuperview];
++					 }
++	 ];
++}
++
++- (void)setSubView: (UIView *)subView
++{
++    containerView = subView;
++}
++
++// Creates the container view here: create the dialog, then add the custom content and buttons
++- (UIView *)createContainerView
++{
++    if (containerView == NULL) {
++        containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 150)];
++    }
++
++    CGSize screenSize = [self countScreenSize];
++    CGSize dialogSize = [self countDialogSize];
++
++    // For the black background
++    [self setFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
++
++    // This is the dialog's container; we attach the custom content and the buttons to this one
++    UIView *dialogContainer = [[UIView alloc] initWithFrame:CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height)];
++
++    // First, we style the dialog to match the iOS7 UIAlertView >>>
++    CAGradientLayer *gradient = [CAGradientLayer layer];
++    gradient.frame = dialogContainer.bounds;
++    gradient.colors = [NSArray arrayWithObjects:
++                       (id)[[UIColor colorWithRed:218.0/255.0 green:218.0/255.0 blue:218.0/255.0 alpha:1.0f] CGColor],
++                       (id)[[UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0f] CGColor],
++                       (id)[[UIColor colorWithRed:218.0/255.0 green:218.0/255.0 blue:218.0/255.0 alpha:1.0f] CGColor],
++                       nil];
++
++    CGFloat cornerRadius = kCustomIOSAlertViewCornerRadius;
++    gradient.cornerRadius = cornerRadius;
++    [dialogContainer.layer insertSublayer:gradient atIndex:0];
++
++    dialogContainer.layer.cornerRadius = cornerRadius;
++    dialogContainer.layer.borderColor = [[UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f] CGColor];
++    dialogContainer.layer.borderWidth = 1;
++    dialogContainer.layer.shadowRadius = cornerRadius + 5;
++    dialogContainer.layer.shadowOpacity = 0.1f;
++    dialogContainer.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
++    dialogContainer.layer.shadowColor = [UIColor blackColor].CGColor;
++    dialogContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogContainer.bounds cornerRadius:dialogContainer.layer.cornerRadius].CGPath;
++
++    // There is a line above the button
++    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, dialogContainer.bounds.size.height - buttonHeight - buttonSpacerHeight, dialogContainer.bounds.size.width, buttonSpacerHeight)];
++    lineView.backgroundColor = [UIColor colorWithRed:198.0/255.0 green:198.0/255.0 blue:198.0/255.0 alpha:1.0f];
++    [dialogContainer addSubview:lineView];
++    // ^^^
++
++    // Add the custom container if there is any
++    [dialogContainer addSubview:containerView];
++
++    // Add the buttons too
++    [self addButtonsToView:dialogContainer];
++
++    return dialogContainer;
++}
++
++// Helper function: add buttons to container
++- (void)addButtonsToView: (UIView *)container
++{
++    if (buttonTitles==NULL) { return; }
++
++    CGFloat buttonWidth = container.bounds.size.width / [buttonTitles count];
++
++    for (int i=0; i<[buttonTitles count]; i++) {
++
++        UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
++
++        [closeButton setFrame:CGRectMake(i * buttonWidth, container.bounds.size.height - buttonHeight, buttonWidth, buttonHeight)];
++
++        [closeButton addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
++        [closeButton setTag:i];
++
++        [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
++        [closeButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
++        [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
++        [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
++        closeButton.titleLabel.numberOfLines = 0;
++        closeButton.titleLabel.textAlignment = NSTextAlignmentCenter;
++        [closeButton.layer setCornerRadius:kCustomIOSAlertViewCornerRadius];
++
++        [container addSubview:closeButton];
++    }
++}
++
++// Helper function: count and return the dialog's size
++- (CGSize)countDialogSize
++{
++    CGFloat dialogWidth = containerView.frame.size.width;
++    CGFloat dialogHeight = containerView.frame.size.height + buttonHeight + buttonSpacerHeight;
++
++    return CGSizeMake(dialogWidth, dialogHeight);
++}
++
++// Helper function: count and return the screen's size
++- (CGSize)countScreenSize
++{
++    if (buttonTitles!=NULL && [buttonTitles count] > 0) {
++        buttonHeight       = kCustomIOSAlertViewDefaultButtonHeight;
++        buttonSpacerHeight = kCustomIOSAlertViewDefaultButtonSpacerHeight;
++    } else {
++        buttonHeight = 0;
++        buttonSpacerHeight = 0;
++    }
++
++    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
++    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
++
++    // On iOS7, screen width and height doesn't automatically follow orientation
++    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
++        UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
++        if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
++            CGFloat tmp = screenWidth;
++            screenWidth = screenHeight;
++            screenHeight = tmp;
++        }
++    }
++    
++    return CGSizeMake(screenWidth, screenHeight);
++}
++
++#if (defined(__IPHONE_7_0))
++// Add motion effects
++- (void)applyMotionEffects {
++
++    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
++        return;
++    }
++
++    UIInterpolatingMotionEffect *horizontalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
++                                                                                                    type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
++    horizontalEffect.minimumRelativeValue = @(-kCustomIOS7MotionEffectExtent);
++    horizontalEffect.maximumRelativeValue = @( kCustomIOS7MotionEffectExtent);
++
++    UIInterpolatingMotionEffect *verticalEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
++                                                                                                  type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
++    verticalEffect.minimumRelativeValue = @(-kCustomIOS7MotionEffectExtent);
++    verticalEffect.maximumRelativeValue = @( kCustomIOS7MotionEffectExtent);
++
++    UIMotionEffectGroup *motionEffectGroup = [[UIMotionEffectGroup alloc] init];
++    motionEffectGroup.motionEffects = @[horizontalEffect, verticalEffect];
++
++    [dialogView addMotionEffect:motionEffectGroup];
++}
++#endif
++
++- (void)dealloc
++{
++    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
++
++    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
++    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
++    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
++}
++
++// Rotation changed, on iOS7
++- (void)changeOrientationForIOS7 {
++
++    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
++    
++    CGFloat startRotation = [[self valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
++    CGAffineTransform rotation;
++    
++    switch (interfaceOrientation) {
++        case UIInterfaceOrientationLandscapeLeft:
++            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 270.0 / 180.0);
++            break;
++            
++        case UIInterfaceOrientationLandscapeRight:
++            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 90.0 / 180.0);
++            break;
++            
++        case UIInterfaceOrientationPortraitUpsideDown:
++            rotation = CGAffineTransformMakeRotation(-startRotation + M_PI * 180.0 / 180.0);
++            break;
++            
++        default:
++            rotation = CGAffineTransformMakeRotation(-startRotation + 0.0);
++            break;
++    }
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
++                     animations:^{
++                         dialogView.transform = rotation;
++                         
++                     }
++                     completion:nil
++     ];
++    
++}
++
++// Rotation changed, on iOS8
++- (void)changeOrientationForIOS8: (NSNotification *)notification {
++
++    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
++    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
++                     animations:^{
++                         CGSize dialogSize = [self countDialogSize];
++                         CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
++                         self.frame = CGRectMake(0, 0, screenWidth, screenHeight);
++                         dialogView.frame = CGRectMake((screenWidth - dialogSize.width) / 2, (screenHeight - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
++                     }
++                     completion:nil
++     ];
++    
++
++}
++
++// Handle device orientation changes
++- (void)deviceOrientationDidChange: (NSNotification *)notification
++{
++    // If dialog is attached to the parent view, it probably wants to handle the orientation change itself
++    if (parentView != NULL) {
++        return;
++    }
++
++    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
++        [self changeOrientationForIOS7];
++    } else {
++        [self changeOrientationForIOS8:notification];
++    }
++}
++
++// Handle keyboard show/hide changes
++- (void)keyboardWillShow: (NSNotification *)notification
++{
++    CGSize screenSize = [self countScreenSize];
++    CGSize dialogSize = [self countDialogSize];
++    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
++
++    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
++    if (UIInterfaceOrientationIsLandscape(interfaceOrientation) && NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) {
++        CGFloat tmp = keyboardSize.height;
++        keyboardSize.height = keyboardSize.width;
++        keyboardSize.width = tmp;
++    }
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
++					 animations:^{
++                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - keyboardSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
++					 }
++					 completion:nil
++	 ];
++}
++
++- (void)keyboardWillHide: (NSNotification *)notification
++{
++    CGSize screenSize = [self countScreenSize];
++    CGSize dialogSize = [self countDialogSize];
++
++    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
++					 animations:^{
++                         dialogView.frame = CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height);
++					 }
++					 completion:nil
++	 ];
++}
++
++- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
++    if (!closeOnTouchUpOutside) {
++        return;
++    }
++    
++    UITouch *touch = [touches anyObject];
++    if ([touch.view isKindOfClass:[CustomIOSAlertView class]]) {
++        [self close];
++    }
++}
++
++@end
+diff --git a/VoiceRecorder/EmotionViewController.h b/VoiceRecorder/EmotionViewController.h
+index f7a1e3b..8b1c8d5 100755
+--- a/VoiceRecorder/EmotionViewController.h
++++ b/VoiceRecorder/EmotionViewController.h
+@@ -8,6 +8,9 @@
+ 
+ #import <UIKit/UIKit.h>
+ #import "ViewController.h"
++#import "CustomIOSAlertView.h"
++#import "JMMarkSlider.h"
++#import "ASValueTrackingSlider.h"
+ 
+ /**
+  
+@@ -19,7 +22,7 @@
+  **/
+ 
+ 
+-@interface EmotionViewController:UIViewController
++@interface EmotionViewController:UIViewController <ASValueTrackingSliderDataSource>
+ 
+ @property (weak, nonatomic) id delegate;
+ @property (weak, nonatomic) IBOutlet UILabel *LabelSelectedEmotion;
+diff --git a/VoiceRecorder/EmotionViewController.m b/VoiceRecorder/EmotionViewController.m
+index afa13a3..872c49a 100755
+--- a/VoiceRecorder/EmotionViewController.m
++++ b/VoiceRecorder/EmotionViewController.m
+@@ -8,6 +8,7 @@
+ 
+ #import "EmotionViewController.h"
+ 
++
+ @implementation EmotionViewController:UIViewController{
+     NSString* currentEmotion;
+     NSString* recordingFilePath;
+@@ -15,6 +16,8 @@ @implementation EmotionViewController:UIViewController{
+     bool isEmotionSelected;
+     NSString* username;
+     ViewController* parentView;
++    
++    UIView *popupView;
+ }
+ 
+ 
+@@ -227,6 +230,9 @@ - (void)emotionSelected:(id)sender {
+ - (IBAction)emotion1Tapped:(id)sender {
+     
+     [self emotionSelected:sender];
++    [self selectIntensity];
++
++    
+     
+ }
+ - (IBAction)emotion2Tapped:(id)sender {
+@@ -243,4 +249,157 @@ - (IBAction)emotion5Tapped:(id)sender {
+ }
+ 
+ 
++
++-(void) showSliderPopup{
++    UISlider *slider=[[UISlider alloc]initWithFrame:CGRectMake(10, 0, 300, 300)];
++    CGAffineTransform trans=CGAffineTransformMakeRotation(M_PI_2);
++    slider.transform=trans;
++    slider.minimumValue=1;
++    slider.maximumValue=100;
++    slider.continuous=NO;
++    [slider addTarget:self action:@selector(sliderChanhge:) forControlEvents:UIControlEventValueChanged];
++    
++    UILabel *highlabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 100,100 )];
++    highlabel.text = @"HIGH";
++    
++    
++    popupView=[[UIView alloc]initWithFrame:CGRectMake(10, 10, 300, 350)]; // set popup frame your require position
++    [popupView addSubview:slider];
++    [popupView addSubview:highlabel];
++    [self.view addSubview:popupView];
++}
++
++- (void)addLabelsToSlider:(UISlider*)slider{
++    
++    UILabel *label = [[UILabel alloc] init];
++    label.font = [UIFont systemFontOfSize:10];
++    label.text = @"Very Low";
++    [label sizeToFit];
++    label.center = CGPointMake(5, slider.frame.size.height-label.frame.size.height/2 + 15);
++    [slider addSubview:label];
++    
++    
++    UILabel *highlabel = [[UILabel alloc] init];
++    highlabel.font = [UIFont systemFontOfSize:10];
++    highlabel.text = @"Very High";
++    [highlabel sizeToFit];
++    highlabel.center = CGPointMake((slider.frame.size.width/10)*10 - 5,  slider.frame.size.height-label.frame.size.height/2 + 15);
++    [slider addSubview:highlabel];
++    
++
++//    for(int i=0;i<=100;i+=10){
++//        
++//        UILabel *label = [[UILabel alloc] init];
++//        label.font = [UIFont systemFontOfSize:10];
++//        if( i == o){
++//        label.text = [NSString stringWithFormat:@"%d",i];
++//        [label sizeToFit];
++//        CGFloat labelX = (slider.frame.size.width/10)*i/10;
++//        CGFloat labelY = slider.frame.size.height-label.frame.size.height/2 + 15;
++//        label.center = CGPointMake(labelX, labelY);
++//        [slider addSubview:label];
++//    }
++}
++
++-(void)selectIntensity{
++
++    
++    
++    CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];
++    UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 250, 150)];
++
++    ASValueTrackingSlider  *slider = [[ASValueTrackingSlider  alloc] initWithFrame:CGRectMake(tempView.bounds.size.width/2-100, tempView.bounds.size.width/2-10, 200, 10)];
++
++    //    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
++    [slider setBackgroundColor:[UIColor clearColor]];
++    slider.minimumValue = 1.0;
++    slider.maximumValue = 10.0;
++    slider.continuous = YES;
++    slider.value = 5.0;
++    [self addLabelsToSlider:slider];
++    
++    slider.dataSource = self;
++    slider.popUpViewCornerRadius = 12.0;
++    [slider setMaxFractionDigitsDisplayed:3];
++    slider.popUpViewColor = [UIColor colorWithHue:0.55 saturation:0.8 brightness:0.9 alpha:0.7];
++    slider.font = [UIFont fontWithName:@"GillSans-Bold" size:22];
++    slider.textColor = [UIColor colorWithHue:0.55 saturation:1.0 brightness:0.5 alpha:1];
++//    
++//    JMMarkSlider *firstSlider = [[JMMarkSlider alloc]initWithFrame:CGRectMake(tempView.bounds.size.width/2-100, tempView.bounds.size.width/2-10, 200, 10)];
++//     firstSlider.markColor = [UIColor colorWithWhite:1 alpha:0.5];
++//    firstSlider.markPositions = @[@10,@20,@30,@40,@50,@60,@70,@80,@90,@100];
++//    firstSlider.markWidth = 1.0;
++//    firstSlider.selectedBarColor = [UIColor greenColor];
++//    firstSlider.unselectedBarColor = [UIColor blackColor];
++    
++    [tempView addSubview:slider];
++    [alertView setContainerView:tempView];
++    [alertView show];
++}
++
++
++
++-(UIView*)tickMarksViewForSlider:(UISlider*)slider View:(UIView *)view
++{
++    // set up vars
++    int ticksDivider = (slider.maximumValue > 10) ? 10 : 1;
++    int ticks = (int) slider.maximumValue / ticksDivider;
++    int sliderWidth = 364;
++    float offsetOffset = (ticks < 10) ? 1.7 : 1.1;
++    offsetOffset = (ticks > 10) ? 0 : offsetOffset;
++    float offset = sliderWidth / ticks - offsetOffset;
++    float xPos = 0;
++    
++    // initialize view to return
++    view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y+1,
++                            slider.frame.size.width, slider.frame.size.height);
++    view.backgroundColor = [UIColor clearColor];
++    
++    // make a UIImageView with tick for each tick in the slider
++    for (int i=0; i < ticks; i++)
++    {
++        if (i == 0) {
++            xPos += offset+5.25;
++        }
++        else
++        {
++            UIView *tick = [[UIView alloc] initWithFrame:CGRectMake(xPos, 3, 2, 16)];
++            tick.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1];
++            tick.layer.shadowColor = [[UIColor whiteColor] CGColor];
++            tick.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
++            tick.layer.shadowOpacity = 1.0f;
++            tick.layer.shadowRadius = 0.0f;
++            [view insertSubview:tick belowSubview:slider];
++            xPos += offset - 0.4;
++        }
++    }
++    
++    // return the view
++    return view;
++}
++
++#pragma mark - ASValueTrackingSliderDataSource
++
++- (NSString *)slider:(ASValueTrackingSlider *)slider stringForValue:(float)value;
++{
++    value = roundf(value);
++    NSString *s;
++    if (value < 2) {
++        s = @"Very Low";
++    } else if (value >= 2 && value < 4) {
++        s = @" Low";
++    }else if (value >= 4 && value < 6) {
++        s = @"Average";
++    }else if (value >= 6 && value < 8) {
++        s = @"High";
++    }
++    else if (value >=8) {
++        s = @"Very High";
++    }
++
++    return s;
++}
++
++
++
+ @end
+diff --git a/VoiceRecorder/JMMarkSlider.h b/VoiceRecorder/JMMarkSlider.h
+new file mode 100644
+index 0000000..fb624fe
+--- /dev/null
++++ b/VoiceRecorder/JMMarkSlider.h
+@@ -0,0 +1,19 @@
++//
++//  JMMarkSlider.h
++//  JMMarkSlider
++//
++//  Created by JOSE MARTINEZ on 22/07/2014.
++//  Copyright (c) 2014 desarrolloios. All rights reserved.
++//
++
++#import <UIKit/UIKit.h>
++
++@interface JMMarkSlider : UISlider
++@property (nonatomic) UIColor *markColor;
++@property (nonatomic) CGFloat markWidth;
++@property (nonatomic) NSArray *markPositions;
++@property (nonatomic) UIColor *selectedBarColor;
++@property (nonatomic) UIColor *unselectedBarColor;
++@property (nonatomic) UIImage *handlerImage;
++@property (nonatomic) UIColor *handlerColor;
++@end
+diff --git a/VoiceRecorder/JMMarkSlider.m b/VoiceRecorder/JMMarkSlider.m
+new file mode 100644
+index 0000000..166fcb2
+--- /dev/null
++++ b/VoiceRecorder/JMMarkSlider.m
+@@ -0,0 +1,106 @@
++//
++//  JMMarkSlider.m
++//  JMMarkSlider
++//
++//  Created by JOSE MARTINEZ on 22/07/2014.
++//  Copyright (c) 2014 desarrolloios. All rights reserved.
++//
++
++#import "JMMarkSlider.h"
++
++@implementation JMMarkSlider
++
++- (id)initWithFrame:(CGRect)frame
++{
++    self = [super initWithFrame:frame];
++    if (self) {
++        // Default configuration
++        self.markColor = [UIColor colorWithRed:106/255.0 green:106/255.0 blue:124/255.0 alpha:0.7];
++        self.markPositions = @[@10,@20,@30,@40,@50,@60,@70,@80,@90,@100];
++        self.markWidth = 1.0;
++        self.selectedBarColor = [UIColor colorWithRed:179/255.0 green:179/255.0 blue:193/255.0 alpha:0.8];
++        self.unselectedBarColor = [UIColor colorWithRed:55/255.0 green:55/255.0 blue:94/255.0 alpha:0.8];
++
++    }
++    return self;
++}
++
++- (id)initWithCoder:(NSCoder *)aDecoder
++{
++    self = [super initWithCoder:aDecoder];
++    if (self) {
++        // Default configuration
++        self.markColor = [UIColor colorWithRed:106/255.0 green:106/255.0 blue:124/255.0 alpha:0.7];
++        self.markPositions = @[@10,@20,@30,@40,@50,@60,@70,@80,@90,@100];
++        self.markWidth = 1.0;
++        self.selectedBarColor = [UIColor colorWithRed:179/255.0 green:179/255.0 blue:193/255.0 alpha:0.8];
++        self.unselectedBarColor = [UIColor colorWithRed:55/255.0 green:55/255.0 blue:94/255.0 alpha:0.8];
++    }
++    return self;
++}
++
++- (void)drawRect:(CGRect)rect
++{
++    [super drawRect:rect];
++    
++    // We create an innerRect in which we paint the lines
++    CGRect innerRect = CGRectInset(rect, 1.0, 10.0);
++    
++    UIGraphicsBeginImageContextWithOptions(innerRect.size, NO, 0);
++    CGContextRef context = UIGraphicsGetCurrentContext();
++    
++    // Selected side
++    CGContextSetLineCap(context, kCGLineCapRound);
++    CGContextSetLineWidth(context, 12.0);
++    CGContextMoveToPoint(context, 6, CGRectGetHeight(innerRect)/2);
++    CGContextAddLineToPoint(context, innerRect.size.width - 10, CGRectGetHeight(innerRect)/2);
++    CGContextSetStrokeColorWithColor(context, [self.selectedBarColor CGColor]);
++    CGContextStrokePath(context);
++    UIImage *selectedSide = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsZero];
++    
++    // Unselected side
++    CGContextSetLineCap(context, kCGLineCapRound);
++    CGContextSetLineWidth(context, 12.0);
++    CGContextMoveToPoint(context, 6, CGRectGetHeight(innerRect)/2);
++    CGContextAddLineToPoint(context, innerRect.size.width - 10, CGRectGetHeight(innerRect)/2);
++    CGContextSetStrokeColorWithColor(context, [self.unselectedBarColor CGColor]);
++    CGContextStrokePath(context);
++    UIImage *unselectedSide = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsZero];
++    
++    // Set trips on selected side
++    [selectedSide drawAtPoint:CGPointMake(0,0)];
++    for (int i = 0; i < [self.markPositions count]; i++) {
++        CGContextSetLineWidth(context, self.markWidth);
++        float position = [self.markPositions[i]floatValue] * innerRect.size.width / 100.0;
++        CGContextMoveToPoint(context, position, CGRectGetHeight(innerRect)/2 - 5);
++        CGContextAddLineToPoint(context, position, CGRectGetHeight(innerRect)/2 + 5);
++        CGContextSetStrokeColorWithColor(context, [self.markColor CGColor]);
++        CGContextStrokePath(context);
++    }
++    UIImage *selectedStripSide = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsZero];
++    
++    // Set trips on unselected side
++    [unselectedSide drawAtPoint:CGPointMake(0,0)];
++    for (int i = 0; i < [self.markPositions count]; i++) {
++        CGContextSetLineWidth(context, self.markWidth);
++        float position = [self.markPositions[i]floatValue] * innerRect.size.width / 100.0;
++        CGContextMoveToPoint(context, position, CGRectGetHeight(innerRect)/2 - 5);
++        CGContextAddLineToPoint(context, position, CGRectGetHeight(innerRect)/2 + 5);
++        CGContextSetStrokeColorWithColor(context, [self.markColor CGColor]);
++        CGContextStrokePath(context);
++    }
++    UIImage *unselectedStripSide = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsZero];
++    
++    UIGraphicsEndImageContext();
++    
++    [self setMinimumTrackImage:selectedStripSide forState:UIControlStateNormal];
++    [self setMaximumTrackImage:unselectedStripSide forState:UIControlStateNormal];
++    if (self.handlerImage != nil) {
++        [self setThumbImage:self.handlerImage forState:UIControlStateNormal];
++    } else if (self.handlerColor != nil) {
++        [self setThumbImage:[UIImage new] forState:UIControlStateNormal];
++        [self setThumbTintColor:self.handlerColor];
++    }
++}
++
++@end
+-- 
+2.7.4 (Apple Git-66)
+
