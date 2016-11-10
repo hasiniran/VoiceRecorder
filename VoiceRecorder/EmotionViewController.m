@@ -162,7 +162,13 @@
     [self.buttonEmotion1 setSelected:NO];
     [self.buttonEmotion2 setSelected:NO];
     [self.buttonEmotion3 setSelected:NO];
-    self.LabelSelectedEmotion.text = @"Start the recorder and select the emotional status of the child.";
+    self.LabelSelectedEmotion.text = @"Select the emotional status of the child.";
+    
+    //switch off blinking
+    [self.buttonEmotion1.layer removeAllAnimations];
+    [self.buttonEmotion2.layer removeAllAnimations];
+    [self.buttonEmotion3.layer removeAllAnimations];
+    [self.LabelSelectedEmotion.layer removeAllAnimations];
 }
 
 
@@ -192,6 +198,17 @@
             self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
             [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
         }
+        
+        //blink the button to indicate its switched on
+        
+        [sender setAlpha:0.4];
+        [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
+            [sender setAlpha:1];
+        } completion:nil];
+        [self.LabelSelectedEmotion setAlpha:0.4];
+        [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
+            [self.LabelSelectedEmotion setAlpha:1];
+        } completion:nil];
         
         
     }else{
