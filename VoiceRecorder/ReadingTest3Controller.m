@@ -295,6 +295,13 @@
     
 }
 
+@synthesize delegate;
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [delegate setLastTakenDate:dateString:@"Test3"];
+    
+}
+
 
 @end
 

@@ -10,6 +10,10 @@
 //#import "PageContentViewController.h"
 #import "ReadingTestController.h"
 
+@protocol ReadingTest3Delegate <NSObject>
+@required
+-(void)setLastTakenDate : (NSString *)date : (NSString *)test;
+@end
 
 @interface ReadingTest3Controller:UIViewController
 

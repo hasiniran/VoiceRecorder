@@ -195,7 +195,7 @@
             //write to csv file
             NSString* timestamp = [(ViewController*)self.parentViewController getDate];
             
-            self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
+            self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap %@ when the child stops showing %@ emotions.",    currentEmotion, currentEmotion];
             [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
         }
         
@@ -205,7 +205,7 @@
         [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
             [sender setAlpha:1];
         } completion:nil];
-        [self.LabelSelectedEmotion setAlpha:0.4];
+        [self.LabelSelectedEmotion setAlpha:0.1];
         [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
             [self.LabelSelectedEmotion setAlpha:1];
         } completion:nil];
@@ -336,7 +336,7 @@
         //write to csv file
         NSString* timestamp = [(ViewController*)self.parentViewController getDate];
         
-        self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
+        self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap %@ when the child stops showing %@ emotions.",currentEmotion, currentEmotion];
         [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
         
     }];
