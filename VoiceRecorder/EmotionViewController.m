@@ -162,7 +162,13 @@
     [self.buttonEmotion1 setSelected:NO];
     [self.buttonEmotion2 setSelected:NO];
     [self.buttonEmotion3 setSelected:NO];
-    self.LabelSelectedEmotion.text = @"Start the recorder and select the emotional status of the child.";
+    self.LabelSelectedEmotion.text = @"Select the emotional status of the child.";
+    
+    //switch off blinking
+    [self.buttonEmotion1.layer removeAllAnimations];
+    [self.buttonEmotion2.layer removeAllAnimations];
+    [self.buttonEmotion3.layer removeAllAnimations];
+    [self.LabelSelectedEmotion.layer removeAllAnimations];
 }
 
 
@@ -192,6 +198,17 @@
             self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
             [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
         }
+        
+        //blink the button to indicate its switched on
+        
+        [sender setAlpha:0.4];
+        [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
+            [sender setAlpha:1];
+        } completion:nil];
+        [self.LabelSelectedEmotion setAlpha:0.4];
+        [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
+            [self.LabelSelectedEmotion setAlpha:1];
+        } completion:nil];
         
         
     }else{
@@ -241,7 +258,7 @@
 - (void)addLabelsToSlider:(UISlider*)slider{
     
     UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont systemFontOfSize:10];
+    label.font = [UIFont systemFontOfSize:13];
     label.text = @"Very Low";
     [label sizeToFit];
     label.center = CGPointMake(5, slider.frame.size.height-label.frame.size.height/2 + 15);
@@ -249,14 +266,14 @@
     
     
     UILabel *highlabel = [[UILabel alloc] init];
-    highlabel.font = [UIFont systemFontOfSize:10];
+    highlabel.font = [UIFont systemFontOfSize:13];
     highlabel.text = @"Very High";
     [highlabel sizeToFit];
     highlabel.center = CGPointMake((slider.frame.size.width/10)*10 - 5,  slider.frame.size.height-label.frame.size.height/2 + 15);
     [slider addSubview:highlabel];
     
     UILabel *avglabel = [[UILabel alloc] init];
-    avglabel.font = [UIFont systemFontOfSize:10];
+    avglabel.font = [UIFont systemFontOfSize:13];
     avglabel.text = @"Average";
     [avglabel sizeToFit];
     avglabel.center = CGPointMake((slider.frame.size.width/10)*5 - 5,  slider.frame.size.height-label.frame.size.height/2 + 15);
@@ -280,13 +297,16 @@
 -(void)selectIntensity{
     
     CustomIOSAlertView *alertView = [[CustomIOSAlertView alloc] init];
-    UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 250, 175)];
+    UIView *tempView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 270, 190)];
     
-    ASValueTrackingSlider  *slider = [[ASValueTrackingSlider  alloc] initWithFrame:CGRectMake(tempView.bounds.size.width/2-100, tempView.bounds.size.height/2, 200, 35)];
+    ASValueTrackingSlider  *slider = [[ASValueTrackingSlider  alloc] initWithFrame:CGRectMake(tempView.bounds.size.width/2-100, tempView.bounds.size.height/2+20, 200, 35)];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(tempView.bounds.size.width/2-100, tempView.bounds.size.height/2-50, 200, 25)];
     label.text = @"How intense is the current emotional state?";
-    label.font = [UIFont systemFontOfSize:9];
+    label.font = [UIFont systemFontOfSize:14];
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    [label sizeToFit];
     
     //    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
     [slider setBackgroundColor:[UIColor clearColor]];

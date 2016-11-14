@@ -16,6 +16,7 @@
 		2502D9711B264E13005D7C45 /* button-12.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9701B264E13005D7C45 /* button-12.png */; };
 		2502D9731B264EB5005D7C45 /* button-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9721B264EB5005D7C45 /* button-14.png */; };
 		2502D9751B264F26005D7C45 /* button-15.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9741B264F26005D7C45 /* button-15.png */; };
+		2502ED0A1DD9359F009023A9 /* positiveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502ED091DD9359F009023A9 /* positiveButton.png */; };
 		250FBB4C1C80E86D00B10E89 /* NamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 250FBB4B1C80E86D00B10E89 /* NamePickerController.m */; };
 		250FBB511C824D9700B10E89 /* AddUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 250FBB501C824D9700B10E89 /* AddUsersViewController.m */; };
 		250FBB5C1C83D19700B10E89 /* readingtest_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 250FBB531C83D19700B10E89 /* readingtest_1.jpg */; };
@@ -156,6 +157,7 @@
 		2502D9701B264E13005D7C45 /* button-12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-12.png"; sourceTree = "<group>"; };
 		2502D9721B264EB5005D7C45 /* button-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-14.png"; sourceTree = "<group>"; };
 		2502D9741B264F26005D7C45 /* button-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-15.png"; sourceTree = "<group>"; };
+		2502ED091DD9359F009023A9 /* positiveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = positiveButton.png; sourceTree = "<group>"; };
 		250FBB4A1C80E86D00B10E89 /* NamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamePickerController.h; sourceTree = "<group>"; };
 		250FBB4B1C80E86D00B10E89 /* NamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamePickerController.m; sourceTree = "<group>"; };
 		250FBB4F1C824D9700B10E89 /* AddUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddUsersViewController.h; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		E84927AA19DB5C35005ACA9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2502ED091DD9359F009023A9 /* positiveButton.png */,
 				259D4AE01DC6F8E200473E92 /* story */,
 				25B645FB1DBAAEB600AE6458 /* words */,
 				251BB7401D6D13E000A06E39 /* silence.mp3 */,
@@ -674,6 +677,7 @@
 				25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */,
 				25B6463F1DBAAED700AE6458 /* feather.png in Resources */,
 				2502D9711B264E13005D7C45 /* button-12.png in Resources */,
+				2502ED0A1DD9359F009023A9 /* positiveButton.png in Resources */,
 				25B6463B1DBAAED700AE6458 /* crying.png in Resources */,
 				2502D96F1B264DFE005D7C45 /* button-11.png in Resources */,
 				25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */,

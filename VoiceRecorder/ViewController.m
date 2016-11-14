@@ -1213,15 +1213,17 @@
         [self.buttonCribOn setHidden:NO];
         [self.buttonUnsupOn setHidden:NO];
         [self.buttonReadingTest setHidden:NO];
-        [self.buttonTrackProgress setHidden:NO];
+        [self.buttonTrackProgress setHidden:YES];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record Sibling" forState:UIControlStateNormal];
         
-        self.buttonRecordSibling.frame = CGRectMake(167,175,140, 40);
-        self.buttonReadingTest.frame = CGRectMake(167, 241, 140, 40);
-        self.labelComment.frame = CGRectMake(29, 332, 84, 21);
-        self.textfieldComment.frame = CGRectMake(167,323 , 140, 30);
+        self.buttonRecordSibling.frame = CGRectMake(165,56,143, 60);
+        self.buttonReadingTest.frame = CGRectMake(18, 433, 287, 58);
+        self.labelComment.frame = CGRectMake(18, 270, 84, 21);
+        self.textfieldComment.frame = CGRectMake(116, 270 , 192, 30);
+        self.buttonCribOff.frame = CGRectMake(165, 124, 143, 128);
+        self.childViewControllers[0].view.frame = CGRectMake(0, 0, 285, 109);
         
         
     }else if(userGroup ==2){
@@ -1230,15 +1232,18 @@
         [self.buttonCribOn setHidden:YES];
         [self.buttonUnsupOn setHidden:YES];
         [self.buttonReadingTest setHidden:NO];
-        [self.buttonTrackProgress setHidden:NO];
+        [self.buttonTrackProgress setHidden:YES];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
         
-        self.buttonRecordSibling.frame = CGRectMake(23,109,140, 40);
-        self.buttonReadingTest.frame = CGRectMake(23, 175, 140, 40);
-        self.labelComment.frame = CGRectMake(23, 241, 84, 21);
-        self.textfieldComment.frame = CGRectMake(167,241 , 140, 30);
+        self.buttonRecordSibling.frame = CGRectMake(18,65,140, 60);
+        self.buttonReadingTest.frame = CGRectMake(18, 380, 287, 58);
+        self.labelComment.frame = CGRectMake(18, 165, 84, 21);
+        self.textfieldComment.frame = CGRectMake(116, 165 , 192, 30);
+        self.buttonCribOff.frame = CGRectMake(165,65,143, 60);
+        self.childViewControllers[0].view.frame = CGRectMake(0, -70, 285, 109);
+        
     }
     
     //load names of children saved in the system
