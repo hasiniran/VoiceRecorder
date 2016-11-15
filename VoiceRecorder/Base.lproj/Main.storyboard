@@ -79,7 +79,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" id="Nip-KC-0TW">
-                                <rect key="frame" x="245" y="551" width="58" height="21"/>
+                                <rect key="frame" x="245" y="548" width="58" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -93,7 +93,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Files in the device:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yyL-Br-UD8">
-                                <rect key="frame" x="146" y="538" width="167" height="12"/>
+                                <rect key="frame" x="146" y="538" width="108" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -107,12 +107,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" id="1fs-hf-3o1">
-                                <rect key="frame" x="9" y="508" width="90" height="2"/>
+                                <rect key="frame" x="5" y="499" width="90" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="progressTintColor" red="0.082352943720000002" green="0.086274512110000007" blue="0.77647066119999997" alpha="1" colorSpace="deviceRGB"/>
                             </progressView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upload in progress" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bF6-MX-9hs">
-                                <rect key="frame" x="9" y="514" width="97" height="12"/>
+                                <rect key="frame" x="5" y="503" width="97" height="12"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -187,10 +187,11 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="oWJ-5d-mgU">
-                                <rect key="frame" x="18" y="527" width="43" height="34"/>
+                                <rect key="frame" x="18" y="523" width="41" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-57"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-16"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-26"/>
                                 <state key="normal" title="Upload" backgroundImage="Upload_Black.tif">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -220,7 +221,7 @@
                         <outlet property="labelUploadProgress" destination="bF6-MX-9hs" id="rdS-Im-yeP"/>
                         <outlet property="labelUsername" destination="1vQ-nC-97Z" id="LV6-5A-lcJ"/>
                         <outlet property="numberOfMinutesRecorded" destination="iEg-fq-Plu" id="QHr-GB-wwE"/>
-                        <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="hJf-25-NAB"/>
+                        <outlet property="numberOfRecordingsForUploadLabel" destination="5YC-qn-Uzb" id="iiU-hH-3Au"/>
                         <outlet property="percentageDiskSpaceRemainingLabel" destination="Nip-KC-0TW" id="Vgg-9T-dDR"/>
                         <outlet property="progressViewUpload" destination="1fs-hf-3o1" id="zKk-cC-uox"/>
                         <outlet property="statusLabel" destination="wK5-Jy-hTf" id="Hyl-u6-kqo"/>

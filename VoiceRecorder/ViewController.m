@@ -774,6 +774,7 @@
             [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir withParentRev:nil  fromPath:recordingInfoFile];
         }
         
+        
         //upload log file
         [self uploadLogFile];
         
@@ -815,6 +816,9 @@
 
 -(void)uploadLogFile{
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
     NSString *logfileName =[NSString stringWithFormat:@"%@.log",fullName];
     NSFileManager *filemanager = [NSFileManager defaultManager];
     if(logfileName != NULL  && [filemanager fileExistsAtPath:logFilePath] ){
@@ -822,6 +826,31 @@
             [self.restClient uploadFileChunk:nil offset:0 fromPath:logFilePath];
         }else{
             [self.restClient uploadFile:logfileName toPath:@"/logs/" withParentRev:nil fromPath:logFilePath];
+        }
+    }
+    
+    //upload emotions info file
+    
+    NSString *emotionCSV = [NSString stringWithFormat:@"%@-emotions.csv", fullName];
+    NSString *emotionCSVPath = [documentsDirectory stringByAppendingPathComponent:emotionCSV];
+    
+    if([filemanager fileExistsAtPath:emotionCSVPath]){
+        if([[filemanager attributesOfItemAtPath:emotionCSVPath error:NULL] fileSize] >= MAX_FILE_SIZE){
+            [self.restClient uploadFileChunk:nil offset:0 fromPath:emotionCSVPath];
+        }else{
+            [self.restClient uploadFile:emotionCSV toPath:@"/emotions/" withParentRev:nil fromPath:emotionCSVPath];
+        }
+    }
+    
+    
+    NSString *wordTestcsv = [NSString stringWithFormat:@"%@-wordsTest.csv", fullName];
+    NSString *wordTestPath = [documentsDirectory stringByAppendingPathComponent:wordTestcsv];
+    
+    if([filemanager fileExistsAtPath:wordTestPath]){
+        if([[filemanager attributesOfItemAtPath:wordTestcsv error:NULL] fileSize] >= MAX_FILE_SIZE){
+            [self.restClient uploadFileChunk:nil offset:0 fromPath:wordTestcsv];
+        }else{
+            [self.restClient uploadFile:wordTestcsv toPath:@"/wordTest/" withParentRev:nil fromPath:wordTestPath];
         }
     }
 }
