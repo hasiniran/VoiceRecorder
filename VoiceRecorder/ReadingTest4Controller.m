@@ -27,22 +27,22 @@
     storyNumber = arc4random_uniform(2);
     
     if(storyNumber ==0){
-        self.titleLabel.text = @"Jack and Rachel";
-        self.pageTitles = @[ @"Jack and Rachel are going fishing.\n \nRachel is in such a rush that she drops her glasses and gets her shirt caught in the zipper of her jacket.",
-                             @"They fish from the old bridge.\n\nAll of a sudden they hear a loud noise.\n\nOh! It's only the dog chasing a frog.",
-                             @"Jack and Rachel catch thirteen fish.\n\n1...2...3...four...five...6...7..8..9..10..11..12..thirteen! \n\nThey laugh because they are very, very, very happy.",
-                             @"They go back to Jack's house.\n\n Jack's mother cooks the fish."];
-        self.pageImages = @[@"story1_1.png", @"story1_2.png", @"story1_3.png", @"story1_4.png"];
-        
-    }else if (storyNumber ==1){
         self.titleLabel.text = @"A Bad Night for Jerry";
         self.pageTitles = @[@"Jerry is playing with his drum, ball and wagon. He is making too much noise. His mother makes him stop. It is time to take a bath.",
                             @"Jerry is taking a bath. Oh, no! He loses the soap. He cannot find it because it is outside the bathtub. See the soap. It is on the floor.",
-                            @"Now he is brushing his teeth with his toothbrush. Look, he spills toothpaste on his brand new blue pajamas.",
-                            @"Nothing else can happen tonight, thinks Jerry. He yawns and reaches to turn out the new yellow light. Oh,no! He knocks over the yellow light.",
-                            @"After a bad nigh, Jerry is finally sleeping. His daddy covers him with the sheet. Whoops! His foot rips the sheet."];
+                            @"Now he is brushing his teeth with his toothbrush.\nLook, he spills toothpaste on his brand new blue pajamas.",
+                            @"Nothing else can happen tonight, thinks Jerry. He yawns and reaches to turn out the new yellow light.\nOh,no! He knocks over the yellow light.",
+                            @"After a bad nigh, Jerry is finally sleeping. His daddy covers him with the sheet.\nWhoops! His foot rips the sheet."];
+      
+        self.pageImages = @[@"story1_1.jpg", @"story1_2.jpg", @"story1_3.jpg", @"story1_4.jpg", @"story1_5.jpg"];
         
-        self.pageImages = @[@"story2_1.png", @"story2_2.png", @"story2_3.png", @"story2_4.png", @"story2_5.png"];
+    }else if (storyNumber ==1){
+        self.titleLabel.text = @"Jack and Rachel";
+        self.pageTitles = @[ @"Jack and Rachel are going fishing.\nRachel is in such a rush that she drops her glasses and gets her shirt caught in the zipper of her jacket.",
+                             @"They fish from the old bridge.\nAll of a sudden they hear a loud noise.\nOh! It's only the dog chasing a frog.",
+                             @"Jack and Rachel catch thirteen fish.\n1...2...3...four...five...6...7..8..9..10..11..12..thirteen!\nThey laugh because they are very, very, very happy.",
+                             @"They go back to Jack's house.\nJack's mother cooks the fish."];
+               self.pageImages = @[@"story2_1.jpg", @"story2_2.jpg", @"story2_3.jpg", @"story2_4.jpg"];
     }
     
     
