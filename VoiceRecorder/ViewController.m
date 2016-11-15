@@ -771,7 +771,7 @@
         // upload metadata file
         
         if(recordingInfoFile != NULL){
-            [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir withParentRev:nil  fromPath:recordingInfoFile];
+            [self.restClient uploadFile:[NSString stringWithFormat:@"%@-info.csv",fullName] toPath:@"/comments/" withParentRev:nil  fromPath:recordingInfoFile];
         }
         
         
@@ -1772,7 +1772,7 @@
 
 -(void)initinfoFiles:(NSString*)deviceName{
     
-    if(deviceName !=NULL && [deviceName isEqualToString:@""]){
+    if(deviceName !=NULL && ![deviceName isEqualToString:@""]){
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -1781,7 +1781,7 @@
         
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-        // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
         
         
         
