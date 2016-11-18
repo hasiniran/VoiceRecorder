@@ -33,16 +33,14 @@
                             @"Now he is brushing his teeth with his toothbrush.\nLook, he spills toothpaste on his brand new blue pajamas.",
                             @"Nothing else can happen tonight, thinks Jerry. He yawns and reaches to turn out the new yellow light.\nOh,no! He knocks over the yellow light.",
                             @"After a bad nigh, Jerry is finally sleeping. His daddy covers him with the sheet.\nWhoops! His foot rips the sheet."];
-      
         self.pageImages = @[@"story1_1.jpg", @"story1_2.jpg", @"story1_3.jpg", @"story1_4.jpg", @"story1_5.jpg"];
-        
     }else if (storyNumber ==1){
         self.titleLabel.text = @"Jack and Rachel";
         self.pageTitles = @[ @"Jack and Rachel are going fishing.\nRachel is in such a rush that she drops her glasses and gets her shirt caught in the zipper of her jacket.",
                              @"They fish from the old bridge.\nAll of a sudden they hear a loud noise.\nOh! It's only the dog chasing a frog.",
                              @"Jack and Rachel catch thirteen fish.\n1...2...3...four...five...6...7..8..9..10..11..12..thirteen!\nThey laugh because they are very, very, very happy.",
                              @"They go back to Jack's house.\nJack's mother cooks the fish."];
-               self.pageImages = @[@"story2_1.jpg", @"story2_2.jpg", @"story2_3.jpg", @"story2_4.jpg"];
+        self.pageImages = @[@"story2_1.jpg", @"story2_2.jpg", @"story2_3.jpg", @"story2_4.jpg"];
     }
     
     
@@ -135,7 +133,6 @@
         NSArray *pathComponents = [NSArray arrayWithObjects:
                                    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject],
                                    fileName,
-                                   
                                    nil];
         
         NSURL *filepath = [NSURL fileURLWithPathComponents:pathComponents];
@@ -162,12 +159,17 @@
         [recorder record];
         [self.recordButton setTitle:@"Pause" forState:UIControlStateNormal];
         self.recorderStatusLabel.text =@"Recording...";
+
+        if(currentPage < self.pageTitles.count-1){
+            [self.nextPageButton setEnabled:YES];
+        }
         
     } else {
         // Pause recording
         [recorder pause];
         [self.recordButton setTitle:@"Record" forState:UIControlStateNormal];
         self.recorderStatusLabel.text =@"Recorder is paused.";
+        [self.nextPageButton setEnabled:NO];
     }
     
     [self.stopButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -195,9 +197,15 @@
     }
 }
 - (IBAction)nextPageTapped:(id)sender {
-    if(currentPage < self.pageTitles.count){
-        currentPage++;
-        [self showPage:currentPage];
+    if(currentPage < self.pageTitles.count-1){
+       currentPage++;
+       [self showPage:currentPage];
+    }
+    
+    //last word displayed
+    if (currentPage == self.pageTitles.count-1) {
+        [self.nextPageButton setEnabled:NO];
+        self.recorderStatusLabel.text =@"End of the test. Click stop to go to the main screen.";
     }
 }
 - (IBAction)previousPageTapped:(id)sender {

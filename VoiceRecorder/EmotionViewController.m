@@ -144,7 +144,6 @@
             [self.buttonEmotion1 setAlpha:0.5];
             [self.buttonEmotion2 setAlpha:0.5];
             break;
-            break;
             
         default:
             
