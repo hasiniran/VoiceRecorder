@@ -64,7 +64,7 @@
     //set begining word
     currentWordIndex = 0;
     [self.wordImage setImage:[UIImage imageNamed:self.pageImages[currentWordIndex]]];
-     self.WordLabel.text = self.pageTitles[currentWordIndex];
+    self.WordLabel.text = self.pageTitles[currentWordIndex];
 }
 
 
@@ -153,7 +153,7 @@
         
         //set the output file url
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM-dd-YYYY hh:mm a"];//format the date string
+        [dateFormatter setDateFormat:@"MM.dd.YYYY hh:mm a"];//format the date string
         dateString = [dateFormatter stringFromDate:[NSDate date]]; //get the date string
         
         fileName = [NSString stringWithFormat:@"ReadingTest %@_%@ words %@.m4a", [defaults objectForKey:@"username"], [defaults objectForKey:@"siblingname"],dateString];
@@ -170,7 +170,8 @@
         NSURL *filepath = [NSURL fileURLWithPathComponents:pathComponents];
         
         //initialize audio session
-     
+        session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
         [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
         [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
@@ -179,8 +180,6 @@
         recorder.delegate = self;
         recorder.meteringEnabled = YES;
         [recorder prepareToRecord];
-        session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         NSLog(@"Starting the reading test :%@", fileName);
         
     }

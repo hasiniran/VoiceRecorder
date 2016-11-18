@@ -620,8 +620,8 @@
     [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
-    [self.textfieldComment setEnabled:YES];
-    
+//    [self.textfieldComment setEnabled:YES];
+    [self enableComments];
 }
 
 - (void)updateSlider {
@@ -771,7 +771,7 @@
         // upload metadata file
         
         if(recordingInfoFile != NULL){
-            [self.restClient uploadFile:[NSString stringWithFormat:@"comments/%@-info.csv",fullName] toPath:destDir withParentRev:nil  fromPath:recordingInfoFile];
+            [self.restClient uploadFile:[NSString stringWithFormat:@"%@-info.csv",fullName] toPath:@"/comments/" withParentRev:nil  fromPath:recordingInfoFile];
         }
         
         //upload log file
@@ -814,7 +814,10 @@
 
 
 -(void)uploadLogFile{
-
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
     NSString *logfileName =[NSString stringWithFormat:@"%@.log",fullName];
     NSFileManager *filemanager = [NSFileManager defaultManager];
     if(logfileName != NULL  && [filemanager fileExistsAtPath:logFilePath] ){
@@ -822,6 +825,31 @@
             [self.restClient uploadFileChunk:nil offset:0 fromPath:logFilePath];
         }else{
             [self.restClient uploadFile:logfileName toPath:@"/logs/" withParentRev:nil fromPath:logFilePath];
+        }
+    }
+    
+    //upload emotions info file
+    
+    NSString *emotionCSV = [NSString stringWithFormat:@"%@-emotions.csv", fullName];
+    NSString *emotionCSVPath = [documentsDirectory stringByAppendingPathComponent:emotionCSV];
+    
+    if([filemanager fileExistsAtPath:emotionCSVPath]){
+        if([[filemanager attributesOfItemAtPath:emotionCSVPath error:NULL] fileSize] >= MAX_FILE_SIZE){
+            [self.restClient uploadFileChunk:nil offset:0 fromPath:emotionCSVPath];
+        }else{
+            [self.restClient uploadFile:emotionCSV toPath:@"/emotions/" withParentRev:nil fromPath:emotionCSVPath];
+        }
+    }
+    
+    
+    NSString *wordTestcsv = [NSString stringWithFormat:@"%@-wordsTest.csv", fullName];
+    NSString *wordTestPath = [documentsDirectory stringByAppendingPathComponent:wordTestcsv];
+    
+    if([filemanager fileExistsAtPath:wordTestPath]){
+        if([[filemanager attributesOfItemAtPath:wordTestcsv error:NULL] fileSize] >= MAX_FILE_SIZE){
+            [self.restClient uploadFileChunk:nil offset:0 fromPath:wordTestcsv];
+        }else{
+            [self.restClient uploadFile:wordTestcsv toPath:@"/wordTest/" withParentRev:nil fromPath:wordTestPath];
         }
     }
 }
@@ -1213,7 +1241,7 @@
         [self.buttonCribOn setHidden:NO];
         [self.buttonUnsupOn setHidden:NO];
         [self.buttonReadingTest setHidden:NO];
-        [self.buttonTrackProgress setHidden:NO];
+        [self.buttonTrackProgress setHidden:YES];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record Sibling" forState:UIControlStateNormal];
@@ -1230,7 +1258,7 @@
         [self.buttonCribOn setHidden:YES];
         [self.buttonUnsupOn setHidden:YES];
         [self.buttonReadingTest setHidden:NO];
-        [self.buttonTrackProgress setHidden:NO];
+        [self.buttonTrackProgress setHidden:YES];
         [self.labelTimeRecorded setHidden:NO];
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
@@ -1278,7 +1306,8 @@
     
     //clear comment field
     self.textfieldComment.text =@"";
-    [self.textfieldComment setEnabled:NO];
+//    [self.textfieldComment setEnabled:NO];
+    [self disableComments];
     
     //diable emotions view
     [self disableEmotionView];
@@ -1350,7 +1379,8 @@
     
     // Enable stop button and disable play button
     [self.buttonCribOff setEnabled:YES];
-    [self.textfieldComment setEnabled:YES];
+//    [self.textfieldComment setEnabled:YES];
+    [self enableComments];
     comment = @"";
     
     //show time
@@ -1738,7 +1768,7 @@
 
 -(void)initinfoFiles:(NSString*)deviceName{
     
-    if(deviceName !=NULL && [deviceName isEqualToString:@""]){
+    if(deviceName !=NULL && ![deviceName isEqualToString:@""]){
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -1747,7 +1777,7 @@
         
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-        // freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
         
         
         
@@ -1817,19 +1847,31 @@
         [backgroundPlayer stop];
         AVAudioSession *session = [AVAudioSession sharedInstance];
         [session setActive:NO error:nil];
-         NSLog(@"Silent audio stopped");
+        NSLog(@"Silent audio stopped");
     }
 }
 
-//disable this only if the recording is in progress
+//disable this only if the recording is not in progress
 -(void)disableEmotionView{
     [(EmotionViewController*)self.childViewControllers[0] resetEmotionButtons];
     [self.childViewControllers[0].view setUserInteractionEnabled:NO];
+    [self.childViewControllers[0].view setAlpha:0.5];
 }
 
 -(void)resetEmotionViewController{
     [(EmotionViewController*)self.childViewControllers[0] recordingModeSwitched];
 }
 
+-(void)enableComments{
+    [self.textfieldComment setEnabled:YES];
+    [self.textfieldComment setAlpha:1];
+    [self.labelComment setAlpha:1];
+}
+
+-(void)disableComments{
+    [self.textfieldComment setEnabled:NO];
+    [self.textfieldComment setAlpha:0.5];
+    [self.labelComment setAlpha:0.5];
+}
 
 @end

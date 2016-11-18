@@ -38,6 +38,8 @@
     //load emotion.csv file
     [self loadEmotionsCSVFile];
     
+    [self.view setAlpha:0.5];
+    
 }
 
 
@@ -125,18 +127,23 @@
         case 0:
             [self.buttonEmotion2 setEnabled:NO];
             [self.buttonEmotion3 setEnabled:NO];
+            [self.buttonEmotion2 setAlpha:0.5];
+            [self.buttonEmotion3 setAlpha:0.5];
             break;
             
         case 1:
             [self.buttonEmotion1 setEnabled:NO];
             [self.buttonEmotion3 setEnabled:NO];
+            [self.buttonEmotion1 setAlpha:0.5];
+            [self.buttonEmotion3 setAlpha:0.5];
             break;
             
         case 2:
             [self.buttonEmotion1 setEnabled:NO];
             [self.buttonEmotion2 setEnabled:NO];
+            [self.buttonEmotion1 setAlpha:0.5];
+            [self.buttonEmotion2 setAlpha:0.5];
             break;
-                   break;
             
         default:
             
@@ -146,6 +153,8 @@
 }
 
 -(void)resetEmotionButtons{
+    
+    [self.view setAlpha:1];
     
     NSString* timestamp = [(ViewController*)self.parentViewController getDate];
     currentEmotion = @"";
@@ -159,6 +168,9 @@
     [self.buttonEmotion1 setEnabled:YES];
     [self.buttonEmotion2 setEnabled:YES];
     [self.buttonEmotion3 setEnabled:YES];
+    [self.buttonEmotion1 setAlpha:1];
+    [self.buttonEmotion2 setAlpha:1];
+    [self.buttonEmotion3 setAlpha:1];
     [self.buttonEmotion1 setSelected:NO];
     [self.buttonEmotion2 setSelected:NO];
     [self.buttonEmotion3 setSelected:NO];
@@ -195,7 +207,7 @@
             //write to csv file
             NSString* timestamp = [(ViewController*)self.parentViewController getDate];
             
-            self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
+            self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap %@ when the child stops showing %@ emotions.",    currentEmotion, currentEmotion];
             [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
         }
         
@@ -205,7 +217,7 @@
         [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse | UIViewAnimationOptionAllowUserInteraction animations:^{
             [sender setAlpha:1];
         } completion:nil];
-        [self.LabelSelectedEmotion setAlpha:0.4];
+        [self.LabelSelectedEmotion setAlpha:0.1];
         [UIView animateWithDuration:1.5 delay:0.5 options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse animations:^{
             [self.LabelSelectedEmotion setAlpha:1];
         } completion:nil];
@@ -213,7 +225,7 @@
         
     }else{
         
-//        [sender setSelected:NO];
+     //  [sender setSelected:NO];
         //reset buttons
         [self resetEmotionButtons];
         
@@ -303,6 +315,10 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(tempView.bounds.size.width/2-200, tempView.bounds.size.height/2-100, 400, 50)];
     label.text = @"How intense is the current emotional state?";
+    label.font = [UIFont systemFontOfSize:20];
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    [label sizeToFit];
     
     //    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
     [slider setBackgroundColor:[UIColor clearColor]];
@@ -332,7 +348,7 @@
         //write to csv file
         NSString* timestamp = [(ViewController*)self.parentViewController getDate];
 
-        self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap again when the child stops showing %@ emotions.",    currentEmotion];
+        self.LabelSelectedEmotion.text = [NSString stringWithFormat:@"Tap %@ when the child stops showing %@ emotions.",currentEmotion, currentEmotion];
         [self writeToFile:currentEmotion : currentEmotionalIntensity : timestamp:@""];
 
     }];
