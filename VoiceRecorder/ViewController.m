@@ -620,7 +620,8 @@
     [self.recordButton setEnabled:NO];
     [self.stopButton setEnabled:YES];
     [self.playButton setEnabled:NO];
-    [self.textfieldComment setEnabled:YES];
+//    [self.textfieldComment setEnabled:YES];
+    [self enableComments];
     
 }
 
@@ -1248,7 +1249,7 @@
         [self.buttonRecordSibling setTitle:@"Record Sibling" forState:UIControlStateNormal];
         
         self.buttonRecordSibling.frame = CGRectMake(165,56,143, 60);
-        self.buttonReadingTest.frame = CGRectMake(18, 433, 287, 58);
+        self.buttonReadingTest.frame = CGRectMake(18, 440, 287, 58);
         self.labelComment.frame = CGRectMake(18, 270, 84, 21);
         self.textfieldComment.frame = CGRectMake(116, 270 , 192, 30);
         self.buttonCribOff.frame = CGRectMake(165, 124, 143, 128);
@@ -1266,12 +1267,12 @@
         [self.numberOfMinutesRecorded setHidden:NO];
         [self.buttonRecordSibling setTitle:@"Record" forState:UIControlStateNormal];
         
-        self.buttonRecordSibling.frame = CGRectMake(18,65,140, 60);
-        self.buttonReadingTest.frame = CGRectMake(18, 380, 287, 58);
-        self.labelComment.frame = CGRectMake(18, 165, 84, 21);
-        self.textfieldComment.frame = CGRectMake(116, 165 , 192, 30);
-        self.buttonCribOff.frame = CGRectMake(165,65,143, 60);
-        self.childViewControllers[0].view.frame = CGRectMake(0, -70, 285, 109);
+        self.buttonRecordSibling.frame = CGRectMake(18,70,140, 60);
+        self.buttonReadingTest.frame = CGRectMake(18, 395, 287, 58);
+        self.labelComment.frame = CGRectMake(18, 170, 84, 21);
+        self.textfieldComment.frame = CGRectMake(116, 170 , 192, 30);
+        self.buttonCribOff.frame = CGRectMake(165,70,143, 60);
+        self.childViewControllers[0].view.frame = CGRectMake(0, -65, 302, 118);
         
     }
     
@@ -1312,7 +1313,8 @@
     
     //clear comment field
     self.textfieldComment.text =@"";
-    [self.textfieldComment setEnabled:NO];
+//    [self.textfieldComment setEnabled:NO];
+    [self disableComments];
     
     //diable emotions view
     [self disableEmotionView];
@@ -1384,7 +1386,8 @@
     
     // Enable stop button and disable play button
     [self.buttonCribOff setEnabled:YES];
-    [self.textfieldComment setEnabled:YES];
+//    [self.textfieldComment setEnabled:YES];
+    [self enableComments];
     comment = @"";
     
     //show time
@@ -1855,14 +1858,27 @@
     }
 }
 
-//disable this only if the recording is in progress
+//disable this only if the recording is not in progress
 -(void)disableEmotionView{
     [(EmotionViewController*)self.childViewControllers[0] resetEmotionButtons];
     [self.childViewControllers[0].view setUserInteractionEnabled:NO];
+    [self.childViewControllers[0].view setAlpha:0.5];
 }
 
 -(void)resetEmotionViewController{
     [(EmotionViewController*)self.childViewControllers[0] recordingModeSwitched];
+}
+
+-(void)enableComments{
+    [self.textfieldComment setEnabled:YES];
+    [self.textfieldComment setAlpha:1];
+    [self.labelComment setAlpha:1];
+}
+
+-(void)disableComments{
+    [self.textfieldComment setEnabled:NO];
+    [self.textfieldComment setAlpha:0.5];
+    [self.labelComment setAlpha:0.5];
 }
 
 

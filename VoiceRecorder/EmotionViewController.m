@@ -38,6 +38,8 @@
     //load emotion.csv file
     [self loadEmotionsCSVFile];
     
+    [self.view setAlpha:0.5];
+    
 }
 
 
@@ -125,16 +127,22 @@
         case 0:
             [self.buttonEmotion2 setEnabled:NO];
             [self.buttonEmotion3 setEnabled:NO];
+            [self.buttonEmotion2 setAlpha:0.5];
+            [self.buttonEmotion3 setAlpha:0.5];
             break;
             
         case 1:
             [self.buttonEmotion1 setEnabled:NO];
             [self.buttonEmotion3 setEnabled:NO];
+            [self.buttonEmotion1 setAlpha:0.5];
+            [self.buttonEmotion3 setAlpha:0.5];
             break;
             
         case 2:
             [self.buttonEmotion1 setEnabled:NO];
             [self.buttonEmotion2 setEnabled:NO];
+            [self.buttonEmotion1 setAlpha:0.5];
+            [self.buttonEmotion2 setAlpha:0.5];
             break;
             break;
             
@@ -146,6 +154,8 @@
 }
 
 -(void)resetEmotionButtons{
+    
+    [self.view setAlpha:1];
     
     NSString* timestamp = [(ViewController*)self.parentViewController getDate];
     currentEmotion = @"";
@@ -159,6 +169,9 @@
     [self.buttonEmotion1 setEnabled:YES];
     [self.buttonEmotion2 setEnabled:YES];
     [self.buttonEmotion3 setEnabled:YES];
+    [self.buttonEmotion1 setAlpha:1];
+    [self.buttonEmotion2 setAlpha:1];
+    [self.buttonEmotion3 setAlpha:1];
     [self.buttonEmotion1 setSelected:NO];
     [self.buttonEmotion2 setSelected:NO];
     [self.buttonEmotion3 setSelected:NO];
