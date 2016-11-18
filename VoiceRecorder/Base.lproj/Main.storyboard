@@ -125,17 +125,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j81-wu-UkL">
-                                <rect key="frame" x="20" y="433" width="287" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Reading Tests" backgroundImage="readingtestButton.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="readingTestTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="98Z-br-9ea"/>
-                                    <segue destination="7em-d5-oiY" kind="modal" id="U0Y-w8-Uyt"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="1000" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="f7e-Rx-GNR" userLabel="Comment_Field">
                                 <rect key="frame" x="111" y="269" width="192" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -179,6 +168,13 @@
                                     <segue destination="m2s-l1-0p1" kind="modal" identifier="DevelopmentSettings" id="Af6-Z5-VoV"/>
                                 </connections>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" id="wM5-gx-Gre">
+                                <rect key="frame" x="18" y="307" width="302" height="118"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <segue destination="lSB-Fe-5el" kind="embed" id="ws0-ud-YSr"/>
+                                </connections>
+                            </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="oWJ-5d-mgU">
                                 <rect key="frame" x="18" y="523" width="41" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -195,13 +191,17 @@
                                     <action selector="uploadFile:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="aqH-w4-YnG"/>
                                 </connections>
                             </button>
-                            <containerView opaque="NO" contentMode="scaleToFill" id="wM5-gx-Gre">
-                                <rect key="frame" x="18" y="307" width="302" height="118"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j81-wu-UkL">
+                                <rect key="frame" x="20" y="433" width="287" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Reading Tests" backgroundImage="readingtestButton.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <segue destination="lSB-Fe-5el" kind="embed" id="ws0-ud-YSr"/>
+                                    <action selector="readingTestTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="98Z-br-9ea"/>
+                                    <segue destination="7em-d5-oiY" kind="modal" id="U0Y-w8-Uyt"/>
                                 </connections>
-                            </containerView>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94830587635869568" green="0.94830587635869568" blue="0.94830587635869568" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
