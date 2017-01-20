@@ -87,7 +87,7 @@
     dataArray = (tableView == self.tableUndiagnosed) ? undiagnosedUsers:diagnosedUsers;
 
     cell.textLabel.text = [dataArray objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:12.0];
+    cell.textLabel.font = [UIFont systemFontOfSize:30.0];
     
     return cell;
 }
@@ -155,6 +155,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if(self.textfieldDiagnosed.text.length > 0){
         [diagnosedUsers addObject:self.textfieldDiagnosed.text];
         [self.tableDiagnosed reloadData];
+        [self.tableDiagnosed sizeToFit];
         [[NSUserDefaults standardUserDefaults] setObject:[[[NSSet alloc] initWithArray:diagnosedUsers] allObjects] forKey:@"diagnosedUsers"];
     }
 }
@@ -200,7 +201,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (CGFloat)   tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    return 20;
+    return 40;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

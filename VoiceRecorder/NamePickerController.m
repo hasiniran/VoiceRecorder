@@ -19,11 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if(self.userType == 1){
-        _names = [[NSUserDefaults standardUserDefaults] arrayForKey:@"undiagnosedUsers"];
-    }else if (self.userType == 2){
-        _names = [[NSUserDefaults standardUserDefaults] arrayForKey:@"diagnosedUsers"];
-    }
+    _names = [[NSUserDefaults standardUserDefaults] arrayForKey:@"diagnosedUsers"];
+
 }
 
 - (void)didReceiveMemoryWarning {
