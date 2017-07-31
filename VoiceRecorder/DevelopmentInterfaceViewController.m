@@ -28,10 +28,11 @@
     
     //settings are alowed only for admin user
     
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Authorization Required" message:@"Enter the PIN to change settings" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    alert.alertViewStyle=UIAlertViewStylePlainTextInput;
-    [alert setDelegate:self];
-    [alert show];
+//    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Authorization Required" message:@"Enter the PIN to change settings" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+//    alert.alertViewStyle=UIAlertViewStylePlainTextInput;
+//    [alert setDelegate:self];
+//    [alert show];
+    [self enableSettings];
 
    
 }

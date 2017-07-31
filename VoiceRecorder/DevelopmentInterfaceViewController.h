@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *uiPickerStudyGroup;
 @property (weak, nonatomic) IBOutlet UIButton *buttonEditNameList;
 
+
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonBack;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonSetSettings;

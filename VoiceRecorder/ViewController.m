@@ -98,7 +98,7 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .001;
+    AUDIOMONITOR_THRESHOLD = .01;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
     //  MAX_MONITORTIME = 60.0; // seconds (1 min)
