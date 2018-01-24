@@ -13,6 +13,8 @@
 #import "DevelopmentSettings.h"
 #import "NamePickerController.h"
 #import "EmotionViewController.h"
+#import "AWSDataManager.h"
+#import "Reachability.h"
 
 @interface ViewController : UIViewController <AVAudioRecorderDelegate, AVAudioPlayerDelegate, DevelopmentInterfaceViewControllerDelegate>
 

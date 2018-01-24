@@ -21,4 +21,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonEditUndiagnosedTable;
 @property (weak, nonatomic) IBOutlet UIButton *buttonEditDiagnosedTable;
 
+
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12ACE12FEB52F735E650134D /* Pods_VoiceRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1840B0DCF950CEE768F9F7B0 /* Pods_VoiceRecorder.framework */; };
 		2502D95B1B0F9F37005D7C45 /* button-enabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D9591B0F9F37005D7C45 /* button-enabled.png */; };
 		2502D95C1B0F9F37005D7C45 /* button-disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D95A1B0F9F37005D7C45 /* button-disabled.png */; };
 		2502D95F1B0FA05C005D7C45 /* stop-disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 2502D95D1B0FA05C005D7C45 /* stop-disabled.png */; };
@@ -31,6 +32,7 @@
 		255544D71DCEB04F00441B9C /* ASValueTrackingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 255544D61DCEB04F00441B9C /* ASValueTrackingSlider.m */; };
 		255544DA1DCEB16100441B9C /* ASValuePopUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 255544D91DCEB16100441B9C /* ASValuePopUpView.m */; };
 		2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */; };
+		2586329E1F7EB838003A36D9 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 2586329D1F7EB838003A36D9 /* Podfile */; };
 		2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2587FEB21BF27D9700383823 /* cookieTheft.jpg */; };
 		2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEB71BF3C63300383823 /* ReadingTestHome.m */; };
 		2587FEBB1BF51B2A00383823 /* ReadingTest1Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2587FEBA1BF51B2A00383823 /* ReadingTest1Controller.m */; };
@@ -101,8 +103,10 @@
 		25CC4A081ACB2ACE00F0BDF6 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */; };
 		25CC4A091ACB2ACE00F0BDF6 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */; };
 		25CC4A0A1ACB2ACE00F0BDF6 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */; };
+		25D634331F7EE5E300EEBA82 /* AWSDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D634321F7EE5E300EEBA82 /* AWSDataManager.m */; };
+		25D634361F7F181500EEBA82 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D634351F7F181500EEBA82 /* DropboxSDK.framework */; };
 		25DB59BE1BFA33A9009B1337 /* readingtestButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 25DB59BD1BFA33A9009B1337 /* readingtestButton.png */; };
-		25E41E221D5EC73100CF7258 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25E41E211D5EC73100CF7258 /* DropboxSDK.framework */; };
+		25F1E3211F807F7400A099FE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F1E31F1F807F7400A099FE /* Reachability.m */; };
 		25F770BF1AC06DCA00167320 /* Play_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B51AC06DCA00167320 /* Play_Black.tif */; };
 		25F770C01AC06DCA00167320 /* Play_Red.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B61AC06DCA00167320 /* Play_Red.tif */; };
 		25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */ = {isa = PBXBuildFile; fileRef = 25F770B71AC06DCA00167320 /* Record_Black.tif */; };
@@ -147,6 +151,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1840B0DCF950CEE768F9F7B0 /* Pods_VoiceRecorder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoiceRecorder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2502D9591B0F9F37005D7C45 /* button-enabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-enabled.png"; sourceTree = "<group>"; };
 		2502D95A1B0F9F37005D7C45 /* button-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-disabled.png"; sourceTree = "<group>"; };
 		2502D95D1B0FA05C005D7C45 /* stop-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-disabled.png"; sourceTree = "<group>"; };
@@ -176,6 +181,7 @@
 		255544D91DCEB16100441B9C /* ASValuePopUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASValuePopUpView.m; sourceTree = "<group>"; };
 		2569BB601BF8D1F400B5A3D4 /* ReadingTest2Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTest2Controller.h; sourceTree = "<group>"; };
 		2569BB611BF8D1F400B5A3D4 /* ReadingTest2Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTest2Controller.m; sourceTree = "<group>"; };
+		2586329D1F7EB838003A36D9 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		2587FEB21BF27D9700383823 /* cookieTheft.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cookieTheft.jpg; sourceTree = "<group>"; };
 		2587FEB61BF3C63300383823 /* ReadingTestHome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadingTestHome.h; sourceTree = "<group>"; };
 		2587FEB71BF3C63300383823 /* ReadingTestHome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadingTestHome.m; sourceTree = "<group>"; };
@@ -254,8 +260,12 @@
 		25CC4A041ACB2ACE00F0BDF6 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		25CC4A051ACB2ACE00F0BDF6 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		25CC4A061ACB2ACE00F0BDF6 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
+		25D634321F7EE5E300EEBA82 /* AWSDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSDataManager.m; sourceTree = "<group>"; };
+		25D634341F7F00E700EEBA82 /* AWSDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSDataManager.h; sourceTree = "<group>"; };
+		25D634351F7F181500EEBA82 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = VoiceRecorder/DropboxSDK.framework; sourceTree = "<group>"; };
 		25DB59BD1BFA33A9009B1337 /* readingtestButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readingtestButton.png; sourceTree = "<group>"; };
-		25E41E211D5EC73100CF7258 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = VoiceRecorder/DropboxSDK.framework; sourceTree = "<group>"; };
+		25F1E31F1F807F7400A099FE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		25F1E3201F807F7400A099FE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		25F770B51AC06DCA00167320 /* Play_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Black.tif; sourceTree = "<group>"; };
 		25F770B61AC06DCA00167320 /* Play_Red.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Play_Red.tif; sourceTree = "<group>"; };
 		25F770B71AC06DCA00167320 /* Record_Black.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Record_Black.tif; sourceTree = "<group>"; };
@@ -277,6 +287,8 @@
 		25FA0F5A1DDA999700EBBF31 /* story2_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = story2_4.jpg; path = images/story2_4.jpg; sourceTree = "<group>"; };
 		25FABC7D1DCA6CB00075561E /* JMMarkSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMMarkSlider.h; sourceTree = "<group>"; };
 		25FABC7E1DCA6CB00075561E /* JMMarkSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMMarkSlider.m; sourceTree = "<group>"; };
+		8BDD2995A9CF754D130ED7EB /* Pods-VoiceRecorder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoiceRecorder.release.xcconfig"; path = "Pods/Target Support Files/Pods-VoiceRecorder/Pods-VoiceRecorder.release.xcconfig"; sourceTree = "<group>"; };
+		8D8F228A2476D7976ECB8117 /* Pods-VoiceRecorder.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoiceRecorder.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VoiceRecorder/Pods-VoiceRecorder.debug.xcconfig"; sourceTree = "<group>"; };
 		E84927A719DB5C35005ACA9B /* VoiceRecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceRecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84927AB19DB5C35005ACA9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84927AC19DB5C35005ACA9B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -303,10 +315,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25E41E221D5EC73100CF7258 /* DropboxSDK.framework in Frameworks */,
 				E93774A61A79682E00FEA9C4 /* AVFoundation.framework in Frameworks */,
 				E88889641A37824E0092B5B4 /* Security.framework in Frameworks */,
 				E88889621A3782490092B5B4 /* QuartzCore.framework in Frameworks */,
+				25D634361F7F181500EEBA82 /* DropboxSDK.framework in Frameworks */,
+				12ACE12FEB52F735E650134D /* Pods_VoiceRecorder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,17 +457,36 @@
 			name = settings;
 			sourceTree = "<group>";
 		};
+		5781DEE83368CDFF8F6B88A3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8D8F228A2476D7976ECB8117 /* Pods-VoiceRecorder.debug.xcconfig */,
+				8BDD2995A9CF754D130ED7EB /* Pods-VoiceRecorder.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D80C69E6B736978D8A058F16 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1840B0DCF950CEE768F9F7B0 /* Pods_VoiceRecorder.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E849279E19DB5C35005ACA9B = {
 			isa = PBXGroup;
 			children = (
+				25D634351F7F181500EEBA82 /* DropboxSDK.framework */,
 				2502D9671B261AC4005D7C45 /* Main.storyboard */,
-				25E41E211D5EC73100CF7258 /* DropboxSDK.framework */,
 				E93774A51A79682E00FEA9C4 /* AVFoundation.framework */,
 				E88889631A37824E0092B5B4 /* Security.framework */,
 				E88889611A3782490092B5B4 /* QuartzCore.framework */,
 				E84927A919DB5C35005ACA9B /* VoiceRecorder */,
 				E84927C319DB5C35005ACA9B /* VoiceRecorderTests */,
 				E84927A819DB5C35005ACA9B /* Products */,
+				5781DEE83368CDFF8F6B88A3 /* Pods */,
+				D80C69E6B736978D8A058F16 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -470,6 +502,8 @@
 		E84927A919DB5C35005ACA9B /* VoiceRecorder */ = {
 			isa = PBXGroup;
 			children = (
+				25F1E31F1F807F7400A099FE /* Reachability.m */,
+				25F1E3201F807F7400A099FE /* Reachability.h */,
 				259D4AF81DC977D900473E92 /* thirdparty */,
 				25B646691DBAB87100AE6458 /* settings */,
 				25B646671DBAB84D00AE6458 /* EmotionViewController.m */,
@@ -485,6 +519,9 @@
 				E84927B719DB5C35005ACA9B /* Images.xcassets */,
 				E84927B919DB5C35005ACA9B /* LaunchScreen.xib */,
 				E84927AA19DB5C35005ACA9B /* Supporting Files */,
+				2586329D1F7EB838003A36D9 /* Podfile */,
+				25D634321F7EE5E300EEBA82 /* AWSDataManager.m */,
+				25D634341F7F00E700EEBA82 /* AWSDataManager.h */,
 			);
 			path = VoiceRecorder;
 			sourceTree = "<group>";
@@ -562,9 +599,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E84927CA19DB5C35005ACA9B /* Build configuration list for PBXNativeTarget "VoiceRecorder" */;
 			buildPhases = (
+				E33164043BC07DA499D0E7A9 /* [CP] Check Pods Manifest.lock */,
 				E84927A319DB5C35005ACA9B /* Sources */,
 				E84927A419DB5C35005ACA9B /* Frameworks */,
 				E84927A519DB5C35005ACA9B /* Resources */,
+				29D83E9B60AEF85250188F4F /* [CP] Embed Pods Frameworks */,
+				8C8C7ABDD27FD99D8536F17A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -683,6 +723,7 @@
 				25CC4A011AC9D51000F0BDF6 /* Record_supervised.tif in Resources */,
 				25B646311DBAAED700AE6458 /* ball.png in Resources */,
 				25B6464D1DBAAED700AE6458 /* orange.png in Resources */,
+				2586329E1F7EB838003A36D9 /* Podfile in Resources */,
 				25F770C11AC06DCA00167320 /* Record_Black.tif in Resources */,
 				2587FEB31BF27D9700383823 /* cookieTheft.jpg in Resources */,
 				25B646631DBAAED700AE6458 /* zipper.png in Resources */,
@@ -750,6 +791,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		29D83E9B60AEF85250188F4F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoiceRecorder/Pods-VoiceRecorder-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C8C7ABDD27FD99D8536F17A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VoiceRecorder/Pods-VoiceRecorder-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E33164043BC07DA499D0E7A9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E84927A319DB5C35005ACA9B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -760,6 +849,7 @@
 				259D4AF71DC977D100473E92 /* CustomIOSAlertView.m in Sources */,
 				25FABC7F1DCA6CB00075561E /* JMMarkSlider.m in Sources */,
 				2569BB621BF8D1F400B5A3D4 /* ReadingTest2Controller.m in Sources */,
+				25D634331F7EE5E300EEBA82 /* AWSDataManager.m in Sources */,
 				25B645F61DBA7DE100AE6458 /* ReadingTestController.m in Sources */,
 				250FBB511C824D9700B10E89 /* AddUsersViewController.m in Sources */,
 				2587FEBB1BF51B2A00383823 /* ReadingTest1Controller.m in Sources */,
@@ -768,6 +858,7 @@
 				25B645F41DBA7DE100AE6458 /* ReadingTest3Controller.m in Sources */,
 				E84927B319DB5C35005ACA9B /* ViewController.m in Sources */,
 				E84927B019DB5C35005ACA9B /* AppDelegate.m in Sources */,
+				25F1E3211F807F7400A099FE /* Reachability.m in Sources */,
 				E937C5191A917B68006CE41E /* DevelopmentSettings.m in Sources */,
 				2587FEB81BF3C63300383823 /* ReadingTestHome.m in Sources */,
 				25B646681DBAB84D00AE6458 /* EmotionViewController.m in Sources */,
@@ -899,6 +990,7 @@
 		};
 		E84927CB19DB5C35005ACA9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D8F228A2476D7976ECB8117 /* Pods-VoiceRecorder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -921,6 +1013,7 @@
 		};
 		E84927CC19DB5C35005ACA9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BDD2995A9CF754D130ED7EB /* Pods-VoiceRecorder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

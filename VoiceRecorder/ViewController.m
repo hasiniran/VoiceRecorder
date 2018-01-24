@@ -14,8 +14,11 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "ReadingTestViewController.h"
 
+
 //DBRestClient is used to access Dropbox after linking
 @interface ViewController () <DBRestClientDelegate, UIAlertViewDelegate>{
+    
+    
     //declare instances for recording and playing
     AVAudioRecorder *recorder;
     AVAudioPlayer *player;
@@ -81,9 +84,12 @@
     
 }
 
-@property (nonatomic, strong) DBRestClient *restClient;
-
+//@property (nonatomic, strong) DBRestClient *restClient;
+@property (nonatomic, strong) AWSDataManager *dataManager;
 @end
+
+//NSString *const S3BucketName = @"testpawkeyusers";
+//NSString *const S3UploadKeyName = @"uploadfileobj.txt";
 
 @implementation ViewController
 @synthesize storageText, currentText, lastRecordingText, recordButton, playButton, uploadButton;
@@ -98,7 +104,7 @@
     
     
     //set monitoring and recording variables
-    AUDIOMONITOR_THRESHOLD = .01;
+    AUDIOMONITOR_THRESHOLD = .005;
     MAX_SILENCETIME = 300.0; // seconds (5 min)
     MAX_MONITORTIME = 36000.0; // seconds (10 hours)
     //  MAX_MONITORTIME = 60.0; // seconds (1 min)
@@ -118,8 +124,13 @@
     isMonitoring = NO;
     isRecording = NO;
     
-    self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-    self.restClient.delegate = self;
+//    self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//    self.restClient.delegate = self;
+    
+    self.dataManager = [[AWSDataManager alloc]init];
+    self.dataManager.delegate = self;
+
+    
     
     // Disable stop and play buttons in the beginning
     [self.stopButton setEnabled:NO];
@@ -179,7 +190,7 @@
 -(void)setOutputFileUrl {
     
     // If name not set, set name
-    if (!fullName)
+    if (!fullName || fullName.length == 0)
     {
         [self askForUserInfo];
     }
@@ -724,9 +735,22 @@
     [alert show];
 }
 
+-(BOOL)isWifiAvailable
+{
+    Reachability *r = [Reachability reachabilityForInternetConnection];
+    return !( [r currentReachabilityStatus] == NotReachable);
+}
+
 //for linking to dropbox
 - (IBAction)uploadFile:(id)sender
 {
+    
+    
+    if(![self isWifiAvailable]){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not Connected to Internet" message:@"Connect the device to a wifi connection in order to proceed." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+
+    }else{
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Upload Started.." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
     [alert show];
@@ -741,8 +765,10 @@
     [self startUploadProgress:[NSNumber numberWithInt:numberOfRecordingsForUpload]];
     
     [self uploadFiles]; //upload the audio files
-    
+    }
 }
+
+
 
 
 //uploads the file
@@ -751,8 +777,7 @@
      * Iterates through documents directory, searches for files beginning with
      * "Recording", and uploads files.
      */
-    
-    if ([[DBSession sharedSession] isLinked]) {
+
         // Dropbox destination path
         NSString *destDir = @"/";
         
@@ -766,18 +791,28 @@
         // Iterate through contents, if starts with "Recording", upload
         NSString *filePath;
         
-        self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
-        self.restClient.delegate = self;
+//        self.restClient = [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+//        self.restClient.delegate = self;
+        
+     
+
         
         // upload metadata file
         
         if(recordingInfoFile != NULL){
-            [self.restClient uploadFile:[NSString stringWithFormat:@"%@-info.csv",fullName] toPath:@"/comments/" withParentRev:nil  fromPath:recordingInfoFile];
+//            [self.restClient uploadFile:[NSString stringWithFormat:@"%@-info.csv",fullName] toPath:@"/comments/" withParentRev:nil  fromPath:recordingInfoFile];
+            
+            [self.dataManager upload:[NSString stringWithFormat:@"%@-info.csv",fullName]  objectKey:[NSString stringWithFormat:@"comments/%@-info",fullName] contentType:@"csv"];
+            
+    
         }
+        
         
         
         //upload log file
         [self uploadLogFile];
+        
+
         
         filesToUpload = [[NSMutableArray alloc] initWithCapacity:0];
         
@@ -786,7 +821,6 @@
             
             if ([filePath containsString:@"Recording"] || [filePath containsString:@"ReadingTest"])
             {
-                
                 
                 [filesToUpload addObject:filePath];
                 
@@ -802,14 +836,6 @@
             //no files to upload
             [self resetUploadProgressView];
         }
-        
-        
-    }else{
-        NSLog(@"Linking to dropbox.");
-        [[DBSession sharedSession] linkFromController:self];
-        [self resetUploadProgressView];
-    }
-    
     
 }
 
@@ -823,11 +849,13 @@
     NSString *logfileName =[NSString stringWithFormat:@"%@.log",fullName];
     NSFileManager *filemanager = [NSFileManager defaultManager];
     if(logfileName != NULL  && [filemanager fileExistsAtPath:logFilePath] ){
-        if([[filemanager attributesOfItemAtPath:logFilePath error:NULL] fileSize] >= MAX_FILE_SIZE){
-            [self.restClient uploadFileChunk:nil offset:0 fromPath:logFilePath];
-        }else{
-            [self.restClient uploadFile:logfileName toPath:@"/logs/" withParentRev:nil fromPath:logFilePath];
-        }
+//        if([[filemanager attributesOfItemAtPath:logFilePath error:NULL] fileSize] >= MAX_FILE_SIZE){
+//           [self.restClient uploadFileChunk:nil offset:0 fromPath:logFilePath];
+//        }else{
+//            [self.restClient uploadFile:logfileName toPath:@"/logs/" withParentRev:nil fromPath:logFilePath];
+//        }
+        
+        [self.dataManager upload:logFilePath objectKey:[NSString stringWithFormat:@"logs/%@-log",fullName] contentType:@"text/plain"];
     }
     
     //upload emotions info file
@@ -836,11 +864,13 @@
     NSString *emotionCSVPath = [documentsDirectory stringByAppendingPathComponent:emotionCSV];
     
     if([filemanager fileExistsAtPath:emotionCSVPath]){
-        if([[filemanager attributesOfItemAtPath:emotionCSVPath error:NULL] fileSize] >= MAX_FILE_SIZE){
-            [self.restClient uploadFileChunk:nil offset:0 fromPath:emotionCSVPath];
-        }else{
-            [self.restClient uploadFile:emotionCSV toPath:@"/emotions/" withParentRev:nil fromPath:emotionCSVPath];
-        }
+//        if([[filemanager attributesOfItemAtPath:emotionCSVPath error:NULL] fileSize] >= MAX_FILE_SIZE){
+//            [self.restClient uploadFileChunk:nil offset:0 fromPath:emotionCSVPath];
+//        }else{
+//            [self.restClient uploadFile:emotionCSV toPath:@"/emotions/" withParentRev:nil fromPath:emotionCSVPath];
+//        }
+        
+        [self.dataManager upload:emotionCSVPath objectKey:[NSString stringWithFormat:@"emotion/%@-emotion",fullName] contentType:@"csv"];
     }
     
     
@@ -848,11 +878,13 @@
     NSString *wordTestPath = [documentsDirectory stringByAppendingPathComponent:wordTestcsv];
     
     if([filemanager fileExistsAtPath:wordTestPath]){
-        if([[filemanager attributesOfItemAtPath:wordTestcsv error:NULL] fileSize] >= MAX_FILE_SIZE){
-            [self.restClient uploadFileChunk:nil offset:0 fromPath:wordTestcsv];
-        }else{
-            [self.restClient uploadFile:wordTestcsv toPath:@"/wordTest/" withParentRev:nil fromPath:wordTestPath];
-        }
+//        if([[filemanager attributesOfItemAtPath:wordTestcsv error:NULL] fileSize] >= MAX_FILE_SIZE){
+//            [self.restClient uploadFileChunk:nil offset:0 fromPath:wordTestcsv];
+//        }else{
+//            [self.restClient uploadFile:wordTestcsv toPath:@"/wordTest/" withParentRev:nil fromPath:wordTestPath];
+//        }
+        [self.dataManager upload:wordTestPath objectKey:[NSString stringWithFormat:@"words/%@-words",fullName] contentType:@"csv"];
+        
     }
 }
 
@@ -866,11 +898,14 @@
         NSString *localPath = [documentsDir stringByAppendingPathComponent:path];
         NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:localPath error: NULL];
         //if file size is > 5 MB upload in chunks
-        if([attrs fileSize] >  MAX_FILE_SIZE){
-            [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
-        }else{
-            [self.restClient uploadFile:path toPath:@"/" withParentRev:nil fromPath:localPath];
-        }
+//        if([attrs fileSize] >  MAX_FILE_SIZE){
+//            [self.restClient uploadFileChunk:nil offset:0 fromPath:localPath];
+//        }else{
+//            [self.restClient uploadFile:path toPath:@"/" withParentRev:nil fromPath:localPath];
+//        }
+        
+        [self.dataManager upload:localPath objectKey:[NSString stringWithFormat:@"recordings/%@", path] contentType:@"audio/m4a"];
+        
     }else if ([filesToUpload count] > nextFile){
         [self uploadNextFile];
     }
@@ -896,11 +931,10 @@
     }
 }
 
-- (void)restClient:(DBRestClient *)client uploadedFile:(NSString *)destPath
-              from:(NSString *)srcPath metadata:(DBMetadata *)metadata {
+- (void)uploadedFile:(NSString *)srcPath {
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSLog(@"File uploaded successfully to path: %@ from path: %@", metadata.path, srcPath);
+    NSLog(@"File uploaded successfully: %@", srcPath);
     
     // Delete file after upload
     //dont delete the <name>-info.csv file and <name>.log file
@@ -915,8 +949,8 @@
         // numberOfRecordingsForUpload=1 because we are checking before deleting the file
         if (success && numberOfRecordingsForUpload == 0) {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [alert show];
             
         }
         else if(!success){
@@ -936,7 +970,8 @@
     NSString *errorDisplaytext;
     if(error.code == 401){
         errorDisplaytext = @"cannot login to the dropbox. Please sign in again";
-        [self.restClient cancelAllRequests];
+//        [self.restClient cancelAllRequests];
+        [self.dataManager cancelAllrequests];
         [self resetUploadProgressView];
         [self didPressLink];
     }else if(error.code == -1009){
@@ -956,7 +991,8 @@
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorDisplaytext delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
-    [self.restClient  cancelAllRequests];
+//    [self.restClient  cancelAllRequests];
+    [self.dataManager cancelAllrequests];
     uploadAttemptsForFile = 0;
     totalFailedAttempts = 0;
     nextFile = 0;
@@ -964,120 +1000,120 @@
     [self resetUploadProgressView];
 }
 
-- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
-    totalFailedAttempts ++;
-    // if the error is a timeout, retry
-    if( (error.code == -1001 || error.code == -1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
-        
-        if (uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
-        {
-            uploadAttemptsForFile++;
-            [self.restClient uploadFile:[[NSFileManager defaultManager] displayNameAtPath:[error.userInfo valueForKey:@"sourcePath"]] toPath:[error.userInfo valueForKey:@"destinationPath"] withParentRev:nil fromPath:[error.userInfo valueForKey:@"sourcePath"]];
-        }else{
-            uploadAttemptsForFile = 0;
-            [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"sourcePath"]];
-            NSLog(@"Cancel file upload for %@ due to upload failures of several attempts.",[error.userInfo valueForKey:@"sourcePath"]);
-            [self uploadNextFile];
-        }
-    }else{
-        //display the error and cancel requests.
-        NSString *errorText = error.localizedDescription;
-        [self fileUploadFailed:errorText error:error];
-        NSLog(@"File upload failed with error: %@", error);
-    }
-}
+//- (void)restClient:(DBRestClient *)client uploadFileFailedWithError:(NSError *)error {
+//    totalFailedAttempts ++;
+//    // if the error is a timeout, retry
+//    if( (error.code == -1001 || error.code == -1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
+//        
+//        if (uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
+//        {
+//            uploadAttemptsForFile++;
+//            [self.restClient uploadFile:[[NSFileManager defaultManager] displayNameAtPath:[error.userInfo valueForKey:@"sourcePath"]] toPath:[error.userInfo valueForKey:@"destinationPath"] withParentRev:nil fromPath:[error.userInfo valueForKey:@"sourcePath"]];
+//        }else{
+//            uploadAttemptsForFile = 0;
+//            [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"sourcePath"]];
+//            NSLog(@"Cancel file upload for %@ due to upload failures of several attempts.",[error.userInfo valueForKey:@"sourcePath"]);
+//            [self uploadNextFile];
+//        }
+//    }else{
+//        //display the error and cancel requests.
+//        NSString *errorText = error.localizedDescription;
+//        [self fileUploadFailed:errorText error:error];
+//        NSLog(@"File upload failed with error: %@", error);
+//    }
+//}
 
-- (void)restClient:(DBRestClient *)client uploadFileChunkFailedWithError:(NSError *)error {
-    
-    totalFailedAttempts ++;
-    
-    //if 10 chunks fails cancel the file
-    if( (error.code == -1001 || error.code==-1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
-        
-        //re attempt each chunk for 10 times
-        if(uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
-        {
-            uploadAttemptsForFile++;
-            NSString* uploadId = [error.userInfo objectForKey:@"upload_id"];
-            unsigned long long offset = [[error.userInfo objectForKey:@"offset"]unsignedLongLongValue];
-            [self.restClient uploadFileChunk:uploadId offset:offset fromPath:[error.userInfo valueForKey:@"fromPath"]];
-        }else{
-            uploadAttemptsForFile = 0;
-            [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"fromPath"]];
-            NSLog(@"Cancel file upload for %@ due to failures of several chunks.",[error.userInfo valueForKey:@"fromPath"]);
-            [self uploadNextFile];
-        }
-    }else{
-        //display the error and cancel requests
-        NSString *errorText = error.localizedDescription;
-        [self fileUploadFailed:errorText error:error];
-        NSLog(@"File upload failed with error: %@", error);
-    }
-}
+//- (void)restClient:(DBRestClient *)client uploadFileChunkFailedWithError:(NSError *)error {
+//    
+//    totalFailedAttempts ++;
+//    
+//    //if 10 chunks fails cancel the file
+//    if( (error.code == -1001 || error.code==-1005) && totalFailedAttempts < ALLOWED_UPLOAD_FAILS){
+//        
+//        //re attempt each chunk for 10 times
+//        if(uploadAttemptsForFile < MAX_UPLOAD_FAILS_PER_FILE)
+//        {
+//            uploadAttemptsForFile++;
+//            NSString* uploadId = [error.userInfo objectForKey:@"upload_id"];
+//            unsigned long long offset = [[error.userInfo objectForKey:@"offset"]unsignedLongLongValue];
+//            [self.restClient uploadFileChunk:uploadId offset:offset fromPath:[error.userInfo valueForKey:@"fromPath"]];
+//        }else{
+//            uploadAttemptsForFile = 0;
+//            [self.restClient cancelFileUpload:[error.userInfo valueForKey:@"fromPath"]];
+//            NSLog(@"Cancel file upload for %@ due to failures of several chunks.",[error.userInfo valueForKey:@"fromPath"]);
+//            [self uploadNextFile];
+//        }
+//    }else{
+//        //display the error and cancel requests
+//        NSString *errorText = error.localizedDescription;
+//        [self fileUploadFailed:errorText error:error];
+//        NSLog(@"File upload failed with error: %@", error);
+//    }
+//}
 
-- (void)restClient:(DBRestClient *)client uploadedFileChunk:(NSString *)uploadId newOffset:(unsigned long long)offset
-          fromFile:(NSString *)localPath expires:(NSDate *)expiresDate {
-    
-    NSLog(@"uploadedFileChunk: %@, newOffset: %llu, fromFile: %@, expires: %@", uploadId, offset, localPath, expiresDate);
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *attrs = [fileManager attributesOfItemAtPath:localPath error: NULL];
-    
-    if (offset >= [attrs fileSize]) {
-        // all data has been uploaded
-        [self.restClient uploadFile:[fileManager displayNameAtPath:localPath] toPath:@"/" withParentRev:nil fromUploadId:uploadId];
-        //chunk file upload create a folder structure according to the local path save the file there, hence moving the file back to root path
-        NSLog(@"File %@ succefully uploaded.", [fileManager displayNameAtPath:localPath] );
-        //  [self.restClient moveFrom:localPath toPath:[NSString stringWithFormat:@"/%@" , [fileManager displayNameAtPath:localPath]]];
-        [self finishChunkUpload:localPath];
-    } else {
-        // more data to upload
-        [self.restClient uploadFileChunk:uploadId offset:offset fromPath:localPath];
-    }
-    
-}
-
-- (void)restClient:(DBRestClient *)client uploadFileChunkProgress:(CGFloat)progress {
-    
-    NSLog(@"uploadFileChunkProgress: %f", progress);
-    
-}
+//- (void)restClient:(DBRestClient *)client uploadedFileChunk:(NSString *)uploadId newOffset:(unsigned long long)offset
+//          fromFile:(NSString *)localPath expires:(NSDate *)expiresDate {
+//    
+//    NSLog(@"uploadedFileChunk: %@, newOffset: %llu, fromFile: %@, expires: %@", uploadId, offset, localPath, expiresDate);
+//    
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSDictionary *attrs = [fileManager attributesOfItemAtPath:localPath error: NULL];
+//    
+//    if (offset >= [attrs fileSize]) {
+//        // all data has been uploaded
+//        [self.restClient uploadFile:[fileManager displayNameAtPath:localPath] toPath:@"/" withParentRev:nil fromUploadId:uploadId];
+//        //chunk file upload create a folder structure according to the local path save the file there, hence moving the file back to root path
+//        NSLog(@"File %@ succefully uploaded.", [fileManager displayNameAtPath:localPath] );
+//        //  [self.restClient moveFrom:localPath toPath:[NSString stringWithFormat:@"/%@" , [fileManager displayNameAtPath:localPath]]];
+//        [self finishChunkUpload:localPath];
+//    } else {
+//        // more data to upload
+//        [self.restClient uploadFileChunk:uploadId offset:offset fromPath:localPath];
+//    }
+//    
+//}
+//
+//- (void)restClient:(DBRestClient *)client uploadFileChunkProgress:(CGFloat)progress {
+//    
+//    NSLog(@"uploadFileChunkProgress: %f", progress);
+//    
+//}
 
 
 
 //upload file in chunk callback
-- (void)finishChunkUpload: (NSString*)localPath{
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSLog(@"File uploaded successfully to path: %@", localPath);
-    
-    NSError *error;
-    
-    if(localPath != recordingInfoFile && localPath !=logFilePath){
-        
-        BOOL success = [fileManager removeItemAtPath:localPath error:&error];
-        // Display success message if all recordings successfully uploaded
-        // Update count of recordings
-        [self setNumberOfFilesRemainingForUpload];
-        
-        // numberOfRecordingsForUpload=1 because we are checking before deleting the file
-        if (success && numberOfRecordingsForUpload == 0) {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-            
-        }
-        else if(!success){
-            NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-        }
-        
-        // upload the next file
-        [self uploadNextFile];
-    }
-}
+//- (void)finishChunkUpload: (NSString*)localPath{
+//    
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSLog(@"File uploaded successfully to path: %@", localPath);
+//    
+//    NSError *error;
+//    
+//    if(localPath != recordingInfoFile && localPath !=logFilePath){
+//        
+//        BOOL success = [fileManager removeItemAtPath:localPath error:&error];
+//        // Display success message if all recordings successfully uploaded
+//        // Update count of recordings
+//        [self setNumberOfFilesRemainingForUpload];
+//        
+//        // numberOfRecordingsForUpload=1 because we are checking before deleting the file
+//        if (success && numberOfRecordingsForUpload == 0) {
+//            
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Success" message: @"All Files uploaded successfully!" delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [alert show];
+//            
+//        }
+//        else if(!success){
+//            NSString *errorText = [@"Could not delete file -:" stringByAppendingString:[error localizedDescription]];
+//            
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message:errorText delegate: nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [alert show];
+//        }
+//        
+//        // upload the next file
+//        [self uploadNextFile];
+//    }
+//}
 
 
 /*
@@ -1108,7 +1144,7 @@
      * Opens alert box asking user for information
      * if first name @"admin" and last @"", development button will be shown
      */
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Full name" message:@"Please enter your full name" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Device Number" message:@"Please enter your device number" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     alert.alertViewStyle=UIAlertViewStylePlainTextInput;
     [alert setDelegate:self];
     [alert show];
@@ -1784,7 +1820,7 @@
         
         NSString *logfileName =[NSString stringWithFormat:@"%@.log",deviceName];
         logFilePath = [documentsDirectory stringByAppendingPathComponent:logfileName];
-        freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+      //  freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
         
         
         

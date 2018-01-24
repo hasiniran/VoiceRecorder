@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "ReadingTestViewController.h"
+#import <AWSS3/AWSS3.h>
 
 @interface AppDelegate ()
 
@@ -19,20 +20,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    DBSession* dbSession = [[DBSession alloc]
-                            initWithAppKey:@"8sctgk4f1a8pp16"
-                            appSecret:@"dn1gpc9oqla9hf9"
-                            root:kDBRootAppFolder]; //remove autorealese if using ARC.
+//    DBSession* dbSession = [[DBSession alloc]
+//                            initWithAppKey:@"8sctgk4f1a8pp16"
+//                            appSecret:@"dn1gpc9oqla9hf9"
+//                            root:kDBRootAppFolder]; //remove autorealese if using ARC.
+//    
+//    [DBSession setSharedSession:dbSession];
     
-    [DBSession setSharedSession:dbSession];
+AWSCognitoCredentialsProvider *credentialsProvider = [[AWSCognitoCredentialsProvider alloc]
+                                                          initWithRegionType:AWSRegionUSWest2
+                                                          identityPoolId:@"us-west-2:f95e75bf-bf95-4a53-af1e-9b1e45968e81"];
     
-    //initiate a log file
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    NSString *fileName =[NSString stringWithFormat:@"%@.log",[NSDate date]];
-//    NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
-//    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
-
+    AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSWest2 credentialsProvider:credentialsProvider];
+    
+    [AWSServiceManager defaultServiceManager].defaultServiceConfiguration = configuration;
+    
     return YES;
 }
 
@@ -83,5 +85,12 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
+  completionHandler:(void (^)())completionHandler {
+    /* Store the completion handler.*/
+    [AWSS3TransferUtility interceptApplication:application handleEventsForBackgroundURLSession:identifier completionHandler:completionHandler];
+}
+
 
 @end

@@ -57,5 +57,29 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>AWS</key>
+	<dict>
+		<key>CredentialsProvider</key>
+		<dict>
+			<key>CognitoIdentity</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>PoolId</key>
+					<string>us-west-2:f95e75bf-bf95-4a53-af1e-9b1e45968e8</string>
+					<key>Region</key>
+					<string>USWest2</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>S3TransferManager</key>
+		<dict>
+			<key>Default</key>
+			<dict>
+				<key>Region</key>
+				<string>USWest2</string>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>
